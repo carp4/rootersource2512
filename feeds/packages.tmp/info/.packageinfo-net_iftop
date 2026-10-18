@@ -1,0 +1,24 @@
+Source-Makefile: feeds/packages/net/iftop/Makefile
+
+Package: iftop
+Version: 2025.06.21~75d1818129cbb8ff1bb7ca4915b95046f3ed0666-r1
+Depends: +libc +libpcap +libncurses +libpthread
+Conflicts: 
+Menu-Depends: 
+Provides: @iftop-any
+Section: net
+Category: Network
+Repository: base
+Title: display bandwith usage on an interface
+Maintainer: Paul Spooren <mail@aparcar.org>
+Source: iftop-2025.06.21~75d1818129cbb8ff1bb7ca4915b95046f3ed0666.tar.zst
+License: GPL-2.0
+URL: http://www.ex-parrot.com/~pdw/iftop/
+Type: ipkg
+Description: 	iftop does for network usage what top(1) does for CPU usage. It
+	listens to network traffic on a named interface and displays a
+	table of current bandwidth usage by pairs of hosts. Handy for
+	answering the question 'why is our ADSL link so slow?'.
+@@
+
+

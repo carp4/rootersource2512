@@ -1,0 +1,31 @@
+Source-Makefile: feeds/packages/mail/emailrelay/Makefile
+
+Package: emailrelay
+Menu: 1
+Version: 2.6-r1
+Depends: +libc +EMAILRELAY_SSL:libopenssl +EMAILRELAY_SSL_MBEDTLS:libmbedtls +libstdcpp
+Conflicts: 
+Menu-Depends: 
+Provides: @emailrelay-any
+Section: mail
+Category: Mail
+Repository: base
+Title: E-MailRelay A lightweight email server
+Maintainer: Federico Di Marco <fededim@gmail.com>
+Source: emailrelay-2.6-src.tar.gz
+License: GPL-3.0-or-later
+LicenseFiles: COPYING
+URL: https://emailrelay.sourceforge.net/
+Type: ipkg
+Description:  E-MailRelay is a simple SMTP proxy and store-and-forward MTA with POP access to spooled messages.
+
+ It can be used as a personal internet mail server with spam filtering and DNSBL connection blocking.
+ Forwarding can be to a fixed smarthost or using DNS MX routing.
+
+ External scripts can be used for address validation and e-mail message processing.
+@@
+Config:
+	source "feeds/packages/mail/emailrelay/Config.in"
+@@
+
+

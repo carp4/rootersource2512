@@ -1,0 +1,42 @@
+Source-Makefile: feeds/luci/applications/luci-app-chrony/Makefile
+Build-Depends: lua/host luci-base/host LUCI_CSSTIDY:csstidy/host LUCI_SRCDIET:luasrcdiet/host 
+
+Package: luci-app-chrony
+Submenu: 3. Applications
+Version: x
+Depends: +libc +luci-base +chrony
+Conflicts: 
+Menu-Depends: 
+Provides: @luci-app-chrony-any
+Section: luci
+Category: LuCI
+Repository: base
+Title: LuCI support for chrony
+Maintainer: OpenWrt LuCI community
+Source: 
+License: Apache-2.0
+URL: https://github.com/openwrt/luci
+Type: ipkg
+Description: LuCI support for chrony
+@@
+
+Package: luci-i18n-chrony-lo
+Default: LUCI_LANG_lo||(ALL&&m)
+Version: x
+Depends: +libc luci-app-chrony
+Conflicts: 
+Menu-Depends: 
+Provides: @luci-i18n-chrony-lo-any
+Section: luci
+Category: LuCI
+Repository: base
+Title: luci-app-chrony - lo translation
+Maintainer: 
+Source: 
+License: Apache-2.0
+Type: ipkg
+Hidden: 1
+Description:     Translation for luci-app-chrony - ພາສາລາວ (Lao)
+@@
+
+

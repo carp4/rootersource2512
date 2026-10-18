@@ -1,0 +1,42 @@
+Source-Makefile: feeds/packages/net/netopeer2/Makefile
+
+Package: netopeer2-server
+Menu: 1
+Version: 2.4.5-r1
+Depends: +libc +libcurl +libpthread +libyang +libnetconf2 +libsysrepo +sysrepocfg +sysrepoctl +sysrepo
+Conflicts: 
+Menu-Depends: 
+Provides: @netopeer2-server-any
+Section: utils
+Category: Utilities
+Repository: base
+Title: NETCONF server
+Maintainer: 
+Source: netopeer2-2.4.5.tar.gz
+License: BSD-3-Clause
+LicenseFiles: LICENSE
+URL: https://github.com/CESNET/Netopeer2
+Type: ipkg
+Description: NETCONF server
+@@
+
+Package: netopeer2-cli
+Version: 2.4.5-r1
+Depends: +libc +libpthread +libyang +libnetconf2 +libopenssl
+Conflicts: 
+Menu-Depends: 
+Provides: @netopeer2-cli-any
+Section: utils
+Category: Utilities
+Repository: base
+Title: Netopeer2 cli tool
+Maintainer: 
+Source: netopeer2-2.4.5.tar.gz
+License: BSD-3-Clause
+LicenseFiles: LICENSE
+URL: https://github.com/CESNET/Netopeer2
+Type: ipkg
+Description: Netopeer2 cli tool
+@@
+
+

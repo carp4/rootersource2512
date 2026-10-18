@@ -1,0 +1,32 @@
+Source-Makefile: feeds/routing/mesh11sd/Makefile
+
+Package: mesh11sd
+Submenu: Mesh
+Version: 6.2.1-r1
+Depends: +libc 
+Conflicts: 
+Menu-Depends: 
+Provides: @mesh11sd-any
+Section: net
+Category: Network
+Repository: base
+Title: Dynamic 802.11s Mesh Management Daemon
+Maintainer: Rob White <rob@blue-wave.net>
+Source: mesh11sd-6.2.1.tar.gz
+License: GPL-2.0-only
+LicenseFiles: LICENSE
+URL: https://github.com/opennds/mesh11sd
+Type: ipkg
+Description:   Mesh11sd autonomously manages all aspects of an 802.11s mesh network.
+  It acts as a service daemon.
+  Mesh parameters are dynamically set across all nodes.
+  Point to multi-point vxlan tunneling is provided by default.
+  Custom vlan trunking over the vxlan tunnel is fully supported.
+  Cabled sections of backhaul are fully supported.
+  Access Point usage data is collected in a central database.
+  A command line interface is provided for many functions.
+  An optional Customer/Client Premises Equipment (CPE) mode is provided
+  CPE mode greatly simplifies rollout of community WISP projects.
+@@
+
+

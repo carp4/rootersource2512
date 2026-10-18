@@ -1,0 +1,21 @@
+Source-Makefile: feeds/packages/utils/attendedsysupgrade-common/Makefile
+
+Package: attendedsysupgrade-common
+Version: 10
+Depends: +libc +rpcd +rpcd-mod-rpcsys
+Conflicts: 
+Menu-Depends: 
+Provides: @attendedsysupgrade-common-any
+Section: utils
+Category: Base system
+Repository: base
+Title: Common files neede by attendedsysupgrade packages
+Maintainer: Paul Spooren <mail@aparcar.org>
+Source: 
+License: GPL-2.0
+Type: ipkg
+Description: 	Common files needed for the attendedsysupgrade tool. Manages dependencies and brings settings used by clients.
+	UCI options include defining the URL of a compatible upgrade server, requesting an image even if there’s no new release but new package upgrades are available, offering advanced options like editing packages before a request and displaying additional information, and instructing the client to automatically search for upgrades.
+@@
+
+

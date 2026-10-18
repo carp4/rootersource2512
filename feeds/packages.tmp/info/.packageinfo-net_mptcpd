@@ -1,0 +1,42 @@
+Source-Makefile: feeds/packages/net/mptcpd/Makefile
+Build-Depends: USE_MUSL:argp-standalone
+
+Package: mptcpd
+Version: 0.13-r2
+Depends: +libc +ell
+Conflicts: 
+Menu-Depends: 
+Provides: @mptcpd-any
+Section: net
+Category: Network
+Repository: base
+Title: Multipath TCP Daemon
+Maintainer: Daniel Golle <daniel@makrotopia.org>
+Source: mptcpd-0.13.tar.gz
+License: BSD-3-Clause
+LicenseFiles: COPYING
+URL: https://github.com/multipath-tcp/mptcpd
+Type: ipkg
+Description: Multipath TCP Daemon
+@@
+
+Package: mptcpize
+Version: 0.13-r2
+Depends: +libc +ell
+Conflicts: 
+Menu-Depends: 
+Provides: @mptcpize-any
+Section: net
+Category: Network
+Repository: base
+Title: Multipath TCP wrapper
+Maintainer: Daniel Golle <daniel@makrotopia.org>
+Source: mptcpd-0.13.tar.gz
+License: BSD-3-Clause
+LicenseFiles: COPYING
+URL: https://github.com/multipath-tcp/mptcpd
+Type: ipkg
+Description: Multipath TCP wrapper
+@@
+
+

@@ -1,0 +1,22 @@
+Source-Makefile: feeds/packages/lang/golang/golang/Makefile
+Build-Depends/host: golang1.26/host
+Build-Types: host
+
+Package: golang
+Version: 1.26-r1
+Depends: +libc 
+Conflicts: 
+Menu-Depends: 
+Provides: @golang-any
+Section: opt
+Category: Extra packages
+Repository: base
+Title: Go programming language (dummy package)
+Maintainer: George Sapkin <george@sapk.in>
+Source: 
+Type: ipkg
+Build-Only: 1
+Description: Go programming language (dummy package)
+@@
+
+

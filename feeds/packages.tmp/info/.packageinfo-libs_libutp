@@ -1,0 +1,21 @@
+Source-Makefile: feeds/packages/libs/libutp/Makefile
+
+Package: libutp
+Version: 2024.11.16~490874c44a2ecf914404b0a20e043c9755fff47b-r1
+Depends: +libc +libstdcpp
+Conflicts: 
+Menu-Depends: 
+Provides: @libutp-any
+Section: libs
+Category: Libraries
+Repository: base
+Title: The uTorrent Transport Protocol library
+Maintainer: Daniel Golle <daniel@makrotopia.org>
+Source: libutp-2024.11.16~490874c44a2ecf914404b0a20e043c9755fff47b.tar.zst
+License: MIT
+LicenseFiles: LICENSE
+Type: ipkg
+Description: The uTorrent Transport Protocol library
+@@
+
+

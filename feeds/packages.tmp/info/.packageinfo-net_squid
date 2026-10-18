@@ -1,0 +1,30 @@
+Source-Makefile: feeds/packages/net/squid/Makefile
+
+Package: squid
+Menu: 1
+Submenu: Web Servers/Proxies
+Version: 7.1-r1
+Depends: +libc +USE_GLIBC:libcrypt-compat +USE_GLIBC:libbsd +libpthread +librt +libltdl +libstdcpp +libatomic +SQUID_use-gnutls:libgnutls +SQUID_use-openssl:libopenssl +SQUID_with-libcap:libcap +SQUID_with-nettle:libnettle +SQUID_with-expat:libexpat +SQUID_with-libxml2:libxml2
+Conflicts: 
+Menu-Depends: 
+Provides: @squid-any
+Section: net
+Category: Network
+Repository: base
+Title: full-featured Web proxy cache
+Maintainer: Marko Ratkaj <markoratkaj@gmail.com>
+Require-User: squid=137:squid=137
+Source: squid-7.1.tar.xz
+License: GPL-2.0-or-later
+CPE-ID: cpe:/a:squid-cache:squid
+URL: https://www.squid-cache.org/
+Type: ipkg
+Description:   Squid is a caching proxy for the Web supporting HTTP, HTTPS, FTP, and more.
+  It reduces bandwidth and improves response times by caching and reusing
+  frequently-requested web pages.
+@@
+Config:
+  source "feeds/packages/net/squid/Config.in"
+@@
+
+

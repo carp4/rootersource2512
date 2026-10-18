@@ -1,0 +1,30 @@
+Source-Makefile: feeds/packages/multimedia/tvheadend/Makefile
+Build-Depends: gettext-full/host
+
+Package: tvheadend
+Menu: 1
+Version: 2026.04.03~395afb8512d0d636ef223db4cccf722b70992e76-r1
+Depends: +libc +librt +libffi +libopenssl +BUILD_NLS:libiconv-full +zlib +TVHEADEND_AVAHI_SUPPORT:libavahi-client +TVHEADEND_REGEX_PCRE2:libpcre2 +BUILD_PATENTED&&TVHEADEND_CSA:libdvbcsa
+Conflicts: 
+Menu-Depends: 
+Provides: @tvheadend-any
+Section: multimedia
+Category: Multimedia
+Repository: base
+Title: TV streaming server
+Maintainer: Marius Dinu <m95d+git@psihoexpert.ro>
+Require-User: tvheadend:dvb
+Source: tvheadend-2026.04.03~395afb8512d0d636ef223db4cccf722b70992e76.tar.zst
+License: GPL-3.0
+LicenseFiles: LICENSE.md
+URL: https://tvheadend.org
+Type: ipkg
+Description:   Tvheadend is a TV streaming server and recorder for Linux, FreeBSD and Android
+  supporting DVB-S, DVB-S2, DVB-C, DVB-T, ATSC, IPTV, SAT>IP and HDHomeRun as input sources.
+  Tvheadend supports streaming to clients via HTTP (VLC, MPlayer), HTSP (Kodi, Movian), SAT>IP and TVHeadEnd emulation.
+@@
+Config:
+  source "feeds/packages/multimedia/tvheadend/Config.in"
+@@
+
+

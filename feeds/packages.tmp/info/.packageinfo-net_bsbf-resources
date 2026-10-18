@@ -1,0 +1,112 @@
+Source-Makefile: feeds/packages/net/bsbf-resources/Makefile
+
+Package: bsbf-bonding
+Version: 2026.06.24~8d0b6ee9b4a0f99c50e63a005c41fc7ddaa46045-r2
+Depends: +libc +bsbf-client-web +bsbf-mptcp +bsbf-rate-limiting +xray-core
+Conflicts: 
+Menu-Depends: 
+Provides: @bsbf-bonding-any
+Section: net
+Category: Network
+Repository: base
+Title: bsbf-bonding
+Maintainer: Chester A. Unal <chester.a.unal@arinc9.com>
+Source: bsbf-resources-2026.06.24~8d0b6ee9b4a0f99c50e63a005c41fc7ddaa46045.tar.zst
+License: AGPL-3.0-or-later
+URL: https://github.com/bondingshouldbefree/
+Type: ipkg
+Description:   bsbf-bonding configures the system for the BondingShouldBeFree bonding
+  solution client.
+@@
+
+Package: bsbf-client-web
+Version: 2026.06.24~8d0b6ee9b4a0f99c50e63a005c41fc7ddaa46045-r2
+Depends: +libc +curl +uhttpd
+Conflicts: 
+Menu-Depends: 
+Provides: @bsbf-client-web-any
+Section: net
+Category: Network
+Repository: base
+Title: bsbf-client-web
+Maintainer: Chester A. Unal <chester.a.unal@arinc9.com>
+Source: bsbf-resources-2026.06.24~8d0b6ee9b4a0f99c50e63a005c41fc7ddaa46045.tar.zst
+License: AGPL-3.0-or-later
+URL: https://github.com/bondingshouldbefree/
+Type: ipkg
+Description: bsbf-client-web
+@@
+
+Package: bsbf-mptcp
+Version: 2026.06.24~8d0b6ee9b4a0f99c50e63a005c41fc7ddaa46045-r2
+Depends: +libc +curl +fping +ip-full +mptcpize
+Conflicts: 
+Menu-Depends: 
+Provides: @bsbf-mptcp-any
+Section: net
+Category: Network
+Repository: base
+Title: bsbf-mptcp
+Maintainer: Chester A. Unal <chester.a.unal@arinc9.com>
+Source: bsbf-resources-2026.06.24~8d0b6ee9b4a0f99c50e63a005c41fc7ddaa46045.tar.zst
+License: AGPL-3.0-or-later
+URL: https://github.com/bondingshouldbefree/
+Type: ipkg
+Description: bsbf-mptcp
+@@
+
+Package: bsbf-netspeed
+Version: 2026.06.24~8d0b6ee9b4a0f99c50e63a005c41fc7ddaa46045-r2
+Depends: +libc 
+Conflicts: 
+Menu-Depends: 
+Provides: @bsbf-netspeed-any
+Section: net
+Category: Network
+Repository: base
+Title: bsbf-netspeed
+Maintainer: Chester A. Unal <chester.a.unal@arinc9.com>
+Source: bsbf-resources-2026.06.24~8d0b6ee9b4a0f99c50e63a005c41fc7ddaa46045.tar.zst
+License: AGPL-3.0-or-later
+URL: https://github.com/bondingshouldbefree/
+Type: ipkg
+Description: bsbf-netspeed
+@@
+
+Package: bsbf-quectel-usbnet
+Version: 2026.06.24~8d0b6ee9b4a0f99c50e63a005c41fc7ddaa46045-r2
+Depends: +libc 
+Conflicts: 
+Menu-Depends: 
+Provides: @bsbf-quectel-usbnet-any
+Section: net
+Category: Network
+Repository: base
+Title: bsbf-quectel-usbnet
+Maintainer: Chester A. Unal <chester.a.unal@arinc9.com>
+Source: bsbf-resources-2026.06.24~8d0b6ee9b4a0f99c50e63a005c41fc7ddaa46045.tar.zst
+License: AGPL-3.0-or-later
+URL: https://github.com/bondingshouldbefree/
+Type: ipkg
+Description: bsbf-quectel-usbnet
+@@
+
+Package: bsbf-rate-limiting
+Version: 2026.06.24~8d0b6ee9b4a0f99c50e63a005c41fc7ddaa46045-r2
+Depends: +libc +tc
+Conflicts: 
+Menu-Depends: 
+Provides: @bsbf-rate-limiting-any
+Section: net
+Category: Network
+Repository: base
+Title: bsbf-rate-limiting
+Maintainer: Chester A. Unal <chester.a.unal@arinc9.com>
+Source: bsbf-resources-2026.06.24~8d0b6ee9b4a0f99c50e63a005c41fc7ddaa46045.tar.zst
+License: AGPL-3.0-or-later
+URL: https://github.com/bondingshouldbefree/
+Type: ipkg
+Description: bsbf-rate-limiting
+@@
+
+
