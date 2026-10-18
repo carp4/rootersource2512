@@ -33,32 +33,8 @@ git-src
 .ccache
 .vscode*
 
-# ROOter vendored feeds (track these)
-/feeds/luci
-/feeds/luci.index
-/feeds/luci.targetindex
-/feeds/luci.tmp
-/feeds/packages
-/feeds/packages.index
-/feeds/packages.targetindex
-/feeds/packages.tmp
-/feeds/routing
-/feeds/routing.index
-/feeds/routing.targetindex
-/feeds/routing.tmp
-/feeds/telephony
-/feeds/telephony.index
-/feeds/telephony.targetindex
-/feeds/telephony.tmp
-/feeds/video
-/feeds/video.index
-/feeds/video.targetindex
-/feeds/video.tmp
-/feeds/base
-!/feeds/base/Makefile
-!/feeds/base/README
-/feeds/zapret2
-/feeds/tailscale
-
-# package/feeds symlink tree
-/package/feeds
+# ROOter vendored feeds are TRACKED, not ignored: feeds/{luci,packages,routing,
+# telephony,video} + their .index/.targetindex/.tmp, the feeds/base symlink
+# (-> ../package), and the package/feeds/ symlink tree. feeds.conf stays
+# untracked (matches upstream OpenWrt + source2410); make never reads it.
+/feeds.conf
