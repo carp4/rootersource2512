@@ -87,6 +87,7 @@ diag_rules() {
 	local number=0
 	local iif=0
 	local fwmark=0
+	local family="ipv4"
 
 	local iif_rule iif_result
 	local fwmark_rule fwmark_result
@@ -99,14 +100,26 @@ diag_rules() {
 		exit 2
 	}
 
+	# Check if this is an IPv6-only interface
+	config_load mwan3
+	config_get family "$iface" "family"
+
 	let "iif=$IIF+$ID"
 	let "fwmark=$FWMARK+$ID"
 
-	iif_rule="$(ip rule | grep ${iif})"
-	iif_result="$?"
+	if [ "$family" = "ipv6" ]; then
+		iif_rule="$(ip -6 rule | grep ${iif})"
+		iif_result="$?"
 
-	fwmark_rule="$(ip rule | grep ${fwmark})"
-	fwmark_result="$?"
+		fwmark_rule="$(ip -6 rule | grep ${fwmark})"
+		fwmark_result="$?"
+	else
+		iif_rule="$(ip rule | grep ${iif})"
+		iif_result="$?"
+
+		fwmark_rule="$(ip rule | grep ${fwmark})"
+		fwmark_result="$?"
+	fi
 
 	if [ "$fwmark_result" = 0 ] && [ "$iif_result" = 0 ]; then
 		echo "All required IP rules for interface \"$iface\" found"
@@ -127,6 +140,7 @@ diag_routes() {
 	local iface="$1"
 
 	local table table_result
+	local family="ipv4"
 
 	config_load mwan3
 	config_foreach iface_number 'interface' "$iface"
@@ -136,14 +150,26 @@ diag_routes() {
 		exit 2
 	}
 
-	table="$(ip route list table $ID)"
+	# Check if this is an IPv6-only interface
+	config_load mwan3
+	config_get family "$iface" "family"
+
+	if [ "$family" = "ipv6" ]; then
+		table="$(ip -6 route list table $ID 2>/dev/null)"
+	else
+		table="$(ip route list table $ID 2>/dev/null)"
+	fi
 	table_result="$?"
 
-	if [ "$table_result" = 0 ]; then
+	if [ "$table_result" = 0 ] && [ -n "$table" ]; then
 		echo "Routing table \"$ID\" for interface \"$iface\" found"
 		echo "$table"
 	else
-		echo "Routing table \"$ID\" for interface \"$iface\" not found"
+		if [ "$family" = "ipv6" ]; then
+			echo "IPv6 routing table \"$ID\" for interface \"$iface\" not found"
+		else
+			echo "Routing table \"$ID\" for interface \"$iface\" not found"
+		fi
 	fi
 }
 
