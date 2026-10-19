@@ -1,0 +1,91 @@
+#!/bin/sh
+# =============================================================================
+# 90-system-config
+#
+# System settings baked into the Z8102AX V2 image so a clean `sysupgrade -n`
+# needs no post-flash configuration.
+#
+# Ordering (package/base-files/files/etc/init.d/boot, START=10):
+#
+#     line 53   /bin/config_generate     <- creates /etc/config/{network,system}
+#     line 55   /sbin/wifi config        <- ROOter's own wireless setup
+#     line 56   uci_apply_defaults       <- this script, and 92/93 after it
+#
+# So this runs AFTER config_generate and writes on top of the section it just
+# created. config_generate's own guard is
+#     [ -s /etc/config/network -a -s /etc/config/system ] && exit 0
+# which is why nothing here may run earlier -- writing to /etc/config/network
+# before config_generate would make it non-empty and suppress generation of the
+# whole network config.
+#
+# AND, later in the same boot: /etc/init.d/rooter (START=30) runs
+# initialize.sh, whose firstboot() is where the hostname decision happens --
+# it renames the box only while it is still called "OpenWrt" or "LEDE". Setting
+# Z8102AX here, at boot-10, is what makes the name stick.
+#
+# WHAT IS DELIBERATELY ABSENT, and why -- each of these was in the 25.12 gold
+# and each is provably discarded downstream:
+#
+#   timezone / zonename
+#       ROOter auto-detects the timezone by geo-IP and overwrites both.
+#       ext-rooter-basic/files/etc/config/profile ships `option tzone '1'`,
+#       connect/get_profile.sh:408 copies that to modem.modeminfo$N.tzone on
+#       every modem init, and the qmi/mbim/3x/connect_* drivers each then run
+#       usr/lib/rooter/timezone.sh, which wgets http://ip-api.com/json and
+#       writes system.@system[-1].{timezone,zonename} before restarting system.
+#       That fires on the FIRST modem connect, so a baked zone survives only
+#       until the box first talks to a carrier. Shipping one would be a
+#       cosmetic default that quietly stops being true, and baking a specific
+#       zone into a public image would be the wrong default anyway -- geo-IP
+#       detection is what a shared build should do. Stock is
+#       timezone='UTC' (config_generate generate_static_system) and no zonename
+#       at all; ROOter fills zonename in from the same geo-IP lookup.
+#
+#   cronloglevel
+#       initialize.sh:121, unconditionally, on every firstboot:
+#           uci set system.@system[-1].cronloglevel="9"
+#       The gold's '7' was overwritten to 9 as soon as ROOter's first pass
+#       ran. Set it from ROOter's GUI if a different level is wanted.
+#
+#   USB-modem LED triggers (blue:usb-0 / blue:usb-1)
+#       This board's device tree declares only:
+#           reset  wps  red:status  green:status  blue:status
+#           modem1:status  modem2:status
+#       (target/linux/mediatek/dts/mt7981b-zbt-z8102ax.dtsi). There is no
+#       blue:usb-* on it, so both triggers pointed at a sysfs path that never
+#       appears. modem1:status / modem2:status do exist and are the ones worth
+#       wiring to a modem netdev; that is left to ROOter's own LED handling.
+#
+# `commit` after the ntp deletes is REQUIRED: without it the deletes land only
+# in uci's staging area at /tmp/.uci and are lost on the reboot after first
+# boot.
+#
+# No `set -e`: /etc/init.d/boot runs uci-defaults as `( . /path ) && rm -f`,
+# so `set -e` would abort this script on the first failing uci call and skip
+# the commits, stranding every change in staging. Failing soft and always
+# committing is the safer shape for a shipped default.
+# =============================================================================
+
+# @system[-1], not @system[0]: config_generate creates exactly one `config
+# system`, but ROOter's own writes all address it as @system[-1]
+# (initialize.sh:112-122, timezone.sh:14-15), so this script uses the same
+# selector to be certain it is modifying the same section ROOter reads.
+uci batch <<'EOF'
+set system.@system[-1].hostname='Z8102AX'
+set system.@system[-1].clock_hourcycle='h23'
+set system.@system[-1].conloglevel='8'
+commit system
+EOF
+
+# NTP: config_generate's generate_static_system creates
+#     config timeserver 'ntp'  { enabled='1'  enable_server='0' }
+# and those two values are already what this image wants -- sync the clock from
+# the pool, do not serve time to the LAN. They are deleted rather than
+# re-asserted so a public image tracks upstream's default instead of carrying a
+# hardcoded opinion that silently disagrees with it later. The pool servers
+# themselves are left alone.
+uci -q delete system.ntp.enabled || true
+uci -q delete system.ntp.enable_server || true
+uci commit system
+
+exit 0

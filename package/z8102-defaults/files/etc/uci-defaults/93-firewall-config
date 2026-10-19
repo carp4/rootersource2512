@@ -1,0 +1,139 @@
+#!/bin/sh
+# =============================================================================
+# 93-firewall-config
+#
+# Firewall defaults baked into the Z8102AX V2 image so a clean `sysupgrade -n`
+# needs no post-flash configuration.
+#
+# Deliberately NON-DESTRUCTIVE. An earlier version of this script (and the
+# 25.12 gold it came from) wiped every zone, forwarding and rule and rebuilt
+# them from scratch. Do not do that here:
+#
+#   * ROOter ships two rules the rebuild did not recreate --
+#     Allow-IPSec-ESP and Allow-ISAKMP (wan->lan, for IPsec passthrough).
+#     They were silently deleted, on both the 25.12 gold and any image built
+#     from it. Deleting stock rules nobody asked to lose is a regression, and
+#     it means a config edit that aborts halfway leaves the box with no LAN
+#     zone at all -- i.e. unreachable.
+#   * ROOter re-adds a `config include 'zerotier'` at runtime. It survives a
+#     rules wipe, but there is no reason to wipe in the first place.
+#
+# Everything below is therefore create-if-absent or set-if-different.
+#
+# What this actually adds over stock ROOter:
+#
+#   defaults.flow_offloading / flow_offloading_hw
+#       Software and hardware flow offload. Verified working alongside a live
+#       6-member mwan3 deployment (all members online, offline=0, lost=0).
+#       Hardware offload is requested, not assumed: fw4 probes the running
+#       kernel with `nft -c` before emitting `flags offload`, and falls back
+#       to software offloading with a warning if the kernel cannot do it
+#       (firewall4 fw4.uc nft_try_hw_offload / resolve_hw_offload_devices).
+#       This target's kernel does NOT set CONFIG_NFT_FLOW_TABLE_HW_OFFLOAD --
+#       only CONFIG_NFT_FLOW_OFFLOAD=m -- so in practice software offload is
+#       what you get, and the request degrades rather than breaking.
+#
+#   tailscale zone + interface
+#       tailscale is installed but not joined, and a public image must not
+#       carry anybody's join credentials. Declaring the zone up front means
+#       the interface is already placed in the firewall the moment someone
+#       joins, instead of the box coming up with tailscale0 unzoned and
+#       inbound traffic to it hitting the default policy.
+#
+#       `network.tailscale` is a proto-none logical interface, the standard
+#       OpenWrt pattern: netifd holds it down and tailscale's own hotplug
+#       brings it up when the tunnel exists. A zone naming a network that does
+#       not exist yet is not an error -- fw4 skips undeclared entries in a
+#       zone's network list and re-resolves them on every reload
+#       (fw4.uc: for (let e in zone.network) if (exists(this.state.networks,
+#       e.device)) ... ), so this is safe on a box that never joins tailscale.
+#
+# NOT set here, and why:
+#   zone.wan network list  -- ROOter's initialize.sh do_zone() rebuilds it at
+#                             boot to wan + wan6 + wan1..wan$maxmodem_6, sized
+#                             from maxmodem, and restarts the firewall if it
+#                             changed. Hardcoding a list here would only be
+#                             overwritten 20s later.
+#   zone.wan.masq6         -- do_zone() sets it on the wan zone at boot too.
+#                             Set here as well so the shipped default is
+#                             correct even before ROOter's first pass runs,
+#                             and because do_zone() bails out early if
+#                             MODCNT is unset or non-numeric.
+#   zone.wan.forward       -- stock is REJECT. The gold set DROP; the only
+#                             difference is whether an unsolicited packet from
+#                             the WAN side gets an ICMP unreachable back.
+#                             REJECT is the stock and the quieter choice.
+#   any zone/rule deletion -- see above.
+# =============================================================================
+
+uci batch <<'EOF'
+set firewall.@defaults[0].syn_flood='1'
+set firewall.@defaults[0].input='REJECT'
+set firewall.@defaults[0].output='ACCEPT'
+set firewall.@defaults[0].forward='REJECT'
+set firewall.@defaults[0].flow_offloading='1'
+set firewall.@defaults[0].flow_offloading_hw='1'
+commit firewall
+EOF
+
+# --- wan zone: NAT66 ------------------------------------------------------
+# do_zone() guarantees this at boot too; setting it here means the shipped
+# default is already right, which matters for a build that is inspected or
+# used before ROOter's first boot pass has run.
+if [ "$(uci -q get firewall.wan.masq6)" != "1" ]; then
+	# Resolve the section by its `name` option, not by index: ROOter ships
+	# anonymous zones (`firewall.@zone[1].name='wan'`), and an index is not
+	# stable across a config import or a LuCI edit. The pattern matches a
+	# named section (`firewall.wan.name='wan'`) just as well.
+	WAN_SECTION=$(uci -q show firewall \
+		| sed -n "s/^firewall\.\([^.]*\)\.name='wan'$/\1/p" | head -1)
+	if [ -n "$WAN_SECTION" ]; then
+		uci set firewall."$WAN_SECTION".masq6='1'
+		uci commit firewall
+	fi
+fi
+
+# --- tailscale ------------------------------------------------------------
+# Gate on the binary: if a future template drops the tailscale package, do
+# not leave a dangling interface and zone behind.
+if [ -x /usr/sbin/tailscale ]; then
+	# proto=none: held down by netifd until tailscale's hotplug ifups it.
+	if ! uci -q get network.tailscale >/dev/null; then
+		uci set network.tailscale='interface'
+		uci set network.tailscale.proto='none'
+		uci commit network
+	fi
+
+	if ! uci -q get firewall.tailscale >/dev/null; then
+		uci batch <<'EOF'
+set firewall.tailscale='zone'
+set firewall.tailscale.name='tailscale'
+set firewall.tailscale.input='ACCEPT'
+set firewall.tailscale.output='ACCEPT'
+set firewall.tailscale.forward='ACCEPT'
+set firewall.tailscale.masq='1'
+set firewall.tailscale.mtu_fix='1'
+add_list firewall.tailscale.network='tailscale'
+commit firewall
+EOF
+	fi
+
+	# Two forwardings, created only if neither exists. Checked by src/dest
+	# rather than by section id so a LuCI-created equivalent is not
+	# duplicated.
+	if ! uci -q show firewall | grep -q "^firewall\..*\.src='tailscale'"; then
+		TS_FWD=$(uci add firewall forwarding)
+		uci set firewall."$TS_FWD".src='tailscale'
+		uci set firewall."$TS_FWD".dest='lan'
+	fi
+
+	if ! uci -q show firewall | grep -q "^firewall\..*\.dest='tailscale'"; then
+		TS_FWD=$(uci add firewall forwarding)
+		uci set firewall."$TS_FWD".src='lan'
+		uci set firewall."$TS_FWD".dest='tailscale'
+	fi
+
+	uci commit firewall
+fi
+
+exit 0
