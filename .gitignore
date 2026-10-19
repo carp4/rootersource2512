@@ -38,3 +38,9 @@ git-src
 # (-> ../package), and the package/feeds/ symlink tree. feeds.conf stays
 # untracked (matches upstream OpenWrt + source2410); make never reads it.
 /feeds.conf
+
+# ROOter build outputs: the per-model sysupgrade zips are produced by ./build
+# (tree root) and copied into images/ by buildz8. Keep images/ tracked so
+# images/placeholder survives, but ignore the zips themselves.
+/ZBT-*.zip
+/images/*.zip
