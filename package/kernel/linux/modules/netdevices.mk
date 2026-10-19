@@ -2281,6 +2281,20 @@ endef
 
 $(eval $(call KernelPackage,mtk-t7xx))
 
+define KernelPackage/iosm
+  SUBMENU:=$(NETWORK_DEVICES_MENU)
+  TITLE:=MediaTek IOSM 5G modem
+  DEPENDS:=@PCI_SUPPORT +kmod-wwan
+  KCONFIG:=CONFIG_IOSM
+  FILES:=$(LINUX_DIR)/drivers/net/wwan/iosm/iosm.ko
+  AUTOLOAD:=$(call AutoProbe,iosm)
+endef
+
+define KernelPackage/iosm/description
+ Driver for Intel PCIe 5G WWAN modem IOSM device
+endef
+
+$(eval $(call KernelPackage,iosm))
 
 define KernelPackage/atlantic
   SUBMENU:=$(NETWORK_DEVICES_MENU)
