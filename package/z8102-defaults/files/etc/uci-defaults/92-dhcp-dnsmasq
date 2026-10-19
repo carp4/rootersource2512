@@ -1,0 +1,63 @@
+#!/bin/sh
+# =============================================================================
+# 92-dhcp-dnsmasq
+#
+# DHCP / DNS / Router Advertisement settings baked into the Z8102AX V2 image.
+# Nothing else in the tree sets these: ROOter's initialize.sh never touches the
+# dhcp config, and 24.10's config_generate only sets network.lan.ip6assign and
+# friends -- it does not configure the RA server or dnsmasq's filters.
+#
+# dnsmasq:
+#   filter_a / filter_aaaa = 0 -- forward A and AAAA records as they arrive,
+#   instead of stripping them based on which families the uplink happens to
+#   support at that instant. This box is dual-stack across several independent
+#   uplinks (ethernet + up to five cellular modems), so any given link can be
+#   momentarily v4-only or v6-only. With the filters at their stock value, a
+#   reply arrives on the "wrong" family for the link it crossed and gets
+#   silently dropped, which presents as intermittent DNS failure rather than
+#   as a name-resolution error.
+#
+# dhcp.lan (the LAN DHCP server):
+#   dhcpv4 / dhcpv6 = server -- run both servers on lan
+#   ra = server        -- odhcpd advertises the prefix delegated to lan
+#   ra_slaac = 1       -- hosts do stateless SLAAC
+#   ra_default = 1     -- hosts are told this router is their default route
+#   ra_preference      -- medium, so hosts prefer the ethernet over a modem
+#   ra_flags           -- managed-config + other-config, so hosts are also given
+#                         the DNS server addresses and DHCPv6 config
+#
+# The rest of the dhcp/dnsmasq section is left at stock defaults.
+# =============================================================================
+
+# No `set -e` here. /etc/init.d/boot runs uci-defaults as
+#     ( . /etc/uci-defaults/* ) && rm -f ...
+# so `set -e` would abort this script the moment any single uci call failed --
+# skipping the commit below and leaving every change above stranded in uci's
+# staging area at /tmp/.uci, lost on the next reboot. Failing soft and always
+# committing is the safer shape for a shipped default: the parts that took
+# apply, and the next run fills in the rest.
+uci batch <<'EOF'
+set dhcp.dnsmasq.filter_a='0'
+set dhcp.dnsmasq.filter_aaaa='0'
+
+set dhcp.lan.dhcpv4='server'
+set dhcp.lan.dhcpv6='server'
+set dhcp.lan.ra='server'
+set dhcp.lan.ra_slaac='1'
+set dhcp.lan.ra_default='1'
+set dhcp.lan.ra_preference='medium'
+EOF
+
+# Idempotent: only append each RA flag if it is not already present. This uci
+# version's `del_list` is unreliable and `uci get` returns a whole list on one
+# line, so a plain grep is the reliable membership test here.
+if ! uci -q get dhcp.lan.ra_flags | grep -q 'other-config'; then
+	uci add_list dhcp.lan.ra_flags='other-config'
+fi
+if ! uci -q get dhcp.lan.ra_flags | grep -q 'managed-config'; then
+	uci add_list dhcp.lan.ra_flags='managed-config'
+fi
+
+uci commit dhcp
+
+exit 0
