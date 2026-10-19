@@ -1,0 +1,10 @@
+To convert X3000 from USB mode to PCie mode
+
+Remove SIM.
+Flash to X3000-PCIE firmware.
+Go to Modem->Miscellaneous and use the AT Command Terminal to run
+
+AT+QCFG="data_interface",1,1;+QETH="eth_driver","r8125",1;+QCFG="pcie/mode",0
+
+Insert SIM again and reboot router.
+Modem will now be in PCie mode.
