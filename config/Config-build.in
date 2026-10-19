@@ -89,6 +89,7 @@ menu "Global build settings"
 
 	config BUILD_PATENTED
 		bool "Compile with support for patented functionality"
+		default y
 		help
 		  When this option is disabled, software which provides patented functionality
 		  will not be built.  In case software provides optional support for patented
