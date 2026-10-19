@@ -146,7 +146,7 @@ ppp_generic_setup() {
 	[ "$delegate" != "0" ] && delegate=""
 	[ "$norelease" = "1" ] || norelease=""
 
-	proto_run_command "$config" /usr/sbin/pppd \
+	proto_run_command "$config" /usr/sbin/pppd local \
 		nodetach ipparam "$config" \
 		ifname "$pppname" \
 		${localip:+$localip:} \
