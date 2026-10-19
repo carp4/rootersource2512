@@ -175,7 +175,14 @@ generate_network() {
 				set network.$1.proto='static'
 				add_list network.$1.ipaddr='$ipad/$prefix'
 			EOF
-			[ -e /proc/sys/net/ipv6 ] && uci set network.$1.ip6assign='60'
+			[ -e /proc/sys/net/ipv6 ] && uci set network.$1.ip6assign='64'
+			[ -e /proc/sys/net/ipv6 ] && [ "$1" = "lan" ] && {
+				uci -q batch <<-EOF
+					set network.lan.ip6hint='0000'
+					set network.lan.ip6class='local'
+					set network.lan.multipath='off'
+				EOF
+			}
 		;;
 
 		dhcp)
@@ -189,7 +196,12 @@ generate_network() {
 					set network.${1}6='interface'
 					set network.${1}6.device='$device'
 					set network.${1}6.proto='dhcpv6'
+					set network.${1}6.reqaddress='try'
+					set network.${1}6.reqprefix='60'
+					set network.${1}6.norelease='1'
+					set network.${1}6.multipath='off'
 				EOF
+				[ "$1" = "wan" ] && uci set network.wan6.metric='1'
 			}
 		;;
 
