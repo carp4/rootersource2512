@@ -194,7 +194,7 @@
 		"description": "Allow rebooting the device",
 		"write": {
 			"file": {
-				"/sbin/reboot": [ "exec" ]
+				"/usr/lib/rooter/luci/rebootmodem.sh": [ "exec" ]
 			},
 			"ubus": {
 				"file": [ "exec" ],
