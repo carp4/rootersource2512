@@ -20,6 +20,28 @@ WRAP() {
 	FAMILY=$FAMILY DEVICE=$DEVICE SRCIP=$SRC_IP FWMARK=$MMX_DEFAULT LD_PRELOAD=/lib/mwan3/libwrap_mwan3_sockopt.so.1.0 $*
 }
 
+# v6 probe: the LD_PRELOAD sockopt wrapper (SO_MARK=MMX_DEFAULT +
+# SO_BINDTODEVICE + source bind) cannot reach global targets from a
+# deprecated source on upstreams that rotate the delegated /64: pings that the
+# kernel accepts never get replies, so the link looks down even though
+# unmarked pings work fine and the link carries traffic. Tracked v6
+# members therefore probe with a plain, unmarked busybox ping bound to the
+# refresh-chosen source (-I). That routes via the source's "default from"
+# route in the main table (never leaks to another WAN), and -- unlike the
+# wrapper socket -- works from deprecated sources. IPv4 keeps WRAP.
+track_ping() {
+	# shellcheck disable=SC2086
+	if [ "$FAMILY" = "ipv6" ]; then
+		if [ -n "$SRC_IP" ]; then
+			$PING -n -c $count -W $timeout -s $size -t $max_ttl -q -I "$SRC_IP" $track_ip
+		else
+			$PING -n -c $count -W $timeout -s $size -t $max_ttl -q $track_ip
+		fi
+	else
+		WRAP $PING -n -c $count -W $timeout -s $size -t $max_ttl -q $track_ip
+	fi
+}
+
 clean_up() {
 	LOG notice "Stopping mwan3track for interface \"${INTERFACE}\". Status was \"${STATUS}\""
 	stop_subprocs
@@ -74,6 +96,10 @@ validate_track_method() {
 			fi
 			;;
 		arping)
+			[ "$FAMILY" = "ipv6" ] && {
+				LOG warn "arping does not support IPv6. Please use another track method."
+				return 1
+			}
 			command -v arping 1>/dev/null 2>&1 || {
 				LOG warn "Missing arping. Please install iputils-arping package."
 				return 1
@@ -206,6 +232,57 @@ started() {
 	echo 1 > $MWAN3TRACK_STATUS_DIR/$INTERFACE/STARTED
 }
 
+# Upstreams that rotate the delegated /64 constantly; the source
+# pinned once by firstconnect() goes stale the moment its prefix's route is
+# removed, falsely downing a healthy link until the next mwan3 restart.
+# For ipv6 members re-derive the ping source once per round: prefer a
+# non-deprecated global address, then fall back to deprecated ones (they
+# still route fine), and only use an address that currently has a working
+# source-constrained route to a track target.
+# v2.1: route presence is NOT enough -- some upstreams stop forwarding from
+# old /64s while the kernel "default from" route still exists, wedging the
+# tracker on a dead prefix. So ping-test candidates too: try the source
+# that answered last round first (fast path), then preferred/deprecated in
+# order, and pick the first that BOTH routes and answers. If nothing
+# answers this round (a genuine upstream outage) fall back to a route-valid
+# source so normal failure accounting keeps running.
+refresh_src_ip() {
+	local cand probe_ip cands
+	[ "$FAMILY" = "ipv6" ] || return 0
+	[ -n "$DEVICE" ] || return 0
+	for probe_ip in $track_ips; do break; done
+	[ -n "$probe_ip" ] || return 0
+	# Log when no candidates exist — makes silent failures visible.
+	cands=$(ip -6 addr show dev "$DEVICE" scope global 2>/dev/null | awk '/inet6/{print $2}')
+	[ -z "$cands" ] && LOG warn "$INTERFACE ($DEVICE): no ipv6 globals on device; cannot re-derive"
+	for cand in \
+		$(ip -6 addr show dev "$DEVICE" scope global 2>/dev/null | \
+			awk -v cur="$SRC_IP" '/inet6/ {a=$2; sub(/\/.*/, "", a); if (a == cur && !seen) {f=f " " a; seen=1} else if ($0 ~ /deprecated/) d=d " " a; else p=p " " a}
+			     END {print f p d}'); do
+		if ip -6 route get "$probe_ip" from "$cand" oif "$DEVICE" >/dev/null 2>&1 && \
+		   $PING -n -c 1 -W 2 -q -I "$cand" "$probe_ip" >/dev/null 2>&1; then
+			if [ "$cand" != "$SRC_IP" ]; then
+				SRC_IP=$cand
+				LOG info "Re-derived ipv6 source for $INTERFACE ($DEVICE): now $SRC_IP"
+			fi
+			return 0
+		fi
+	done
+	for cand in \
+		$(ip -6 addr show dev "$DEVICE" scope global 2>/dev/null | \
+			awk -v cur="$SRC_IP" '/inet6/ {a=$2; sub(/\/.*/, "", a); if (a == cur && !seen) {f=f " " a; seen=1} else if ($0 ~ /deprecated/) d=d " " a; else p=p " " a}
+			     END {print f p d}'); do
+		if ip -6 route get "$probe_ip" from "$cand" oif "$DEVICE" >/dev/null 2>&1; then
+			if [ "$cand" != "$SRC_IP" ]; then
+				SRC_IP=$cand
+				LOG info "No ipv6 source answered; fell back to route-valid $SRC_IP on $INTERFACE ($DEVICE)"
+			fi
+			return 0
+		fi
+	done
+	return 0
+}
+
 update_status() {
 	local track_ip=$1
 
@@ -242,9 +319,9 @@ main() {
 	validate_track_method $track_method || {
 		track_method=ping
 		if validate_track_method $track_method; then
-			LOG warn "Using ping to track interface $INTERFACE avaliability"
+			LOG warn "Using ping to track interface $INTERFACE availability"
 		else
-			LOG err "No track method avaliable"
+			LOG err "No track method available"
 			exit 1
 		fi
 	}
@@ -283,16 +360,17 @@ main() {
 			wait $!
 		}
 		sleep_time=$interval
+		refresh_src_ip
 		for track_ip in $track_ips; do
 			if [ $host_up_count -lt $reliability ]; then
 				case "$track_method" in
 					ping)
 						if [ $check_quality -eq 0 ]; then
-							WRAP $PING -n -c $count -W $timeout -s $size -t $max_ttl -q $track_ip &> /dev/null &
+							track_ping &> /dev/null &
 							wait $!
 							result=$?
 						else
-							WRAP $PING -n -c $count -W $timeout -s $size -t $max_ttl -q $track_ip 2>/dev/null > $TRACK_OUTPUT &
+							track_ping 2>/dev/null > $TRACK_OUTPUT &
 							wait $!
 							ping_status=$?
 							loss="$(sed $TRACK_OUTPUT -ne 's/.* \([0-9]\+\)% packet loss.*/\1/p')"
@@ -310,19 +388,21 @@ main() {
 						result=$?
 					;;
 					httping)
+						local ipv6_opt
+						[ "$FAMILY" = "ipv6" ] && ipv6_opt="-6"
 						if [ $check_quality -eq 0 ]; then
 							if [ "$httping_ssl" -eq 1 ]; then
-								WRAP httping -c $count -t $timeout -q "https://$track_ip" &> /dev/null &
+								WRAP httping $ipv6_opt -c $count -t $timeout -q "https://$track_ip" &> /dev/null &
 							else
-								WRAP httping -c $count -t $timeout -q "http://$track_ip" &> /dev/null &
+								WRAP httping $ipv6_opt -c $count -t $timeout -q "http://$track_ip" &> /dev/null &
 							fi
 							wait $!
 							result=$?
 						else
 							if [ "$httping_ssl" -eq 1 ]; then
-								WRAP httping -c $count -t $timeout "https://$track_ip" 2> /dev/null > $TRACK_OUTPUT &
+								WRAP httping $ipv6_opt -c $count -t $timeout "https://$track_ip" 2> /dev/null > $TRACK_OUTPUT &
 							else
-								WRAP httping -c $count -t $timeout "http://$track_ip" 2> /dev/null > $TRACK_OUTPUT &
+								WRAP httping $ipv6_opt -c $count -t $timeout "http://$track_ip" 2> /dev/null > $TRACK_OUTPUT &
 							fi
 							wait $!
 							ping_status=$?
