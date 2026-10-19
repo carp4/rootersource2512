@@ -1711,6 +1711,19 @@ define Device/glinet_gl-mt2500-airoha
 endef
 TARGET_DEVICES += glinet_gl-mt2500-airoha
 
+define Device/glinet_gl-mt2500v2
+  DEVICE_VENDOR := GL.iNet
+  DEVICE_MODEL := GL-MT2500V2
+  DEVICE_DTS := mt7981b-glinet-gl-mt2500v2
+  DEVICE_DTS_DIR := ../dts
+  DEVICE_DTS_LOADADDR := 0x47000000
+  DEVICE_PACKAGES := -wpad-basic-mbedtls e2fsprogs f2fsck mkf2fs kmod-usb3 kmod-phy-airoha-en8811h airoha-en8811h-firmware
+  SUPPORTED_DEVICES += glinet,mt2500-emmc
+  IMAGES := sysupgrade.bin
+  IMAGE/sysupgrade.bin := sysupgrade-tar | append-gl-metadata
+endef
+TARGET_DEVICES += glinet_gl-mt2500v2
+
 define Device/glinet_gl-mt3000
   DEVICE_VENDOR := GL.iNet
   DEVICE_MODEL := GL-MT3000
@@ -3910,3 +3923,128 @@ ifneq ($(CONFIG_TARGET_ROOTFS_INITRAMFS),)
 endif
 endef
 TARGET_DEVICES += zyxel_wx5600-t0-ubootmod
+
+define Device/huasifei_ws1698
+  DEVICE_VENDOR := Huasifei
+  DEVICE_MODEL := WS1698AX
+  DEVICE_DTS := mt7981b-huasifei_ws1698ax
+  DEVICE_DTS_DIR := ../dts
+  DEVICE_PACKAGES := kmod-mt7981-firmware mt7981-wo-firmware kmod-usb2 kmod-usb3
+  UBINIZE_OPTS := -E 5
+  BLOCKSIZE := 128k
+  PAGESIZE := 2048
+  IMAGE_SIZE := 65536k
+ifneq ($(CONFIG_TARGET_ROOTFS_INITRAMFS),)
+  ARTIFACTS := initramfs-factory.ubi
+  ARTIFACT/initramfs-factory.ubi := append-image-stage initramfs-kernel.bin | ubinize-kernel
+endif
+  IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
+endef
+TARGET_DEVICES += huasifei_ws1698
+
+define Device/huasifei_ws1698-256M
+  DEVICE_VENDOR := Huasifei
+  DEVICE_MODEL := WS1698AX-256M
+  DEVICE_DTS := mt7981b-huasifei_ws1698ax-256M
+  DEVICE_DTS_DIR := ../dts
+  DEVICE_PACKAGES := kmod-mt7981-firmware mt7981-wo-firmware kmod-usb2 kmod-usb3
+  UBINIZE_OPTS := -E 5
+  BLOCKSIZE := 128k
+  PAGESIZE := 2048
+  IMAGE_SIZE := 131072k
+ifneq ($(CONFIG_TARGET_ROOTFS_INITRAMFS),)
+  ARTIFACTS := initramfs-factory.ubi
+  ARTIFACT/initramfs-factory.ubi := append-image-stage initramfs-kernel.bin | ubinize-kernel
+endif
+  IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
+endef
+TARGET_DEVICES += huasifei_ws1698-256M
+
+define Device/z8102axv2
+  DEVICE_VENDOR := ZBT
+  DEVICE_MODEL := Z8102AX
+#  DEVICE_DTS := mt7981b-zbt-z8102ax
+  DEVICE_DTS_DIR := ../dts
+  DEVICE_PACKAGES := kmod-mt7981-firmware mt7981-wo-firmware kmod-usb2 kmod-usb3
+  KERNEL_IN_UBI := 1
+  UBINIZE_OPTS := -E 5
+  BLOCKSIZE := 128k
+  PAGESIZE := 2048
+ifneq ($(CONFIG_TARGET_ROOTFS_INITRAMFS),)
+  ARTIFACTS := initramfs-factory.ubi
+  ARTIFACT/initramfs-factory.ubi := append-image-stage initramfs-kernel.bin | ubinize-kernel
+endif
+  IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
+endef
+
+define Device/z8102ax-64m
+  $(call Device/z8102axv2)
+  DEVICE_VARIANT := 64 NAND
+  DEVICE_DTS := mt7981b-zbt-z8102ax-64m
+  IMAGE_SIZE := 65536k
+endef
+TARGET_DEVICES += z8102ax-64m
+
+define Device/z8102ax-128m
+  $(call Device/z8102axv2)
+  DEVICE_VARIANT := 128 NAND
+  DEVICE_DTS := mt7981b-zbt-z8102ax-128m
+  IMAGE_SIZE := 131072k
+endef
+TARGET_DEVICES += z8102ax-128m
+
+define Device/z8109ax
+  DEVICE_VENDOR := ZBT
+  DEVICE_MODEL := Z8109AX
+  DEVICE_DTS_DIR := ../dts
+  DEVICE_PACKAGES := kmod-mt7915e kmod-mt7981-firmware mt7981-wo-firmware kmod-usb2 kmod-usb3
+  KERNEL_IN_UBI := 1
+  UBINIZE_OPTS := -E 5
+  BLOCKSIZE := 128k
+  PAGESIZE := 2048
+ifneq ($(CONFIG_TARGET_ROOTFS_INITRAMFS),)
+  ARTIFACTS := initramfs-factory.ubi
+  ARTIFACT/initramfs-factory.ubi := append-image-stage initramfs-kernel.bin | ubinize-kernel
+endif
+  IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
+endef
+
+define Device/z8109ax-512m
+  $(call Device/z8109ax)
+  DEVICE_VARIANT := 512 NAND
+  DEVICE_DTS := mt7981b-zbt-z8109ax-512m
+  IMAGE_SIZE := 524288k
+endef
+TARGET_DEVICES += z8109ax-512m
+
+define Device/z8109ax-128m
+  $(call Device/z8109ax)
+  DEVICE_VARIANT := 128 NAND
+  DEVICE_DTS := mt7981b-zbt-z8109ax-128m
+  IMAGE_SIZE := 131072k
+endef
+TARGET_DEVICES += z8109ax-128m
+ 
+define Device/z8105ax-common
+  DEVICE_VENDOR := ZBT
+  DEVICE_MODEL := Z8105AX
+  DEVICE_DTS_DIR := ../dts
+  DEVICE_PACKAGES := kmod-mt7915e kmod-mt7981-firmware mt7981-wo-firmware kmod-usb2 kmod-usb3
+  KERNEL_IN_UBI := 1
+  UBINIZE_OPTS := -E 5
+  BLOCKSIZE := 128k
+  PAGESIZE := 2048
+ifneq ($(CONFIG_TARGET_ROOTFS_INITRAMFS),)
+  ARTIFACTS := initramfs-factory.ubi
+  ARTIFACT/initramfs-factory.ubi := append-image-stage initramfs-kernel.bin | ubinize-kernel
+endif
+  IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
+endef
+
+define Device/z8105ax
+  $(call Device/z8105ax-common)
+  DEVICE_VARIANT := zbt-z8105ax
+  DEVICE_DTS := mt7981b-zbt-z8105ax
+  IMAGE_SIZE := 131072k
+endef
+TARGET_DEVICES += z8105ax

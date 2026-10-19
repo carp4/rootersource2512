@@ -353,6 +353,13 @@ xiaomi,redmi-router-ax6000-stock|\
 xiaomi,redmi-router-ax6000-ubootmod)
 	ucidef_set_led_netdev "wan" "wan" "rgb:network" "wan"
 	;;
+huasifei,ws1698-256M|\
+huasifei,ws1698)
+	ucidef_set_led_netdev "wanact" "WANACT" "amber:gbe" "eth1"
+	ucidef_set_led_netdev "lan" "LAN" "green:lan" "br-lan"
+	ucidef_set_led_netdev "wlan2g" "WLAN2G" "amber:4g" "phy0-ap0"
+	ucidef_set_led_netdev "wlan5g" "WLAN5G" "green:4g" "phy1-ap0"
+	;;
 zbtlink,zbt-z8103ax|\
 zbtlink,zbt-z8103ax-c)
 	ucidef_set_led_netdev "wan" "wan" "green:wan" "eth1" "link tx rx"
@@ -361,6 +368,13 @@ zbtlink,zbt-z8106ax-s|\
 zbtlink,zbt-z8106ax-t)
 	ucidef_set_led_netdev "wan" "wan" "amber:wan" "eth1" "link tx rx"
 	ucidef_set_led_netdev "mobile" "mobile" "green:mobile" "wwan" "link tx rx"
+	;;
+z8109ax-512m|\
+z8109ax-128m)
+	ucidef_set_led_netdev "modem1" "modem1" "modem1:status" "wwan0"
+	ucidef_set_led_netdev "modem2" "modem2" "modem2:status" "wwan1"
+	ucidef_set_led_netdev "modem3" "modem3" "modem3:status" "wwan2"
+	ucidef_set_led_netdev "modem4" "modem4" "modem4:status" "wwan3"
 	;;
 zyxel,ex5601-t0-stock|\
 zyxel,ex5601-t0-ubootmod)

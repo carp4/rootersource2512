@@ -176,6 +176,7 @@ platform_do_upgrade() {
 	arcadyan,mozart|\
 	glinet,gl-mt2500|\
 	glinet,gl-mt2500-airoha|\
+	glinet,gl-mt2500v2|\
 	glinet,gl-mt6000|\
 	glinet,gl-x3000|\
 	glinet,gl-xe3000|\
@@ -271,6 +272,10 @@ platform_do_upgrade() {
 		esac
 		nand_do_upgrade "$1"
 		;;
+	huasifei,ws1698-256M|\
+	huasifei,ws1698)
+		nand_do_upgrade "$1"
+		;;
 	mercusys,mr80x-v3|\
 	mercusys,mr85x|\
 	mercusys,mr90x-v1|\
@@ -337,6 +342,15 @@ platform_do_upgrade() {
 		CI_ROOT_UBIPART=ubi
 		CI_DATA_UBIPART=ubi
 		nand_do_upgrade "$1"
+		;;
+	huasifei,ws1698-256M|\
+	huasifei,ws1698)
+		magic="$(dd if="$1" bs=1 skip=257 count=5 2>/dev/null)"
+		[ "$magic" != "ustar" ] && {
+			log "Invalid image type."
+			return 1
+		}
+		return 0
 		;;
 	*)
 		nand_do_upgrade "$1"
@@ -450,6 +464,7 @@ platform_copy_config() {
 	arcadyan,mozart|\
 	glinet,gl-mt2500|\
 	glinet,gl-mt2500-airoha|\
+	glinet,gl-mt2500v2|\
 	glinet,gl-mt6000|\
 	glinet,gl-x3000|\
 	glinet,gl-xe3000|\
