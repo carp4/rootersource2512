@@ -1,0 +1,34 @@
+#!/bin/sh
+
+logger -t URL-DEBUG "hotplug (iface): action='$ACTION' interface='$INTERFACE'"
+
+if [ "$ACTION" = ifup -a "$INTERFACE" = "lan" ]; then
+	# dnsmasq's "address=" directive wants a bare address. network.lan.ipaddr
+	# may legitimately carry a prefix length (24.10's config_generate writes one
+	# bare, but an imported/preserved config often has "192.168.1.1/24"), and
+	# pasting that in makes dnsmasq refuse to start:
+	#     dnsmasq: Bad address in --address at line 2 of /etc/dnsmasq.conf
+	# which takes the whole DNS resolver down with it. Strip the prefix.
+	IP=$(uci -q get network.lan.ipaddr | cut -d/ -f1)
+	[ -z "$IP" ] && exit 0
+	ipaddr=$(cat /etc/dnsmasq.conf | grep "address=/rooter.local/")
+	if [ ! -z $ipaddr ]; then
+		ipaddr=$(echo "$ipaddr" | sed -e "s!address=/rooter.local/!!g")
+		if [ $ipaddr != $IP ]; then
+			cp -f /etc/dnsmasq.conf /etc/dnsmasq.conf.bk
+			sed /"#StartURL"/,/"#EndURL"/d /etc/dnsmasq.conf.bk > /etc/dnsmasq.conf
+			rm -f /etc/dnsmasq.conf.bk
+			echo "#StartURL" >> /etc/dnsmasq.conf
+			echo "address=/rooter.local/$IP" >> /etc/dnsmasq.conf
+			echo "address=/www.rooter.local/$IP" >> /etc/dnsmasq.conf
+			echo "#EndURL" >> /etc/dnsmasq.conf
+			/etc/init.d/dnsmasq restart
+		fi
+	else
+		echo "#StartURL" >> /etc/dnsmasq.conf
+		echo "address=/rooter.local/$IP" >> /etc/dnsmasq.conf
+		echo "address=/www.rooter.local/$IP" >> /etc/dnsmasq.conf
+		echo "#EndURL" >> /etc/dnsmasq.conf
+		/etc/init.d/dnsmasq restart
+	fi
+fi

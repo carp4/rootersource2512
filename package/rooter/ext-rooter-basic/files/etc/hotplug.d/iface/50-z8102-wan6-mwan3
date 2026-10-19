@@ -1,0 +1,159 @@
+#!/bin/sh
+# z8102: upstream (T-Mo gateway) rotates the delegated /64 on renew.
+# mwan3 used to pin each member's IPv6 source at tracking time and stay
+# "offline" forever after the prefix changed. mwan3track now re-derives its own
+# source every loop iteration (refresh_src_ip, called unconditionally before any
+# status gate), so a rotation self-heals inside the tracker.
+#
+# Two cases, because they need opposite responses:
+#   ROTATION: globals set changed (added/removed prefixes) -> recorded only,
+#             no action. refresh_src_ip in the tracker handles it, in ~1
+#             interval. A member needs down=5 consecutive failures (~50s) to
+#             flip offline, so rotation should never reach that threshold.
+#   WITHDRAWAL: the last global disappeared and netifd has not noticed ->
+#               cycle the interface so odhcp6c re-solicits DHCPv6. The tracker
+#               cannot help here: it has no address left to re-derive to, so it
+#               would sit offline against a link that is advertised as up.
+#
+# There is deliberately NO mwan3 action anywhere in this file. This mwan3 has
+# no per-member restart (ubus exposes only `status`) and its reload_service() is
+# literally `stop; start`, so any restart resets EVERY member to its
+# initial_state -- which puts the ipv4 legs (initial_state=offline, up=5,
+# interval=10) offline for ~50s. An ipv6 rotation must never be able to do that
+# to ipv4. Same principle as the modem preserve branch: do not restart a link
+# that is already recovering on its own. Keep it that way -- test E and the
+# no-mwan3-call guard in test-withdrawal-hotplug.sh enforce exactly this.
+#
+# (Copied into the ROOter tree from the z8102-custom-config gold feed --
+# same file, /etc/hotplug.d/iface/50-z8102-wan6-mwan3. The log tag is still
+# z8102-wan6 so existing logread greps keep matching.)
+
+# Accept the ACTIONs that mean the interface is ESTABLISHING: ifup, connected,
+# and ifupdate.
+#
+# This used to require ACTION=ifupdate and nothing else. ifupdate IS real --
+# netifd emitted it twice for wan2_6 during a live rotation on 2026-10-02, and
+# this hook logged the change correctly on that event. So the old gate was not
+# dead. It was, however, the wrong gate for the case that matters:
+#
+#   ROTATION keeps the link up and changes the address. netifd recomputes
+#   addresses/routes and emits ifupdate. The old gate caught this.
+#
+#   WITHDRAWAL leaves the interface with no global address. On 2026-10-01 that
+#   produced ifdown -> ifup -> connected and NO ifupdate, so the old gate saw
+#   nothing at all and the withdrawal branch was unreachable. The tracker
+#   cannot cover it either: with no address there is nothing to re-derive to,
+#   so it sits offline against a link netifd still advertises as up.
+#
+# That asymmetry is the whole reason for the widening. ifupdate stays in the
+# set because it is the cleanest rotation signal; ifup and connected are there
+# because they are what a withdrawal actually delivers.
+#
+# Measured ACTION frequency on the live box (logread window 2026-10-01 22:19 ->
+# 2026-10-02 02:40, all interfaces): connected 31, disconnected 25, connecting
+# 11, disconnecting 2, ifupdate 2. ifup/ifdown are delivered too but logged by
+# mwan3's own hook rather than the netstate logger. Note this box's hotplug
+# actions are logged as `action='<x>' interface='<y>'` -- do NOT tally them with
+# a "netifd: Interface ... is now ..." pattern, which does not exist here and
+# silently returns zero.
+#
+# ifdown and disconnected are deliberately EXCLUDED even though 15-mwan3 acts on
+# them. They mean the interface is going away, and the withdrawal branch reacts
+# by cycling the interface back up. Acting on them would fight a deliberate
+# teardown -- a shutdown or `svc network reload` brings the interface down, the
+# global disappears while STATE still holds it, and we would try to bring it
+# back during shutdown (up to 3 cycles, 120s apart). Excluding them costs
+# little: whenever the interface does come back it emits ifup/connected, and
+# that is where a missing global is detected. Acting on the way-down events
+# would only ever be acting early.
+#
+# Re-entrancy is safe: a cycle we start raises ifdown+ifup, and the ifup comes
+# straight back here. The attempt marker (>=120s apart, max 3) refuses it.
+case "$ACTION" in
+	ifup | connected | ifupdate) ;;
+	*) exit 0 ;;
+esac
+
+# Only iface events belonging to an enabled ipv6 mwan3 member matter.
+[ "$(uci -q get mwan3.$INTERFACE.family 2>/dev/null)" = "ipv6" ] || exit 0
+[ "$(uci -q get mwan3.$INTERFACE.enabled 2>/dev/null)" = "1" ] || exit 0
+
+# Resolve the member's underlying device ('@wanN' -> network.wanN.device).
+device=$(uci -q get network.$INTERFACE.device 2>/dev/null)
+case "$device" in
+	@*) dev=$(uci -q get network.${device#@}.device 2>/dev/null) ;;
+	*)  dev="$device" ;;
+esac
+[ -n "$dev" ] || exit 0
+
+STATE=/tmp/zz-wan6-gua-$dev
+# Full sorted global set for this device (order-independent, ignores deprecations).
+NOW=$(ip -6 addr show dev "$dev" scope global 2>/dev/null \
+	| awk '/inet6/{print $2}' | sort -u | tr '\n' ' ')
+
+if [ -z "$NOW" ]; then
+	prev="$(cat "$STATE" 2>/dev/null)"
+
+	# A withdrawal is a TRANSITION: globals were there, now they are not.
+	# At boot, or while a modem is still coming up, NOW is empty and so is
+	# STATE -- that is "not up yet", not a withdrawal, and cycling the
+	# interface there would fight modem bring-up. This same guard is what
+	# stops the ifupdate event raised by our own cycle from cycling again,
+	# which would otherwise loop until the attempt cap.
+	[ -n "$prev" ] || exit 0
+
+	# Bounded recovery: at most 3 cycles and never closer together than
+	# 120s, so a carrier that really has withdrawn the prefix is not
+	# hammered, and a cycle that fails is retried rather than abandoned.
+	mark=/tmp/zz-wan6-cycled-$dev
+	set -- $(cat "$mark" 2>/dev/null)
+	tries="${1:-0}"; lastt="${2:-0}"
+	case "$tries" in ''|*[!0-9]*) tries=0 ;; esac
+	case "$lastt" in ''|*[!0-9]*) lastt=0 ;; esac
+	ts=$(date +%s 2>/dev/null)
+	case "$ts" in ''|*[!0-9]*) ts=0 ;; esac
+
+	if [ "$tries" -ge 3 ]; then
+		logger -t z8102-wan6 "$dev: still no globals after $tries cycles - giving up, leaving it to modem reconnect"
+		# Clear STATE so this branch is not re-entered (and re-logged) on
+		# every subsequent event. If a global does come back, the rotation
+		# path below sees a difference and recovers normally.
+		echo "$NOW" > "$STATE"
+		rm -f "$mark"
+		exit 0
+	fi
+	if [ "$lastt" -gt 0 ] && [ $((ts - lastt)) -lt 120 ]; then
+		logger -t z8102-wan6 "$dev: no globals $((ts - lastt))s after a cycle - not cycling again yet"
+		exit 0
+	fi
+
+	echo "$((tries + 1)) $ts" > "$mark"
+
+	# ifup/ifdown take an INTERFACE name, not a device name. Passing "$dev"
+	# here fails with "Interface usb1 not found" and recovers nothing, which
+	# is exactly the silent no-op this branch existed to avoid.
+	logger -t z8102-wan6 "$dev: last global withdrawn (had: $prev); cycling $INTERFACE (attempt $((tries + 1))/3)"
+	if ifdown "$INTERFACE" >/dev/null 2>&1; then
+		:
+	else
+		logger -t z8102-wan6 "$INTERFACE: ifdown failed"
+	fi
+	if ifup "$INTERFACE" >/dev/null 2>&1; then
+		logger -t z8102-wan6 "$INTERFACE: cycled, waiting for DHCPv6 re-solicit"
+	else
+		rc=$?
+		logger -t z8102-wan6 "$INTERFACE: ifup failed rc=$rc"
+	fi
+	exit 0
+fi
+
+# ROTATION: non-empty set changed (added/removed prefixes).
+# Record it, act on nothing. The state write is still required: the withdrawal
+# branch above is a TRANSITION check and needs the previously recorded set.
+[ "$NOW" = "$(cat "$STATE" 2>/dev/null)" ] && exit 0
+echo "$NOW" > "$STATE"
+# Globals are back: clear the withdrawal attempt budget so a later
+# withdrawal gets a fresh set of cycles.
+rm -f /tmp/zz-wan6-cycled-$dev
+logger -t z8102-wan6 "$dev global set changed ($(echo "$NOW" | wc -w) globals); mwan3track re-derives in-tracker, no restart"
+exit 0
