@@ -7,7 +7,7 @@
 #include <dt-bindings/soc/qcom,tcsr.h>
 
 / {
-	model = "YYeTs LE1";
+	model = "ZBT WG156 32M";
 	compatible = "yyets,le1";
 
 	aliases {
@@ -36,21 +36,40 @@
 		led_usb: usb {
 			function = LED_FUNCTION_USB;
 			color = <LED_COLOR_ID_GREEN>;
-			gpios = <&tlmm 36 GPIO_ACTIVE_LOW>;
-			linux,default-trigger = "usbport";
-			trigger-sources = <&usb3_port1>, <&usb3_port2>, <&usb2_port1>;
+			gpios = <&tlmm 35 GPIO_ACTIVE_LOW>;
+			default-state = "on";
 		};
 
 		wlan2g {
 			label = "green:wlan2g";
-			gpios = <&tlmm 32 GPIO_ACTIVE_LOW>;
+			gpios = <&tlmm 43 GPIO_ACTIVE_LOW>;
 			linux,default-trigger = "phy0tpt";
 		};
 
 		wlan5g {
 			label = "green:wlan5g";
-			gpios = <&tlmm 50 GPIO_ACTIVE_LOW>;
+			gpios = <&tlmm 42 GPIO_ACTIVE_LOW>;
 			linux,default-trigger = "phy1tpt";
+		};
+		
+		4g {
+			label = "4g";
+			gpios = <&tlmm 0 GPIO_ACTIVE_LOW>;
+		};
+		
+		rssi1 {
+			label = "rssi1";
+			gpios = <&tlmm 41 GPIO_ACTIVE_LOW>;
+		};
+		
+		rssi2 {
+			label = "rssi2";
+			gpios = <&tlmm 48 GPIO_ACTIVE_LOW>;
+		};
+		
+		rssi3 {
+			label = "rssi3";
+			gpios = <&tlmm 34 GPIO_ACTIVE_LOW>;
 		};
 	};
 
@@ -166,7 +185,7 @@
 			partition@180000 {
 				compatible = "denx,fit";
 				label = "firmware";
-				reg = <0x180000 0x1e80000>;
+				reg = <0x180000 0x1a00000>;
 			};
 		};
 	};
@@ -194,6 +213,8 @@
 	pinctrl-0 = <&mdio_pins>;
 	pinctrl-names = "default";
 	status = "okay";
+	reset-gpios = <&tlmm 47 GPIO_ACTIVE_LOW>;
+	reset-delay-us = <2000>;
 };
 
 &prng {

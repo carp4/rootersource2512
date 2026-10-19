@@ -467,7 +467,7 @@ define Device/zte_mf282
   $(Device/zte_mf28x_common)
   DEVICE_MODEL := MF282
   DEVICE_PACKAGES += ath10k-firmware-qca988x-ct kmod-usb-net-qmi-wwan \
-	kmod-usb-serial-option uqmi
+	kmod-usb-serial-option
 endef
 TARGET_DEVICES += zte_mf282
 
@@ -476,7 +476,7 @@ define Device/zte_mf286
   DEVICE_MODEL := MF286
   DEVICE_PACKAGES += ath10k-firmware-qca988x-ct ath10k-firmware-qca9888-ct \
 	-ath10k-board-qca9888 ipq-wifi-zte_mf286ar \
-	kmod-usb-net-qmi-wwan kmod-usb-serial-option uqmi
+	kmod-usb-net-qmi-wwan kmod-usb-serial-option
 endef
 TARGET_DEVICES += zte_mf286
 
@@ -485,7 +485,7 @@ define Device/zte_mf286a
   DEVICE_MODEL := MF286A
   DEVICE_PACKAGES += ath10k-firmware-qca9888-ct kmod-usb-net-qmi-wwan \
 	-ath10k-board-qca9888 ipq-wifi-zte_mf286ar \
-	kmod-usb-serial-option uqmi
+	kmod-usb-serial-option
 endef
 TARGET_DEVICES += zte_mf286a
 

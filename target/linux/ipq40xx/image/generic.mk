@@ -1297,10 +1297,10 @@ define Device/yyets_le1
 	DEVICE_MODEL := LE1
 	SOC := qcom-ipq4019
 	KERNEL_SIZE := 4096k
-	IMAGE_SIZE := 31232k
+	IMAGE_SIZE := 28835k
 	IMAGES += factory.bin
 	IMAGE/factory.bin := qsdk-ipq-factory-nor | check-size
-	IMAGE/sysupgrade.bin := append-kernel | append-rootfs | pad-rootfs | append-metadata
+	IMAGE/sysupgrade.bin := append-kernel | pad-to $$$$(KERNEL_SIZE) | append-rootfs | pad-rootfs | append-metadata
 	DEVICE_PACKAGES := ipq-wifi-yyets_le1 kmod-usb-ledtrig-usbport
 endef
 TARGET_DEVICES += yyets_le1
