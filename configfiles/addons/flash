@@ -1,0 +1,5 @@
+#!/bin/sh
+
+mtd unlock /dev/mtd8
+mtd write /tmp/kernel.bin /dev/mtd8
+mtd -r write /tmp/firmware.bin /dev/mtd9

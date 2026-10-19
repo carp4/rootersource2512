@@ -1,0 +1,48 @@
+
+1) Extract the following files from the bpi-r3-mini.zip archive and
+copy to a USB memory stick
+
+bpi-r3-mini-emmc-gpt.bin
+bpi-r3-mini-initramfs-recovery.itb /tmp
+bpi-r3-mini-emmc-preloader.bin /tmp
+bpi-r3-mini-emmc-bl31-uboot.fip /tmp
+
+2) Extract the Banana-Pi-R3-Mini-MWAN3-GO2025-xx-xx-upgrade.itb file 
+from the ROOter Zip file and copy to the USB memory stick where
+xx-xx is the date of the file.
+
+3) Set router boot switch to boot from SPI-NAND (assuming stock rom is running there)
+
+4) Insert the USB stick with the files you copied in to the R3 mini
+
+5) Connect the R3-mini to your computer with an ethernet cable
+
+6) Use Putty to access the router's file system command line.
+
+7) Run the following at the command line. This assumes the USB menory stick is at /mnt/sda1.
+
+cd /mnt/sda1/
+cp bpi-r3-mini-emmc-gpt.bin /tmp
+dd if=/tmp/bpi-r3-mini-emmc-gpt.bin of=/dev/mmcblk0
+
+8) Reboot (to reload partition tables)
+
+9) Use Putty to access the router's file system command line again.
+
+10) Run the following at the command line. This assumes the USB menory stick is at /mnt/sda1.
+
+cd /mnt/sda1/
+cp bpi-r3-mini-initramfs-recovery.itb /tmp
+bpi-r3-mini-emmc-preloader.bin /tmp
+bpi-r3-mini-emmc-bl31-uboot.fip /tmp
+cp Banana-Pi-R3-Mini-MWAN3-GO2025-xx-xx-upgrade.itb /tmp
+echo 0 > /sys/block/mmcblk0boot0/force_ro
+dd if=/tmp/bpi-r3-mini-emmc-preloader.bin of=/dev/mmcblk0boot0
+dd if=/tmp/bpi-r3-mini-emmc-bl31-uboot.fip of=/dev/mmcblk0p3
+dd if=/tmp/bpi-r3-mini-initramfs-recovery.itb of=/dev/mmcblk0p4
+dd if=/tmp/Banana-Pi-R3-Mini-MWAN3-GO2025-xx-xx-upgrade.itb of=/dev/mmcblk0p5
+sync
+
+11) Remove the device from power, set boot switch to eMMC and boot into
+ROOter. The device will come up with IP 192.168.1.1 and assume the
+Ethernet port closer to the USB-C power connector as LAN port.
