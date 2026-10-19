@@ -65,7 +65,68 @@ wifi_config() {
 	ucode /usr/share/hostap/wifi-detect.uc
 	[ ! -f /etc/config/wireless ] && touch /etc/config/wireless
 	ucode /lib/wifi/mac80211.uc | uci -q batch
+	
+	if [ ! -e /etc/wifiset ]; then
+		radnum=0
+		while [ true ]; do
+			channel=$(uci -q get wireless.radio$radnum.channel)
+			if [ -z "$channel" ]; then
+				break
+			fi
+			if [ -e /etc/customwifi ]; then
+				I=0
+				while IFS=$'\n' read -r line
+				do
+					if [ $I = 0 ];then
+						SSID="$line"
+						I=1
+					else
+						if [ $I = 1 ];then
+							SSID5G="$line"
+							I=2
+						else
+							PASSW="$line"
+							break
+						fi
+					fi
 
+				done < /etc/customwifi
+			else
+				SSID="ROOter"
+				SSID5G="ROOter 5G"
+				PASSW="rooter2017"
+			fi
+			if [ "$channel" -lt 20 ]; then
+				SSID="$SSID"
+			else
+				SSID="$SSID5G"
+			fi
+			if [ "$channel" = 36 ]; then
+				channel=44
+			fi
+			echo "0" > /etc/wifiset
+			
+			uci set wireless.radio$radnum.channel="$channel"
+			uci set wireless.radio$radnum.disabled='0'
+			uci set wireless.radio$radnum.noscan='1'
+			uci set wireless.radio$radnum.country='US'
+			uci set wireless.radio$radnum.txpower='20'
+			
+			# OpenWrt 25.12 generates the AP iface disabled unless board.json
+			# carries wlan.defaults (lib/wifi/mac80211.uc emits
+			# "set ${si}.disabled='${defaults ? 0 : 1}'"), and no stock
+			# uci-defaults helper can write the ssids.*.ssid that would make
+			# 'defaults' truthy. Enable the iface we just configured, otherwise
+			# the radio comes up with no AP beaconing at all.
+			uci set wireless.default_radio$radnum.disabled='0'
+			uci set wireless.default_radio$radnum.ssid="$SSID"
+			uci set wireless.default_radio$radnum.encryption='psk2'
+			uci set wireless.default_radio$radnum.key="$PASSW"
+			uci commit wireless
+			
+			let radnum=$radnum+1
+		done
+	fi
 	for driver in $DRIVERS; do (
 		if eval "type detect_$driver" 2>/dev/null >/dev/null; then
 			eval "detect_$driver" || echo "$driver: Detect failed" >&2
