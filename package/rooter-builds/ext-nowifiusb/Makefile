@@ -21,7 +21,7 @@ define Package/ext-nowifiusb
 		+iptables-mod-hashlimit \
 		+ca-bundle +ca-certificates \
 		+arc-storage \
-		+luci-app-sqm +kmod-sched-cake +luci-app-nft-qos \
+		+luci-app-sqm +kmod-sched-cake \
 		+ext-command +ext-speedtest \
 		+openvpn-easy-rsa +openvpn-openssl \
 		+ext-extra +luci-app-wol \

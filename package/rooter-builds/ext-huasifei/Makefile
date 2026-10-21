@@ -21,7 +21,7 @@ define Package/ext-huasifei
 		+iptables-mod-hashlimit +ext-zerotier \
 		+ca-bundle +ca-certificates +libustream-wolfssl \
 		+luci-app-ksmbd +usb-storage \
-		+ext-p910nd +kmod-sched-cake +luci-app-nft-qos \
+		+ext-p910nd +kmod-sched-cake \
 		+ext-command +ext-speedtest +luci-app-guestwifi \
 		+openvpn-easy-rsa +openvpn-openssl \
 		+ext-extra +luci-app-hotspot +luci-app-wol \

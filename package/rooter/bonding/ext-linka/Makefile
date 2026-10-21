@@ -20,7 +20,7 @@ define Package/ext-linka
 		+ext-theme +luci-theme-argon +ext-login \
 		+ca-bundle +ca-certificates \
 		+arc-storage \
-		+luci-app-sqm +kmod-sched-cake +luci-app-nft-qos \
+		+luci-app-sqm +kmod-sched-cake \
 		+ext-command +ext-speedtest \
 		+openvpn-openssl \
 		+ext-extra +luci-app-hotspot \

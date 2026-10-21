@@ -21,7 +21,7 @@ define Package/ext-nousb
 		+iptables-mod-hashlimit \
 		+ca-bundle +ca-certificates \
 		+arc-storage \
-		+luci-app-sqm +kmod-sched-cake +luci-app-nft-qos \
+		+luci-app-sqm +kmod-sched-cake \
 		+ext-command +ext-speedtest \
 		+luci-app-hotspot +openvpn-easy-rsa +openvpn-openssl +luci-app-guestwifi \
 		+ext-extra +luci-app-wol \

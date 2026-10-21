@@ -21,13 +21,13 @@ define Package/ext-world
 		+ext-theme +luci-theme-argon +ext-login \
 		+ca-bundle +ca-certificates \
 		+arc-storage +ext-splash \
-		+luci-app-sqm +kmod-sched-cake +luci-app-nft-qos \
+		+luci-app-sqm +kmod-sched-cake \
 		+ext-command +ext-speedtest \
 		+openvpn-easy-rsa +openvpn-openssl \
 		+ext-extra +luci-app-hotspot +luci-app-guestwifi \
 		+usbmuxd +libusbmuxd-utils +libimobiledevice-utils +kmod-usb-net-ipheth \
 		++luci-ssl +usbutils +openssl-util +irqbalance \
-		+wget +luci-app-vpnbypass +coreutils-base64 \
+		+wget +coreutils-base64 \
 		+ext-selectisp +ext-wizard +ext-ota +world-zerotier
   TITLE:=ROOter support for World routers
   PKGARCH:=all
