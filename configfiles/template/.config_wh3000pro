@@ -6398,7 +6398,7 @@ CONFIG_PACKAGE_ext-mhi=y
 # CONFIG_PACKAGE_ext-ssh is not set
 # CONFIG_PACKAGE_fscheck is not set
 # CONFIG_PACKAGE_h721 is not set
-# CONFIG_PACKAGE_luci-app-fancontrol is not set
+CONFIG_PACKAGE_luci-app-fancontrol=y
 # CONFIG_PACKAGE_mt1300 is not set
 # CONFIG_PACKAGE_rbm11g is not set
 # CONFIG_PACKAGE_rbm33g is not set
