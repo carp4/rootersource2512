@@ -248,13 +248,23 @@
 		"ext": "-upgrade.bin"
 	},
 	"WH3000PRO": {
-		"details": "Huasifei WH3000-PRO",
+		"details": "Huasifei WH3000-PRO (eMMC)",
 		"type": "1",
 		"build": "2305",
 		"config": ".config_wh3000pro",
-		"image": "openwrt-mediatek-filogic-huasifei_wh3000-pro-squashfs-sysupgrade.bin",
+		"image": "openwrt-mediatek-filogic-huasifei_wh3000-pro-emmc-squashfs-sysupgrade.bin",
 		"imagepath": "/mediatek/filogic/",
 		"mod": "Huasifei-WH3000-PRO",
+		"ext": "-upgrade.bin"
+	},
+	"WH3000PRO-NAND": {
+		"details": "Huasifei WH3000-PRO (NAND)",
+		"type": "1",
+		"build": "2305",
+		"config": ".config_wh3000pro-nand",
+		"image": "openwrt-mediatek-filogic-huasifei_wh3000-pro-nand-squashfs-sysupgrade.bin",
+		"imagepath": "/mediatek/filogic/",
+		"mod": "Huasifei-WH3000-PRO-NAND",
 		"ext": "-upgrade.bin"
 	},
 	"BPI4": {
