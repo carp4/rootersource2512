@@ -21,13 +21,13 @@ define Package/ext-rooter-rasppi
 		+luci-theme-tomato +ext-zerotier \
 		+ca-bundle +ca-certificates \
 		+luci-app-ksmbd +usb-storage \
-		+ext-p910nd +luci-app-sqm +kmod-sched-cake +luci-app-nft-qos \
+		+ext-p910nd +luci-app-sqm +kmod-sched-cake \
 		+ext-command +ext-speedtest \
 		+openvpn-easy-rsa +openvpn-openssl \
 		+ext-extra +luci-app-wol +kmod-usb-net-asix-ax88179 +kmod-usb-net-rtl8152 \
 		+usbmuxd +libusbmuxd-utils +libimobiledevice-utils +kmod-usb-net-ipheth \
 		+qlog +luci-ssl +usbutils +openssl-util +ethtool +ext-splashconfig \
-		+nano +picocom +wget +qfirehose +luci-app-vpnbypass +ext-simplegps 
+		+nano +picocom +wget +qfirehose +ext-simplegps 
   TITLE:=ROOter support w/o MWan3 for 16meg and larger routers
   PKGARCH:=all
 endef

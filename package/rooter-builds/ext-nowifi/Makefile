@@ -21,7 +21,7 @@ define Package/ext-nowifi
 		+iptables-mod-hashlimit \
 		+ca-bundle +ca-certificates \
 		+luci-app-ksmbd +usb-storage \
-		+ext-p910nd +luci-app-sqm +kmod-sched-cake +luci-app-nft-qos \
+		+ext-p910nd +luci-app-sqm +kmod-sched-cake \
 		+ext-command +ext-speedtest \
 		+openvpn-easy-rsa +openvpn-openssl \
 		+ext-extra +luci-app-wol \
