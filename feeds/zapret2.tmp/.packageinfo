@@ -1,0 +1,51 @@
+Source-Makefile: feeds/zapret2/luci-app-zapret2/Makefile
+Build-Depends: lua/host luci-base/host LUCI_CSSTIDY:csstidy/host LUCI_SRCDIET:luasrcdiet/host 
+
+Package: luci-app-zapret2
+Submenu: 3. Applications
+Version: 0.2.0-r29
+Depends: +libc +kmod-nfnetlink-queue +rpcd +zapret2 +jq
+Conflicts: 
+Menu-Depends: 
+Provides: @luci-app-zapret2-any
+Section: luci
+Category: LuCI
+Repository: base
+Title: LuCI panel for the upstream bol-van/zapret2 project
+Maintainer: OpenWrt LuCI community
+Source: 
+License: MIT
+URL: https://github.com/openwrt/luci
+Type: ipkg
+Description:  Minimal LuCI panel for the upstream bol-van/zapret2 project.
+ Expects /etc/init.d/zapret2 and /opt/zapret2/config to exist.
+ Adds DPI bypass strategy selection (incl. QUIC) with Save & Apply.
+@@
+
+
+Source-Makefile: feeds/zapret2/zapret2/Makefile
+
+Package: zapret2
+Submenu: Zapret
+Version: 1.0.5.2-r3
+Depends: +libc +libnetfilter-queue +kmod-nfnetlink-queue +kmod-nft-queue +libmnl +libcap +zlib +luajit
+Conflicts: 
+Menu-Depends: 
+Provides: @zapret2-any
+Section: net
+Category: Network
+Repository: base
+Title: zapret2 - anti-DPI engine (nfqws2) with full runtime
+Maintainer: 
+Source: zapret2-v1.0.5.2.tar.gz
+URL: https://github.com/bol-van/zapret2
+Type: ipkg
+Description: 	zapret2 (nfqws2) is the second-generation anti-DPI engine: a
+	programmable packet manipulation tool with Lua-based DPI-bypass
+	strategies. This package builds the engine from the upstream
+	release tarball and installs the complete stock runtime (Lua
+	strategy library, init scripts, default config, ipset lists and
+	fake blobs) to /opt/zapret2.
+@@
+
+

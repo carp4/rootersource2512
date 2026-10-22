@@ -1,0 +1,17 @@
+{
+  "admin/services/video_optimizer": {
+    "title": "Traffic Engine",
+    "order": 62,
+    "action": {
+      "type": "view",
+      "path": "zapret2/status"
+    },
+    "depends": {
+      "acl": [ "luci-app-zapret2" ],
+      "fs": {
+        "/etc/init.d/zapret2": "executable",
+        "/opt/zapret2/config": "file"
+      }
+    }
+  }
+}

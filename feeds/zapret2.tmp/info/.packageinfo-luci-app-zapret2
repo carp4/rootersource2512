@@ -1,0 +1,25 @@
+Source-Makefile: feeds/zapret2/luci-app-zapret2/Makefile
+Build-Depends: lua/host luci-base/host LUCI_CSSTIDY:csstidy/host LUCI_SRCDIET:luasrcdiet/host 
+
+Package: luci-app-zapret2
+Submenu: 3. Applications
+Version: 0.2.0-r29
+Depends: +libc +kmod-nfnetlink-queue +rpcd +zapret2 +jq
+Conflicts: 
+Menu-Depends: 
+Provides: @luci-app-zapret2-any
+Section: luci
+Category: LuCI
+Repository: base
+Title: LuCI panel for the upstream bol-van/zapret2 project
+Maintainer: OpenWrt LuCI community
+Source: 
+License: MIT
+URL: https://github.com/openwrt/luci
+Type: ipkg
+Description:  Minimal LuCI panel for the upstream bol-van/zapret2 project.
+ Expects /etc/init.d/zapret2 and /opt/zapret2/config to exist.
+ Adds DPI bypass strategy selection (incl. QUIC) with Save & Apply.
+@@
+
+
