@@ -39,6 +39,12 @@ git-src
 # untracked (matches upstream OpenWrt + source2410); make never reads it.
 /feeds.conf
 
+# A feed added as an absolute link to a local mirror is not portable: the
+# clone gets a dangling symlink. Vendored feeds are tracked as real files
+# instead (see feeds/zapret2), so anything under feeds/ that is still a
+# link to a path outside the tree is a leftover.
+/feeds/tailscale
+
 # ROOter build outputs: the per-model sysupgrade zips are produced by ./build
 # (tree root) and copied into images/ by buildz8. Keep images/ tracked so
 # images/placeholder survives, but ignore the zips themselves.

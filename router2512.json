@@ -101,15 +101,6 @@
 		"ext1": "-upgrade.bin",
 		"ext2": "-upgrade.bin"
 	},
-	"Z8102TEST": {
-		"details": "ZBT Z8102AX test build (nfqueue kmods) - MWAN3",
-		"type": "1",
-		"config": ".config_z8102test",
-		"image": "openwrt-mediatek-filogic-z8102ax-128m-squashfs-sysupgrade.bin",
-		"imagepath": "/mediatek/filogic/",
-		"mod": "ZBT-Z8102AX-TEST",
-		"ext": "-test.bin"
-	},
 	"Z8109-128": {
 		"details": "ZBT Z8109-128",
 		"type": "1",
