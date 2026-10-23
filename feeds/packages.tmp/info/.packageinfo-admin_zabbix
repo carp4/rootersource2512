@@ -1,0 +1,375 @@
+Source-Makefile: feeds/packages/admin/zabbix/Makefile
+
+Package: zabbix-agentd
+Submenu: Zabbix
+Version: 7.0.31-r1
+Depends: +libc +BUILD_NLS:libiconv-full +libevent2-pthreads +libpcre2 +zlib +ZABBIX_CURL:libcurl +ZABBIX_CURL_GNUTLS:libcurl-gnutls +ZABBIX_GNUTLS:libgnutls +ZABBIX_LDAP:libopenldap +ZABBIX_NETSNMP:libnetsnmp-ssl +ZABBIX_OPENSSL:libopenssl
+Conflicts: 
+Menu-Depends: 
+Provides: @zabbix-agentd-any @zabbix-agentd-any zabbix-agentd-ssl zabbix-agentd-openssl
+Build-Variant: full
+Default-Variant: full
+Section: admin
+Category: Administration
+Repository: base
+Title: Zabbix agentd (full/with TLS)
+Maintainer: Daniel F. Dickinson <dfdpublic@wildtechgarden.ca>
+Require-User: zabbix-agent=53:zabbix-agent=53
+Source: zabbix-7.0.31.tar.gz
+License: AGPL-3.0-only
+LicenseFiles: COPYING
+CPE-ID: cpe:/a:zabbix:zabbix
+URL: https://www.zabbix.com/
+Type: ipkg
+Description: Zabbix is a software that monitors numerous parameters of a network and the
+health and integrity of servers, virtual machines, applications, services,
+databases, websites, the cloud and more. Zabbix offers excellent reporting and
+data visualization features based on the stored data.
+.
+Only one variant may be installed per binary (e.g. agent and agentd-basic cannot
+both be installed on the same system).
+.
+Provides the full functionality available in OpenWrt with OpenSSL.
+Includes NetSNMP, cURL, and OpenLDAP support.
+Requires a database server.
+.
+Provides 'Zabbix Agent'.
+.
+Note that 'Zabbix Agent' does not directly use the database, but sends data to
+a 'Zabbix Server' or a 'Zabbix Proxy', which writes to a database.
+@@
+Config:
+	source "feeds/packages/admin/zabbix/Config.in"
+@@
+
+Package: zabbix-agentd-basic
+Submenu: Zabbix
+Version: 7.0.31-r1
+Depends: +libc +BUILD_NLS:libiconv-full +libevent2-pthreads +libpcre2 +zlib +libopenssl
+Conflicts: 
+Menu-Depends: 
+Provides: @zabbix-agentd-basic-any @zabbix-agentd-any zabbix-agentd-ssl zabbix-agentd-openssl
+Build-Variant: basic
+Section: admin
+Category: Administration
+Repository: base
+Title: Zabbix agentd (basic/with TLS)
+Maintainer: Daniel F. Dickinson <dfdpublic@wildtechgarden.ca>
+Require-User: zabbix-agent=53:zabbix-agent=53
+Source: zabbix-7.0.31.tar.gz
+License: AGPL-3.0-only
+LicenseFiles: COPYING
+CPE-ID: cpe:/a:zabbix:zabbix
+URL: https://www.zabbix.com/
+Type: ipkg
+Description: Zabbix is a software that monitors numerous parameters of a network and the
+health and integrity of servers, virtual machines, applications, services,
+databases, websites, the cloud and more. Zabbix offers excellent reporting and
+data visualization features based on the stored data.
+.
+Only one variant may be installed per binary (e.g. agent and agentd-basic cannot
+both be installed on the same system).
+.
+Provides only basic functionality with SSL/TLS.
+.
+Provides 'Zabbix Agent'.
+@@
+
+Package: zabbix-get
+Submenu: Zabbix
+Version: 7.0.31-r1
+Depends: +libc @(ZABBIX_BUILD_SUPPORT_BIN) +BUILD_NLS:libiconv-full +ZABBIX_GNUTLS:libgnutls +ZABBIX_OPENSSL:libopenssl +libpcre2 +zlib
+Conflicts: 
+Menu-Depends: 
+Provides: @zabbix-get-any zabbix-get-ssl zabbix-get-openssl
+Build-Variant: full
+Section: admin
+Category: Administration
+Repository: base
+Title: Zabbix get (with TLS)
+Maintainer: Daniel F. Dickinson <dfdpublic@wildtechgarden.ca>
+Source: zabbix-7.0.31.tar.gz
+License: AGPL-3.0-only
+LicenseFiles: COPYING
+CPE-ID: cpe:/a:zabbix:zabbix
+URL: https://www.zabbix.com/
+Type: ipkg
+Description: Zabbix is a software that monitors numerous parameters of a network and the
+health and integrity of servers, virtual machines, applications, services,
+databases, websites, the cloud and more. Zabbix offers excellent reporting and
+data visualization features based on the stored data.
+.
+Only one variant may be installed per binary (e.g. agent and agentd-basic cannot
+both be installed on the same system).
+.
+Provides only basic functionality with SSL/TLS.
+.
+Provides 'Zabbix Get'.
+@@
+Config:
+	config ZABBIX_BUILD_SUPPORT_BIN
+		bool
+		depends on PACKAGE_zabbix-agentd
+		default y
+		help
+			This option exists to prevent trying to build get and/or sender when the
+			of agent is not being built. In that case get and sender are not built by
+			the Zabbix build system. This is not a dependency DEPENDS because the
+			binaries do not require the agent to function.
+@@
+
+Package: zabbix-sender
+Submenu: Zabbix
+Version: 7.0.31-r1
+Depends: +libc @(ZABBIX_BUILD_SUPPORT_BIN) +BUILD_NLS:libiconv-full +ZABBIX_GNUTLS:libgnutls +ZABBIX_OPENSSL:libopenssl +libpcre2 +zlib
+Conflicts: 
+Menu-Depends: 
+Provides: @zabbix-sender-any zabbix-sender-ssl zabbix-sender-openssl
+Build-Variant: full
+Section: admin
+Category: Administration
+Repository: base
+Title: Zabbix sender (with TLS)
+Maintainer: Daniel F. Dickinson <dfdpublic@wildtechgarden.ca>
+Source: zabbix-7.0.31.tar.gz
+License: AGPL-3.0-only
+LicenseFiles: COPYING
+CPE-ID: cpe:/a:zabbix:zabbix
+URL: https://www.zabbix.com/
+Type: ipkg
+Description: Zabbix is a software that monitors numerous parameters of a network and the
+health and integrity of servers, virtual machines, applications, services,
+databases, websites, the cloud and more. Zabbix offers excellent reporting and
+data visualization features based on the stored data.
+.
+Only one variant may be installed per binary (e.g. agent and agentd-basic cannot
+both be installed on the same system).
+.
+Provides only basic functionality with SSL/TLS.
+.
+Provides 'Zabbix Sender'.
+@@
+
+Package: zabbix-server
+Submenu: Zabbix
+Version: 7.0.31-r1
+Depends: +libc +BUILD_NLS:libiconv-full +fping +libevent2 +libevent2-pthreads +libevent2-extra +libpcre2 +zlib @(!ZABBIX_SQLITE) +ZABBIX_CURL:libcurl +ZABBIX_CURL_GNUTLS:libcurl-gnutls +ZABBIX_GNUTLS:libgnutls +ZABBIX_LDAP:libopenldap +ZABBIX_MYSQL:libmariadbclient +ZABBIX_OPENSSL:libopenssl +ZABBIX_NETSNMP:libnetsnmp-ssl +ZABBIX_POSTGRESQL:libpq
+Conflicts: 
+Menu-Depends: 
+Provides: @zabbix-server-any zabbix-server-ssl zabbix-server-openssl
+Build-Variant: full
+Section: admin
+Category: Administration
+Repository: base
+Title: Zabbix server (full/with OpenSSL)
+Maintainer: Daniel F. Dickinson <dfdpublic@wildtechgarden.ca>
+Require-User: zabbix-server=70:zabbix-server=70
+Source: zabbix-7.0.31.tar.gz
+License: AGPL-3.0-only
+LicenseFiles: COPYING
+CPE-ID: cpe:/a:zabbix:zabbix
+URL: https://www.zabbix.com/
+Type: ipkg
+Description: Zabbix is a software that monitors numerous parameters of a network and the
+health and integrity of servers, virtual machines, applications, services,
+databases, websites, the cloud and more. Zabbix offers excellent reporting and
+data visualization features based on the stored data.
+.
+Only one variant may be installed per binary (e.g. agent and agentd-basic cannot
+both be installed on the same system).
+.
+Provides the full functionality available in OpenWrt with OpenSSL.
+Includes NetSNMP, cURL, and OpenLDAP support.
+Requires a database server.
+.
+Provides 'Zabbix Server'.
+@@
+
+Package: zabbix-proxy
+Submenu: Zabbix
+Version: 7.0.31-r1
+Depends: +libc +BUILD_NLS:libiconv-full +fping +libevent2 +libevent2-pthreads +libevent2-extra +libpcre2 +zlib +ZABBIX_CURL:libcurl +ZABBIX_CURL_GNUTLS:libcurl-gnutls +ZABBIX_GNUTLS:libgnutls +ZABBIX_LDAP:libopenldap +ZABBIX_MYSQL:libmariadbclient +ZABBIX_NETSNMP:libnetsnmp-ssl +ZABBIX_OPENSSL:libopenssl +ZABBIX_POSTGRESQL:libpq +ZABBIX_SQLITE:libsqlite3
+Conflicts: 
+Menu-Depends: 
+Provides: @zabbix-proxy-any @zabbix-proxy-any zabbix-proxy-ssl zabbix-proxy-openssl
+Build-Variant: full
+Default-Variant: full
+Section: admin
+Category: Administration
+Repository: base
+Title: Zabbix proxy (full/with OpenSSL)
+Maintainer: Daniel F. Dickinson <dfdpublic@wildtechgarden.ca>
+Require-User: zabbix-proxy=71:zabbix-proxy=71
+Source: zabbix-7.0.31.tar.gz
+License: AGPL-3.0-only
+LicenseFiles: COPYING
+CPE-ID: cpe:/a:zabbix:zabbix
+URL: https://www.zabbix.com/
+Type: ipkg
+Description: Zabbix is a software that monitors numerous parameters of a network and the
+health and integrity of servers, virtual machines, applications, services,
+databases, websites, the cloud and more. Zabbix offers excellent reporting and
+data visualization features based on the stored data.
+.
+Only one variant may be installed per binary (e.g. agent and agentd-basic cannot
+both be installed on the same system).
+.
+Provides the full functionality available in OpenWrt with OpenSSL.
+Includes NetSNMP, cURL, and OpenLDAP support.
+Requires a database server.
+.
+Provides 'Zabbix Proxy'.
+@@
+Config:
+	choice
+		prompt "Select Database Software for Zabbix"
+		default ZABBIX_POSTGRESQL
+
+		config ZABBIX_MYSQL
+			bool "MySQL/MariaDB"
+
+		config ZABBIX_POSTGRESQL
+			bool "PostgreSQL"
+
+		config ZABBIX_SQLITE
+			bool "SQLite3"
+	endchoice
+@@
+
+Package: zabbix-proxy-basic-sqlite
+Submenu: Zabbix
+Version: 7.0.31-r1
+Depends: +libc +BUILD_NLS:libiconv-full +fping +libevent2 +libevent2-pthreads +libevent2-extra +libpcre2 +zlib +libopenssl +libsqlite3
+Conflicts: 
+Menu-Depends: 
+Provides: @zabbix-proxy-basic-sqlite-any @zabbix-proxy-any zabbix-proxy-ssl zabbix-proxy-openssl
+Build-Variant: basic
+Section: admin
+Category: Administration
+Repository: base
+Title: Zabbix proxy sqlite3 (basic/with TLS)
+Maintainer: Daniel F. Dickinson <dfdpublic@wildtechgarden.ca>
+Require-User: zabbix-proxy=71:zabbix-proxy=71
+Source: zabbix-7.0.31.tar.gz
+License: AGPL-3.0-only
+LicenseFiles: COPYING
+CPE-ID: cpe:/a:zabbix:zabbix
+URL: https://www.zabbix.com/
+Type: ipkg
+Description: Zabbix is a software that monitors numerous parameters of a network and the
+health and integrity of servers, virtual machines, applications, services,
+databases, websites, the cloud and more. Zabbix offers excellent reporting and
+data visualization features based on the stored data.
+.
+Only one variant may be installed per binary (e.g. agent and agentd-basic cannot
+both be installed on the same system).
+.
+Provides only basic functionality with SSL/TLS.
+.
+Provides 'Zabbix Proxy' using sqlite3 for
+the database.
+@@
+
+Package: zabbix-extra-mac80211
+Submenu: Zabbix
+Version: 7.0.31-r1
+Depends: +libc @KERNEL_DEBUG_FS @PACKAGE_MAC80211_DEBUGFS @zabbix-agentd-any
+Conflicts: 
+Menu-Depends: 
+Provides: @zabbix-extra-mac80211-any
+Build-Variant: no-configure
+Section: admin
+Category: Administration
+Repository: base
+Title: Zabbix discovery/userparameters for mac80211
+Maintainer: Daniel F. Dickinson <dfdpublic@wildtechgarden.ca>
+Source: zabbix-7.0.31.tar.gz
+License: AGPL-3.0-only
+LicenseFiles: COPYING
+CPE-ID: cpe:/a:zabbix:zabbix
+URL: https://www.zabbix.com/
+Type: ipkg
+Description: An extra package for zabbix-agentd that adds a discovery rule for mac80211 wifi phy and many userparameters.
+It contains an suid helper to allow zabbix-agentd to still run as zabbix user and not as root.
+See https://openwrt.org/docs/guide-user/services/network_monitoring/zabbix for ready to use zabbix templates.
+@@
+
+Package: zabbix-extra-network
+Submenu: Zabbix
+Version: 7.0.31-r1
+Depends: +libc +libubus-lua +lua @zabbix-agentd-any
+Conflicts: 
+Menu-Depends: 
+Provides: @zabbix-extra-network-any
+Build-Variant: no-configure
+Section: admin
+Category: Administration
+Repository: base
+Title: Zabbix discovery/userparameters for network
+Maintainer: Daniel F. Dickinson <dfdpublic@wildtechgarden.ca>
+Source: zabbix-7.0.31.tar.gz
+License: AGPL-3.0-only
+LicenseFiles: COPYING
+CPE-ID: cpe:/a:zabbix:zabbix
+URL: https://www.zabbix.com/
+Type: ipkg
+Description: An extra package for zabbix-agentd that adds a discovery rule for openwrt network interfaces.
+The idea here is to discover only interfaces listed in /etc/config/network (discover br-lan and not eth0.1 and wlan0)
+See https://openwrt.org/docs/guide-user/services/network_monitoring/zabbix for ready to use zabbix templates.
+@@
+
+Package: zabbix-extra-wifi
+Submenu: Zabbix
+Version: 7.0.31-r1
+Depends: +libc +libiwinfo-lua +libubus-lua +lua @zabbix-agentd-any
+Conflicts: 
+Menu-Depends: 
+Provides: @zabbix-extra-wifi-any
+Build-Variant: no-configure
+Section: admin
+Category: Administration
+Repository: base
+Title: Zabbix discovery/userparameters for wifi
+Maintainer: Daniel F. Dickinson <dfdpublic@wildtechgarden.ca>
+Source: zabbix-7.0.31.tar.gz
+License: AGPL-3.0-only
+LicenseFiles: COPYING
+CPE-ID: cpe:/a:zabbix:zabbix
+URL: https://www.zabbix.com/
+Type: ipkg
+Description: An extra package for zabbix-agentd that adds a discovery rule for wifi interfaces and many userparameters.
+As it uses libiwinfo, it works with all wifi devices supported by openwrt.
+See https://openwrt.org/docs/guide-user/services/network_monitoring/zabbix for ready to use zabbix templates.
+@@
+
+Package: zabbix-frontend-server
+Submenu: Zabbix
+Version: 7.0.31-r1
+Depends: +libc php8 @(!ZABBIX_SQLITE) +ZABBIX_MYSQL:php8-mod-mysqli +ZABBIX_POSTGRESQL:php8-mod-pgsql +php8-cgi +php8-mod-gd +php8-mod-bcmath +php8-mod-ctype +php8-mod-curl +php8-mod-filter +php8-mod-gettext +php8-mod-ldap +php8-mod-mbstring +php8-mod-openssl +php8-mod-session +php8-mod-simplexml +php8-mod-sockets +php8-mod-xmlreader +php8-mod-xmlwriter
+Conflicts: 
+Menu-Depends: 
+Provides: @zabbix-frontend-server-any zabbix-server-frontend
+Build-Variant: no-configure
+Section: admin
+Category: Administration
+Repository: base
+Title: Zabbix frontend server
+Maintainer: Daniel F. Dickinson <dfdpublic@wildtechgarden.ca>
+Source: zabbix-7.0.31.tar.gz
+License: AGPL-3.0-only
+LicenseFiles: COPYING
+CPE-ID: cpe:/a:zabbix:zabbix
+URL: https://www.zabbix.com/
+Type: ipkg
+Description: Zabbix is a software that monitors numerous parameters of a network and the
+health and integrity of servers, virtual machines, applications, services,
+databases, websites, the cloud and more. Zabbix offers excellent reporting and
+data visualization features based on the stored data.
+.
+Only one variant may be installed per binary (e.g. agent and agentd-basic cannot
+both be installed on the same system).
+.
+Provides the Web UI (frontend server) for Zabbix.
+@@
+
+

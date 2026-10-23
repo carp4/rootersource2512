@@ -1,0 +1,24 @@
+Source-Makefile: feeds/packages/utils/librespeed-common/Makefile
+
+Package: librespeed-common
+Version: 1.0.0-r2
+Depends: +libc librespeed-cli +rpcd-mod-ucode +jsonfilter +ucode +ucode-mod-fs +ucode-mod-uci +jshn
+Conflicts: 
+Menu-Depends: 
+Provides: @librespeed-common-any
+Section: utils
+Category: Utilities
+Repository: base
+Title: LibreSpeed measurement orchestration
+Maintainer: Josef Schlehofer <pepe.schlehofer@gmail.com>
+Source: 
+License: GPL-2.0-only
+LicenseFiles: LICENSE
+Type: ipkg
+Description:   Runs LibreSpeed measurements from UCI configuration: a single entry point
+  used both interactively and from cron, a schedule kept in step with UCI by
+  the init script, and results recorded as JSON for anything that wants to
+  read them, such as luci-app-librespeed, and a ubus interface for anything else.
+@@
+
+

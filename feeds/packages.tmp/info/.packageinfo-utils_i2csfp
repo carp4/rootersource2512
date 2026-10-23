@@ -1,0 +1,21 @@
+Source-Makefile: feeds/packages/utils/i2csfp/Makefile
+
+Package: i2csfp
+Version: 2025.08.05~1b9b4e0f4a93c266d88ddfac327299eabeb23b60-r1
+Depends: +libc 
+Conflicts: 
+Menu-Depends: 
+Provides: @i2csfp-any
+Section: utils
+Category: Utilities
+Repository: base
+Title: I2C SFP utility
+Maintainer: Daniel Golle <daniel@makrotopia.org>
+Source: i2csfp-2025.08.05~1b9b4e0f4a93c266d88ddfac327299eabeb23b60.tar.zst
+License: GPL-3.0
+LicenseFiles: LICENSE
+Type: ipkg
+Description:   A user-space program to access sfp module via i2c.
+@@
+
+

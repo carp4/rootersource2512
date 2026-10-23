@@ -1,0 +1,34 @@
+Source-Makefile: feeds/routing/mesh11sd/Makefile
+
+Package: mesh11sd
+Submenu: Mesh
+Version: 7.3.1-r1
+Depends: +libc 
+Conflicts: 
+Menu-Depends: 
+Provides: @mesh11sd-any
+Section: net
+Category: Network
+Repository: base
+Title: Dynamic 802.11s Mesh Management Daemon
+Maintainer: Rob White <rob@blue-wave.net>
+Source: mesh11sd-7.3.1.tar.gz
+License: GPL-2.0-or-later
+LicenseFiles: LICENSE
+URL: https://github.com/opennds/mesh11sd
+Type: ipkg
+Description:   Mesh11sd autonomously manages all aspects of an 802.11s mesh network.
+  It functions as a service daemon.
+  Mesh parameters are dynamically set across all nodes.
+  Island Mesh zones, contiguous mesh backhaul zones
+  that are out of range of each other but joined by cable
+  or other non-mesh media, are fully supported.
+  Multiple upstream portals can be connected,
+  giving load balancing on a peer basis with automatic failover.
+  Access Point usage data is collected in a central database
+  accessible in json format via a CLI command.
+  An optional Customer/Client Premises Equipment (CPE) mode
+  is provided for use in community WISP projects.
+@@
+
+

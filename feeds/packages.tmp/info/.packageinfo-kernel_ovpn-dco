@@ -1,0 +1,22 @@
+Source-Makefile: feeds/packages/kernel/ovpn-dco/Makefile
+
+Package: kmod-ovpn-backports
+Submenu: Network Support
+Version: <LINUX_VERSION>.7.2.0.2026082800-r1
+Depends: +kmod-udptunnel4 +IPV6:kmod-udptunnel6 +kmod-crypto-chacha20poly1305 +kmod-crypto-lib-chacha20 +kmod-crypto-lib-poly1305
+Conflicts: 
+Menu-Depends: 
+Provides: @kmod-ovpn-backports-any
+Section: kernel
+Category: Kernel modules
+Title: OpenVPN data channel offload
+Maintainer: Jianhui Zhao <zhaojh329@gmail.com>
+Source: ovpn-backports-7.2.0.2026082800.tar.gz
+License: GPL-2.0-only
+Type: ipkg
+Kernel-Config: CONFIG_AF_KCM
+Description:   This module enhances the performance of the OpenVPN userspace software
+  by offloading the data channel processing to kernelspace.
+@@
+
+

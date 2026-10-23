@@ -1,0 +1,64 @@
+Source-Makefile: feeds/luci/themes/luci-theme-footstrap/Makefile
+Build-Depends: lua/host luci-base/host LUCI_CSSTIDY:csstidy/host LUCI_SRCDIET:luasrcdiet/host 
+
+Package: luci-theme-footstrap
+Submenu: 4. Themes
+Version: x
+Depends: +libc +luci-base
+Conflicts: 
+Menu-Depends: 
+Provides: @luci-theme-footstrap-any
+Section: luci
+Category: LuCI
+Repository: base
+Title: Footstrap Theme
+Maintainer: OpenWrt LuCI community
+Source: 
+License: Apache-2.0
+LicenseFiles: LICENSE
+URL: https://github.com/openwrt/luci
+Type: ipkg
+Description:    A standalone LuCI theme with a collapsible sidebar or top bar, light/dark modes, a menu search and a client-side page router
+@@
+
+Package: luci-i18n-footstrap-es
+Default: LUCI_LANG_es||(ALL&&m)
+Version: x
+Depends: +libc luci-theme-footstrap
+Conflicts: 
+Menu-Depends: 
+Provides: @luci-i18n-footstrap-es-any
+Section: luci
+Category: LuCI
+Repository: base
+Title: luci-theme-footstrap - es translation
+Maintainer: Ivan Kvashonkin <vizzlef@gmail.com>
+Source: 
+License: Apache-2.0
+LicenseFiles: LICENSE
+Type: ipkg
+Hidden: 1
+Description:     Translation for luci-theme-footstrap - Español (Spanish)
+@@
+
+Package: luci-i18n-footstrap-ru
+Default: LUCI_LANG_ru||(ALL&&m)
+Version: x
+Depends: +libc luci-theme-footstrap
+Conflicts: 
+Menu-Depends: 
+Provides: @luci-i18n-footstrap-ru-any
+Section: luci
+Category: LuCI
+Repository: base
+Title: luci-theme-footstrap - ru translation
+Maintainer: Ivan Kvashonkin <vizzlef@gmail.com>
+Source: 
+License: Apache-2.0
+LicenseFiles: LICENSE
+Type: ipkg
+Hidden: 1
+Description:     Translation for luci-theme-footstrap - Русский (Russian)
+@@
+
+

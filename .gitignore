@@ -11,12 +11,9 @@
 /staging_dir
 /tmp
 /logs
-/feeds
-/feeds.conf
 /files
 /target/linux/feeds
 /overlay
-/package/feeds
 /package/openwrt-packages
 /*.patch
 /llvm-bpf*
@@ -35,3 +32,33 @@ git-src
 .cproject
 .ccache
 .vscode*
+
+# ROOter vendored feeds (track these)
+/feeds/luci
+/feeds/luci.index
+/feeds/luci.targetindex
+/feeds/luci.tmp
+/feeds/packages
+/feeds/packages.index
+/feeds/packages.targetindex
+/feeds/packages.tmp
+/feeds/routing
+/feeds/routing.index
+/feeds/routing.targetindex
+/feeds/routing.tmp
+/feeds/telephony
+/feeds/telephony.index
+/feeds/telephony.targetindex
+/feeds/telephony.tmp
+/feeds/video
+/feeds/video.index
+/feeds/video.targetindex
+/feeds/video.tmp
+/feeds/base
+!/feeds/base/Makefile
+!/feeds/base/README
+/feeds/zapret2
+/feeds/tailscale
+
+# package/feeds symlink tree
+/package/feeds

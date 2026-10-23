@@ -1,0 +1,46 @@
+Source-Makefile: feeds/packages/libs/libimobiledevice/Makefile
+
+Package: libimobiledevice
+Submenu: libimobiledevice
+Version: 2025.07.29~c269d7e3a7c28ac33d05d5c3de6a8682f480abd0-r2
+Depends: +libc +libplist +libimobiledevice-glue +libusbmuxd +libopenssl
+Conflicts: 
+Menu-Depends: 
+Provides: @libimobiledevice-any
+Section: libs
+Category: Libraries
+Repository: base
+Title: A library that talks to Apple devices.
+Maintainer: Rosen Penev <rosenp@gmail.com>
+Source: libimobiledevice-2025.07.29~c269d7e3a7c28ac33d05d5c3de6a8682f480abd0.tar.zst
+License: LGPL-2.1-or-later
+LicenseFiles: COPYING.LESSER
+URL: https://www.libimobiledevice.org/
+Type: ipkg
+Description:     libimobiledevice is a software library that talks the protocols to support
+  iPhone®, iPod Touch®, iPad® and Apple TV® devices.
+@@
+
+Package: libimobiledevice-utils
+Submenu: libimobiledevice
+Version: 2025.07.29~c269d7e3a7c28ac33d05d5c3de6a8682f480abd0-r2
+Depends: +libc +libimobiledevice +libtatsu
+Conflicts: 
+Menu-Depends: 
+Provides: @libimobiledevice-utils-any
+Section: utils
+Category: Utilities
+Repository: base
+Title: A library that talks to Apple devices.
+Maintainer: Rosen Penev <rosenp@gmail.com>
+Source: libimobiledevice-2025.07.29~c269d7e3a7c28ac33d05d5c3de6a8682f480abd0.tar.zst
+License: GPL-2.0-or-later
+LicenseFiles: COPYING.LESSER
+URL: https://www.libimobiledevice.org/
+Type: ipkg
+Description:     libimobiledevice is a software library that talks the protocols to support
+  iPhone®, iPod Touch®, iPad® and Apple TV® devices.
+  This package contains the libimobiledevice utilities.
+@@
+
+

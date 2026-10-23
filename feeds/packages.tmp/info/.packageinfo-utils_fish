@@ -1,0 +1,28 @@
+Source-Makefile: feeds/packages/utils/fish/Makefile
+Build-Depends: rust/host pcre2
+
+Package: fish
+Submenu: Shells
+Version: 4.7.1-r1
+Depends: +libc @(aarch64||arm||i386||loongarch64||mips||mips64||mips64el||mipsel||powerpc||powerpc64||riscv64||x86_64) +libpcre2 +libpcre2-32
+Conflicts: 
+Menu-Depends: 
+Provides: @fish-any
+Section: utils
+Category: Utilities
+Repository: base
+Title: A smart and user-friendly command line shell
+Maintainer: Curtis Jiang <jqqqqqqqqqq@gmail.com>
+Source: fish-4.7.1.tar.xz
+License: GPL-2.0-only
+LicenseFiles: COPYING
+CPE-ID: cpe:/a:fishshell:fish
+URL: https://fishshell.com
+Type: ipkg
+Description:   Fish is a smart and user-friendly command line shell for OS X, Linux, and the
+  rest of the family. Fish includes features like syntax highlighting,
+  autosuggest-as-you-type, and fancy tab completions that just work, with no
+  configuration required.
+@@
+
+

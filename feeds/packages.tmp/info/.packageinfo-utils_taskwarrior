@@ -1,0 +1,22 @@
+Source-Makefile: feeds/packages/utils/taskwarrior/Makefile
+
+Package: taskwarrior
+Version: 2.6.2-r1
+Depends: +libc +libstdcpp +libuuid +libgnutls
+Conflicts: 
+Menu-Depends: 
+Provides: @taskwarrior-any
+Section: utils
+Category: Utilities
+Repository: base
+Title: taskwarrior
+Maintainer: 
+Source: task-2.6.2.tar.gz
+License: MIT
+LicenseFiles: LICENSE
+URL: https://taskwarrior.org/
+Type: ipkg
+Description:  taskwarrior is a command-line todo list manager
+@@
+
+

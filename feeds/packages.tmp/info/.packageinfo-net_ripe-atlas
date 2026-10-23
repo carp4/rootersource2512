@@ -1,0 +1,91 @@
+Source-Makefile: feeds/packages/net/ripe-atlas/Makefile
+
+Package: ripe-atlas-common
+Version: 5130-r4
+Depends: +libc +openssh-client +openssh-keygen +libopenssl +@OPENSSL_WITH_DEPRECATED +@BUSYBOX_CONFIG_KILL +@BUSYBOX_CONFIG_SED +@BUSYBOX_CONFIG_TEE +@BUSYBOX_CONFIG_CMP +@BUSYBOX_CONFIG_FIND +@BUSYBOX_CONFIG_FEATURE_FIND_MAXDEPTH +@BUSYBOX_CONFIG_FEATURE_FIND_TYPE +@BUSYBOX_CONFIG_FEATURE_FIND_USER +@BUSYBOX_CONFIG_FEATURE_FIND_GROUP +@BUSYBOX_CONFIG_FEATURE_FIND_NOT
+Conflicts: 
+Menu-Depends: 
+Provides: @ripe-atlas-common-any
+Section: net
+Category: Network
+Repository: base
+Title: RIPE Atlas (common files)
+Maintainer: Josef Schlehofer <pepe.schlehofer@gmail.com>
+Require-User: ripe-atlas=445:ripe-atlas=445
+Source: ripe-atlas-software-probe-5130.tar.gz
+License: GPL-3.0-only GPL-2.0-only LGPL-2.1-or-later BSD-3-Clause ISC
+LicenseFiles: LICENSE probe-busybox/LICENSE probe-busybox/libevent-2.1.11-stable/LICENSE
+URL: https://atlas.ripe.net/
+Type: ipkg
+Description:   RIPE Atlas (common files)
+
+    RIPE Atlas is the RIPE NCC's main Internet data
+  collection system. It is a global network of
+  devices, called probes and anchors, that
+  actively measure Internet connectivity. Anyone
+  can access this data via Internet traffic maps,
+  streaming data visualisations, and an API.
+  RIPE Atlas users can also perform customised
+  measurements to gain valuable data about their
+  own networks.
+@@
+
+Package: ripe-atlas-anchor
+Version: 5130-r4
+Depends: +libc +ripe-atlas-common
+Conflicts: 
+Menu-Depends: 
+Provides: @ripe-atlas-anchor-any ripe-atlas
+Section: net
+Category: Network
+Repository: base
+Title: RIPE Atlas (Anchor)
+Maintainer: Josef Schlehofer <pepe.schlehofer@gmail.com>
+Source: ripe-atlas-software-probe-5130.tar.gz
+License: GPL-3.0-only GPL-2.0-only LGPL-2.1-or-later BSD-3-Clause ISC
+LicenseFiles: LICENSE probe-busybox/LICENSE probe-busybox/libevent-2.1.11-stable/LICENSE
+URL: https://atlas.ripe.net/
+Type: ipkg
+Description:   RIPE Atlas (Anchor)
+
+    RIPE Atlas is the RIPE NCC's main Internet data
+  collection system. It is a global network of
+  devices, called probes and anchors, that
+  actively measure Internet connectivity. Anyone
+  can access this data via Internet traffic maps,
+  streaming data visualisations, and an API.
+  RIPE Atlas users can also perform customised
+  measurements to gain valuable data about their
+  own networks.
+@@
+
+Package: ripe-atlas-probe
+Version: 5130-r4
+Depends: +libc +ripe-atlas-common
+Conflicts: ripe-atlas-anchor
+Menu-Depends: 
+Provides: @ripe-atlas-probe-any ripe-atlas atlas-sw-probe atlas-probe
+Section: net
+Category: Network
+Repository: base
+Title: RIPE Atlas (Software Probe)
+Maintainer: Josef Schlehofer <pepe.schlehofer@gmail.com>
+Source: ripe-atlas-software-probe-5130.tar.gz
+License: GPL-3.0-only GPL-2.0-only LGPL-2.1-or-later BSD-3-Clause ISC
+LicenseFiles: LICENSE probe-busybox/LICENSE probe-busybox/libevent-2.1.11-stable/LICENSE
+URL: https://atlas.ripe.net/
+Type: ipkg
+Description:   RIPE Atlas (Software Probe)
+
+    RIPE Atlas is the RIPE NCC's main Internet data
+  collection system. It is a global network of
+  devices, called probes and anchors, that
+  actively measure Internet connectivity. Anyone
+  can access this data via Internet traffic maps,
+  streaming data visualisations, and an API.
+  RIPE Atlas users can also perform customised
+  measurements to gain valuable data about their
+  own networks.
+@@
+
+

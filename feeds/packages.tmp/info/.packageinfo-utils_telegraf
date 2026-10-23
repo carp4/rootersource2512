@@ -1,0 +1,46 @@
+Source-Makefile: feeds/packages/utils/telegraf/Makefile
+Build-Depends: golang1.27/host
+
+Package: telegraf
+Version: 1.40.2-r1
+Depends: +libc @(aarch64||arm||i386||i686||loongarch64||mips||mips64||mips64el||mipsel||riscv64||x86_64)
+Conflicts: 
+Menu-Depends: 
+Provides: @telegraf-any
+Build-Variant: small
+Section: utils
+Category: Utilities
+Repository: base
+Title: Telegraf (Small)
+Maintainer: Niklas Thorild <niklas@thorild.se>
+Source: telegraf-1.40.2.tar.gz
+License: MIT
+LicenseFiles: LICENSE
+Type: ipkg
+Description: 		Telegraf is a plugin-driven agent for collecting and sending metrics and events.
+	It supports various inputs (including prometheus endpoints) and is able to send data into InfluxDB.
+	(Small build. Most plugins excluded)
+@@
+
+Package: telegraf-full
+Version: 1.40.2-r1
+Depends: +libc @(aarch64||arm||i386||i686||loongarch64||mips||mips64||mips64el||mipsel||riscv64||x86_64)
+Conflicts: 
+Menu-Depends: 
+Provides: @telegraf-full-any
+Build-Variant: full
+Section: utils
+Category: Utilities
+Repository: base
+Title: Telegraf (Full)
+Maintainer: Niklas Thorild <niklas@thorild.se>
+Source: telegraf-1.40.2.tar.gz
+License: MIT
+LicenseFiles: LICENSE
+Type: ipkg
+Description: 		Telegraf is a plugin-driven agent for collecting and sending metrics and events.
+	It supports various inputs (including prometheus endpoints) and is able to send data into InfluxDB.
+	(Full build. including all plugins)
+@@
+
+

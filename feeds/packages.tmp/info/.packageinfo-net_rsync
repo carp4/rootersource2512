@@ -1,0 +1,80 @@
+Source-Makefile: feeds/packages/net/rsync/Makefile
+
+Package: rsync
+Menu: 1
+Submenu: File Transfer
+Version: 3.5.1-r1
+Depends: +libc +libpopt +zlib +RSYNC_xattr:libattr +RSYNC_acl:libacl +RSYNC_idn:libidn2 +RSYNC_zstd:libzstd +RSYNC_xxhash:libxxhash +RSYNC_lz4:liblz4 +BUILD_NLS:libiconv-full
+Conflicts: 
+Menu-Depends: 
+Provides: @rsync-any
+Section: net
+Category: Network
+Repository: base
+Title: an open source utility that provides fast incremental file transfer
+Maintainer: Maxim Storchak <m.storchak@gmail.com>
+Source: rsync-3.5.1.tar.gz
+License: GPL-3.0-or-later
+LicenseFiles: COPYING
+CPE-ID: cpe:/a:samba:rsync
+URL: https://rsync.samba.org/
+Type: ipkg
+Description:  rsync is a program that allows files to be copied to and from remote machines
+ in much the same way as rcp. It has many more options than rcp, and uses the
+ rsync remote-update protocol to greatly speed up file transfers when the
+ destination file already exists.
+
+ The rsync remote-update protocol allows rsync to transfer just the differences
+ between two sets of files across the network link.
+@@
+Config:
+	source "feeds/packages/net/rsync/Config.in"
+@@
+
+Package: rsyncd
+Submenu: File Transfer
+Version: 3.5.1-r1
+Depends: +libc +rsync
+Conflicts: 
+Menu-Depends: 
+Provides: @rsyncd-any
+Section: net
+Category: Network
+Repository: base
+Title: Rsync daemon
+Maintainer: Maxim Storchak <m.storchak@gmail.com>
+Require-User: rsyncd=976:rsyncd=976
+Source: rsync-3.5.1.tar.gz
+License: GPL-3.0-or-later
+LicenseFiles: COPYING
+CPE-ID: cpe:/a:samba:rsync
+URL: https://rsync.samba.org/
+Type: ipkg
+Description:  rsyncd is a configuration file and initscript to utilize rsync as a daemon. It
+ uses the same binary as rsync.
+@@
+
+Package: rrsync
+Submenu: File Transfer
+Version: 3.5.1-r1
+Depends: +libc +rsync python3-light @(PACKAGE_openssh-server||PACKAGE_openssh-server-pam||(PACKAGE_dropbear&&DROPBEAR_SVR_PUBKEY_OPTIONS))
+Conflicts: 
+Menu-Depends: 
+Provides: @rrsync-any
+Section: net
+Category: Network
+Repository: base
+Title: Restricted rsync script
+Maintainer: Maxim Storchak <m.storchak@gmail.com>
+Source: rsync-3.5.1.tar.gz
+License: GPL-3.0-or-later
+LicenseFiles: COPYING
+CPE-ID: cpe:/a:samba:rsync
+URL: https://www.samba.org/ftp/unpacked/rsync/support/rrsync
+Type: ipkg
+Description:   rrsync is a script which wraps around rsync to restrict its permission to a
+  particular subdirectory via ~/.ssh/authorized_keys and/or to read-only
+  or write-only mode
+@@
+
+

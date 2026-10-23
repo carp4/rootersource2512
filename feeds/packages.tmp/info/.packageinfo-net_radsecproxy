@@ -1,0 +1,23 @@
+Source-Makefile: feeds/packages/net/radsecproxy/Makefile
+
+Package: radsecproxy
+Version: 1.11.2-r1
+Depends: +libc +libopenssl +libpthread +libnettle
+Conflicts: 
+Menu-Depends: 
+Provides: @radsecproxy-any
+Section: net
+Category: Network
+Repository: base
+Title: radsecproxy
+Maintainer: Toke Høiland-Jørgensen <toke@toke.dk>
+Source: radsecproxy-1.11.2.tar.gz
+License: BSD-3-CLAUSE
+LicenseFiles: LICENSE
+CPE-ID: cpe:/a:uninett:radsecproxy
+URL: https://radsecproxy.github.io/
+Type: ipkg
+Description:   A generic radius proxy for UDP/TLS (RadSec)
+@@
+
+

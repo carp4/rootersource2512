@@ -1,0 +1,23 @@
+Source-Makefile: feeds/packages/utils/tio/Makefile
+
+Package: tio
+Submenu: Terminal
+Version: 3.9-r1
+Depends: +libc +lua +glib2
+Conflicts: 
+Menu-Depends: 
+Provides: @tio-any
+Section: utils
+Category: Utilities
+Repository: base
+Title: A simple TTY terminal I/O application
+Maintainer: 
+Source: tio-3.9.tar.xz
+License: GPL-2.0-or-later
+LicenseFiles: LICENSE
+URL: https://tio.github.io/
+Type: ipkg
+Description:   A small and simple TTY terminal I/O application
+@@
+
+

@@ -1,0 +1,21 @@
+Source-Makefile: feeds/packages/net/cgi-io/Makefile
+
+Package: cgi-io
+Submenu: Web Servers/Proxies
+Version: 2026.07.21~31cb3c89f02d918d7f17bf62a80c852fc38a1ca1-r1
+Depends: +libc +libubox +libubus
+Conflicts: 
+Menu-Depends: 
+Provides: @cgi-io-any
+Section: net
+Category: Network
+Repository: base
+Title: CGI utility for handling up/downloading of files
+Maintainer: John Crispin <blogic@openwrt.org>
+Source: cgi-io-2026.07.21~31cb3c89f02d918d7f17bf62a80c852fc38a1ca1.tar.zst
+License: GPL-2.0-or-later
+Type: ipkg
+Description:   This package contains an cgi utility that is useful for up/downloading files
+@@
+
+

@@ -1,0 +1,59 @@
+Source-Makefile: feeds/packages/net/weechat/Makefile
+
+Package: weechat-minimal
+Submenu: Instant Messaging
+Version: 4.10.1-r1
+Depends: +libc +libgcrypt +libgnutls +libcurl +zlib +BUILD_NLS:libiconv-full +BUILD_NLS:libintl-full +ca-bundle +WEECHAT_ZSTD:libzstd +WEECHAT_CJSON:cJSON +WEECHAT_PYTHON:python3-light +WEECHAT_LUA:liblua +WEECHAT_RUBY:ruby +WEECHAT_PERL:perl +WEECHAT_TCL:tcl
+Conflicts: 
+Menu-Depends: 
+Provides: @weechat-minimal-any weechat
+Build-Variant: minimal
+Default-Variant: minimal
+Section: net
+Category: Network
+Repository: base
+Title: Fast, light and extensible chat client (headless minimal)
+Maintainer: Josef Schlehofer <pepe.schlehofer@gmail.com>
+Require-User: weechat:weechat
+Source: weechat-4.10.1.tar.xz
+License: GPL-3.0-or-later
+LicenseFiles: COPYING
+CPE-ID: cpe:/a:weechat:weechat
+URL: https://weechat.org/
+Type: ipkg
+Description:     WeeChat (Wee Enhanced Environment for Chat) is a fast, light and
+  extensible chat client. It is multi-platform, supports IRC and
+  has a plugin architecture with relay capabilities.
+  This package contains the minimal headless daemon (no ncurses dependency).
+@@
+Config:
+	source "feeds/packages/net/weechat/Config.in"
+@@
+
+Package: weechat-full
+Submenu: Instant Messaging
+Version: 4.10.1-r1
+Depends: +libc +libgcrypt +libgnutls +libcurl +zlib +BUILD_NLS:libiconv-full +BUILD_NLS:libintl-full +ca-bundle +WEECHAT_ZSTD:libzstd +WEECHAT_CJSON:cJSON +WEECHAT_PYTHON:python3-light +WEECHAT_LUA:liblua +WEECHAT_RUBY:ruby +WEECHAT_PERL:perl +WEECHAT_TCL:tcl +libncurses
+Conflicts: weechat-minimal
+Menu-Depends: 
+Provides: @weechat-full-any weechat
+Build-Variant: full
+Section: net
+Category: Network
+Repository: base
+Title: Fast, light and extensible chat client (full with ncurses UI)
+Maintainer: Josef Schlehofer <pepe.schlehofer@gmail.com>
+Require-User: weechat:weechat
+Source: weechat-4.10.1.tar.xz
+License: GPL-3.0-or-later
+LicenseFiles: COPYING
+CPE-ID: cpe:/a:weechat:weechat
+URL: https://weechat.org/
+Type: ipkg
+Description:     WeeChat (Wee Enhanced Environment for Chat) is a fast, light and
+  extensible chat client. It is multi-platform, supports IRC and
+  has a plugin architecture with relay capabilities.
+  This package contains both the full ncurses terminal client and the headless daemon.
+@@
+
+

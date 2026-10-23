@@ -1,0 +1,61 @@
+Source-Makefile: feeds/packages/libs/lmdb/Makefile
+
+Package: lmdb
+Version: 0.9.35-r1
+Depends: +libc 
+Conflicts: 
+Menu-Depends: 
+Provides: @lmdb-any
+Section: libs
+Category: Libraries
+Repository: base
+Title: Lightning Memory-Mapped Database shared library
+Maintainer: Jan Pavlinec <jan.pavlinec1@gmail.com>
+Source: lmdb-0.9.35.tar.zst
+License: OLDAP-2.8
+LicenseFiles: LICENSE
+URL: https://symas.com/lmdb/
+Type: ipkg
+Description:   LMDB is an ultra-fast, ultra-compact key-value
+  embedded data store developed for the OpenLDAP Project.
+@@
+
+Package: lmdb-utils
+Version: 0.9.35-r1
+Depends: +libc 
+Conflicts: 
+Menu-Depends: lmdb
+Provides: @lmdb-utils-any
+Section: libs
+Category: Libraries
+Repository: base
+Title: Lightning Memory-Mapped Database utils
+Maintainer: Jan Pavlinec <jan.pavlinec1@gmail.com>
+Source: lmdb-0.9.35.tar.zst
+License: OLDAP-2.8
+LicenseFiles: LICENSE
+URL: https://symas.com/lmdb/
+Type: ipkg
+Description:   LMDB environment status and copy tool
+@@
+
+Package: lmdb-test
+Version: 0.9.35-r1
+Depends: +libc 
+Conflicts: 
+Menu-Depends: lmdb
+Provides: @lmdb-test-any
+Section: libs
+Category: Libraries
+Repository: base
+Title: Lightning Memory-Mapped Database test
+Maintainer: Jan Pavlinec <jan.pavlinec1@gmail.com>
+Source: lmdb-0.9.35.tar.zst
+License: OLDAP-2.8
+LicenseFiles: LICENSE
+URL: https://symas.com/lmdb/
+Type: ipkg
+Description:   LMDB test application
+@@
+
+

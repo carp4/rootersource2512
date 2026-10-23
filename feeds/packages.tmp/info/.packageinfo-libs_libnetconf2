@@ -1,0 +1,25 @@
+Source-Makefile: feeds/packages/libs/libnetconf2/Makefile
+
+Package: libnetconf2
+Version: 3.7.10-r1
+Depends: +libc +libyang +libcurl +libssh +libopenssl +libpthread
+Conflicts: 
+Menu-Depends: 
+Provides: @libnetconf2-any
+Section: libs
+Category: Libraries
+Repository: base
+Title: NETCONF library
+Maintainer: 
+Source: libnetconf2-3.7.10.tar.gz
+License: BSD-3-Clause
+LicenseFiles: LICENSE
+URL: https://github.com/CESNET/libnetconf2
+Type: ipkg
+Description:  libnetconf2 is the NETCONF library in C intended for building NETCONF clients and servers.
+
+ libnetconf2 provides basic functions to connect NETCONF client and server to each other via
+ SSH, to send and receive NETCONF messages. NETCONF datastore implementation is not included.
+@@
+
+

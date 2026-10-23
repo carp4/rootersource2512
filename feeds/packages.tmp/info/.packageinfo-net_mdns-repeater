@@ -1,0 +1,23 @@
+Source-Makefile: feeds/packages/net/mdns-repeater/Makefile
+
+Package: mdns-repeater
+Submenu: IP Addresses and Names
+Version: 2023.12.16~f714ec4d8a0eee248ead29c2ae1bb37f124a568f-r1
+Depends: +libc 
+Conflicts: 
+Menu-Depends: 
+Provides: @mdns-repeater-any
+Section: net
+Category: Network
+Repository: base
+Title: Multicast DNS repeater for Linux
+Maintainer: Alexander Koenig <alex@lisas.de>
+Source: mdns-repeater-2023.12.16~f714ec4d8a0eee248ead29c2ae1bb37f124a568f.tar.zst
+License: GPL-2.0-or-later
+LicenseFiles: LICENSE.txt
+URL: https://github.com/geekman/mdns-repeater
+Type: ipkg
+Description: Multicast DNS repeater for Linux
+@@
+
+

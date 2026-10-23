@@ -1,0 +1,25 @@
+Source-Makefile: feeds/telephony/libs/spandsp3/Makefile
+Build-Depends: tiff/host
+
+Package: libspandsp3
+Submenu: Telephony
+Version: 2025.07.07~797760168945c96e91af55bde9d4edaea2e654f9-r1
+Depends: +libc +libjpeg-turbo +libtiff
+Conflicts: 
+Menu-Depends: 
+Provides: @libspandsp3-any
+Section: libs
+Category: Libraries
+Repository: base
+Title: spandsp3 library
+Maintainer: Jiri Slachta <jiri@slachta.eu>
+Source: spandsp3-2025.07.07~797760168945c96e91af55bde9d4edaea2e654f9.tar.zst
+License: LGPL-2.1-or-later GPL-2.0-or-later
+LicenseFiles: COPYING
+URL: https://github.com/freeswitch/spandsp
+ABI-Version: 3
+Type: ipkg
+Description: spandsp3 library
+@@
+
+

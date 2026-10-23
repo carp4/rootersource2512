@@ -1,0 +1,21 @@
+Source-Makefile: feeds/packages/net/usteer/Makefile
+Build-Depends: libpcap
+
+Package: usteer
+Version: 2025.10.04~1d6524c6e6b58853f053c7816249a8f68ad9b0e8-r1
+Depends: +libc +libubox +libubus +libblobmsg-json +libnl-tiny
+Conflicts: 
+Menu-Depends: 
+Provides: @usteer-any
+Section: net
+Category: Network
+Repository: base
+Title: OpenWrt AP roaming assist daemon
+Maintainer: David Bauer <mail@david-bauer.net>
+Source: usteer-2025.10.04~1d6524c6e6b58853f053c7816249a8f68ad9b0e8.tar.zst
+License: GPL-2.0-only
+Type: ipkg
+Description: OpenWrt AP roaming assist daemon
+@@
+
+

@@ -1,0 +1,22 @@
+Source-Makefile: feeds/packages/libs/nghttp3/Makefile
+
+Package: libnghttp3
+Version: 1.11.0-r1
+Depends: +libc 
+Conflicts: 
+Menu-Depends: 
+Provides: @libnghttp3-any
+Section: libs
+Category: Libraries
+Repository: base
+Title: HTTP/3 library written in C
+Maintainer: 
+Source: nghttp3-1.11.0.tar.xz
+License: MIT
+LicenseFiles: COPYING
+URL: https://nghttp2.org/nghttp3
+Type: ipkg
+Description: HTTP/3 library written in C.
+@@
+
+

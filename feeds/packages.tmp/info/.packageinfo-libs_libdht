@@ -1,0 +1,21 @@
+Source-Makefile: feeds/packages/libs/libdht/Makefile
+
+Package: libdht
+Version: 2023.03.18~0bbb8f4a5bd914b60de5e9fbb51573aa33a1cf18-r2
+Depends: +libc +USE_GLIBC:libcrypt-compat
+Conflicts: 
+Menu-Depends: 
+Provides: @libdht-any
+Section: libs
+Category: Libraries
+Repository: base
+Title: Kademlia Distributed Hash Table (DHT) library
+Maintainer: Daniel Golle <daniel@makrotopia.org>
+Source: libdht-2023.03.18~0bbb8f4a5bd914b60de5e9fbb51573aa33a1cf18.tar.zst
+License: MIT
+LicenseFiles: LICENSE
+Type: ipkg
+Description: Kademlia Distributed Hash Table (DHT) library
+@@
+
+

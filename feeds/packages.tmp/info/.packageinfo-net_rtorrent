@@ -1,0 +1,54 @@
+Source-Makefile: feeds/packages/net/rtorrent/Makefile
+Build-Depends: libtorrent
+
+Package: rtorrent
+Submenu: BitTorrent
+Version: 0.15.5-r1
+Depends: +libc +libcurl +libncurses +libatomic +libopenssl +libstdcpp +zlib
+Conflicts: 
+Menu-Depends: 
+Provides: @rtorrent-any
+Build-Variant: norpc
+Section: net
+Category: Network
+Repository: base
+Title: BitTorrent client for ncurses
+Maintainer: Rosen Penev <rosenp@gmail.com>
+Source: rtorrent-0.15.5.tar.zst
+License: GPL-2.0-or-later
+LicenseFiles: COPYING
+URL: https://github.com/rakshasa/rtorrent
+Type: ipkg
+Description:  rTorrent is a BitTorrent client for ncurses, using the libtorrent library.
+ The client and library is written in C++ with emphasis on speed and
+ efficiency, while delivering equivalent features to those found in GUI based
+ clients in an ncurses client.
+ This package is built without xmlrpc support
+@@
+
+Package: rtorrent-rpc
+Submenu: BitTorrent
+Version: 0.15.5-r1
+Depends: +libc +libcurl +libncurses +libatomic +libopenssl +libstdcpp +zlib +xmlrpc-c-server
+Conflicts: 
+Menu-Depends: 
+Provides: @rtorrent-rpc-any
+Build-Variant: rpc
+Section: net
+Category: Network
+Repository: base
+Title: BitTorrent client for ncurses (with rpc support)
+Maintainer: Rosen Penev <rosenp@gmail.com>
+Source: rtorrent-0.15.5.tar.zst
+License: GPL-2.0-or-later
+LicenseFiles: COPYING
+URL: https://github.com/rakshasa/rtorrent
+Type: ipkg
+Description:  rTorrent is a BitTorrent client for ncurses, using the libtorrent library.
+ The client and library is written in C++ with emphasis on speed and
+ efficiency, while delivering equivalent features to those found in GUI based
+ clients in an ncurses client.
+ This package is built with xmlrpc support
+@@
+
+

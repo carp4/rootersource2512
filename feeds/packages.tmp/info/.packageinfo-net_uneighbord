@@ -1,0 +1,21 @@
+Source-Makefile: feeds/packages/net/uneighbord/Makefile
+
+Package: uneighbord
+Version: 1-r1
+Depends: +libc +ucode +ucode-mod-ubus +ucode-mod-uloop +ucode-mod-socket +ucode-mod-uci +ucode-mod-log
+Conflicts: 
+Menu-Depends: 
+Provides: @uneighbord-any
+Section: net
+Category: Network
+Repository: base
+Title: 802.11k Neighbor Report synchronizer
+Maintainer: Nick Hainke <vincent@systemli.org>
+Source: 
+License: GPL-2.0-only
+Type: ipkg
+Description:   Synchronize hostapd 802.11k Neighbor Reports between local BSSes and
+  OpenWrt access points on the same LAN.
+@@
+
+

@@ -1,0 +1,23 @@
+Source-Makefile: feeds/packages/net/swgp-go/Makefile
+Build-Depends: golang/host
+
+Package: swgp-go
+Version: 1.10.0-r1
+Depends: +libc @(aarch64||arm||i386||i686||loongarch64||mips||mips64||mips64el||mipsel||riscv64||x86_64)
+Conflicts: 
+Menu-Depends: 
+Provides: @swgp-go-any
+Section: net
+Category: Network
+Repository: base
+Title: Simple WireGuard proxy
+Maintainer: Florian Klink <flokli@flokli.de>
+Source: swgp-go-1.10.0.tar.gz
+License: AGPL-3.0-or-later
+LicenseFiles: LICENSE
+URL: https://github.com/database64128/swgp-go
+Type: ipkg
+Description:   Simple WireGuard proxy with minimal overhead for WireGuard traffic.
+@@
+
+

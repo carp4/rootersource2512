@@ -1,0 +1,49 @@
+Source-Makefile: feeds/packages/lang/python/python-pynacl/Makefile
+Build-Depends: python3/host python-setuptools/host libffi/host python-cffi/host  
+
+Package: python3-pynacl
+Submenu: Python
+Version: 1.6.1-r1
+Depends: +libc +libsodium +python3-light +python3-cffi
+Conflicts: 
+Menu-Depends: 
+Provides: @python3-pynacl-any
+Section: lang
+Category: Languages
+Repository: base
+Title: Python binding to the libsodium library
+Maintainer: Javier Marcet <javier@marcet.info>
+Source: pynacl-1.6.1.tar.gz
+License: Apache-2.0
+LicenseFiles: LICENSE
+URL: https://github.com/pyca/pynacl/
+Type: ipkg
+Description:   PyNaCl is a Python binding to libsodium, which is a fork of the Networking and Cryptography library.
+@@
+
+Package: python3-pynacl-src
+Submenu: Python
+Version: 1.6.1-r1
+Depends: +libc 
+Conflicts: 
+Menu-Depends: 
+Provides: @python3-pynacl-src-any
+Section: lang
+Category: Languages
+Repository: base
+Title: Python binding to the libsodium library (sources)
+Maintainer: Javier Marcet <javier@marcet.info>
+Source: pynacl-1.6.1.tar.gz
+License: Apache-2.0
+LicenseFiles: LICENSE
+URL: https://github.com/pyca/pynacl/
+Type: ipkg
+Description:       PyNaCl is a Python binding to libsodium, which is a fork of the Networking and Cryptography library.
+
+    This package contains the Python source files for python3-pynacl.
+@@
+Config:
+    depends on PACKAGE_python3-pynacl
+@@
+
+

@@ -1,0 +1,21 @@
+Source-Makefile: feeds/packages/net/plp-mtu-discovery/Makefile
+
+Package: plp-mtu-discovery
+Version: 2026.03.16~452ddcc34c041b0fc6aa85f9102e1a0a0f0080cf-r1
+Depends: +libc 
+Conflicts: 
+Menu-Depends: 
+Provides: @plp-mtu-discovery-any
+Section: net
+Category: Network
+Repository: base
+Title: plp-mtu-discovery
+Maintainer: Chester A. Unal <chester.a.unal@arinc9.com>
+Source: plp-mtu-discovery-2026.03.16~452ddcc34c041b0fc6aa85f9102e1a0a0f0080cf.tar.zst
+License: MIT
+Type: ipkg
+Description:   Perform Path MTU Discovery without relying on ICMP errors, which are often not
+  delivered.
+@@
+
+
