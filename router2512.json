@@ -1,751 +1,861 @@
 {
-	"RASPPI5": {
-		"details": "Raspberry Pi 5 SD",
-		"type": "3",
-		"build": "2102",
-		"package": "ext-rooter-rasppi",
-		"config": ".config_rasppi5",
-		"prescript": "/target/linux/bcm27xx/image/sdcard.sh sd",
-		"image1": "openwrt-bcm27xx-bcm2712-rpi-5-ext4-factory.img.gz",
-		"image2": "openwrt-bcm27xx-bcm2712-rpi-5-ext4-factory.img",
-		"image3": "openwrt-bcm27xx-bcm2712-rpi-5-squashfs-sysupgrade.img.gz",
-		"image4": "openwrt-bcm27xx-bcm2712-rpi-5-squashfs-sysupgrade.img",
-		"imagepath": "/bcm27xx/bcm2712/",
-		"mod": "RaspberryPi-5-SD",
-		"ext1": "-ext4.img",
-		"ext2": "-squashfs.img",
-		"addons": ["readme.pdf"]
-	},
-	"RASPPI5USB": {
-		"details": "Raspberry Pi 5 USB",
-		"type": "3",
-		"build": "2102",
-		"package": "ext-rooter-rasppi",
-		"config": ".config_rasppi5",
-		"prescript": "/target/linux/bcm27xx/image/sdcard.sh usb",
-		"postscript": "/target/linux/bcm27xx/image/sdcard.sh sd",
-		"image1": "openwrt-bcm27xx-bcm2712-rpi-5-ext4-factory.img.gz",
-		"image2": "openwrt-bcm27xx-bcm2712-rpi-5-ext4-factory.img",
-		"image3": "openwrt-bcm27xx-bcm2712-rpi-5-squashfs-sysupgrade.img.gz",
-		"image4": "openwrt-bcm27xx-bcm2712-rpi-5-squashfs-sysupgrade.img",
-		"imagepath": "/bcm27xx/bcm2712/",
-		"mod": "RaspberryPi-5-USB",
-		"ext1": "-ext4.img",
-		"ext2": "-squashfs.img",
-		"addons": ["readme.pdf"]
-	},
-	"X3000": {
-		"details": "Gl.iNet X3000",
-		"type": "1",
-		"build": "2305",
-		"config": ".config_x3000",
-		"image": "openwrt-mediatek-filogic-glinet_gl-x3000-squashfs-sysupgrade.bin",
-		"imagepath": "/mediatek/filogic/",
-		"mod": "GliNet_X3000",
-		"ext": "-upgrade.bin"
-	},
-	"MT2500": {
-		"details": "Gl.iNet MT2500",
-		"type": "1",
-		"build": "2305",
-		"package": "ext-nowifi",
-		"config": ".config_mt2500",
-		"image": "openwrt-mediatek-filogic-glinet_gl-mt2500-squashfs-sysupgrade.bin",
-		"imagepath": "/mediatek/filogic/",
-		"mod": "GliNet_MT2500",
-		"ext": "-upgrade.bin"
-	},
-	"MT2500V2": {
-		"details": "Gl.iNet MT2500V2",
-		"type": "1",
-		"build": "2305",
-		"package": "ext-nowifi",
-		"config": ".config_mt2500v2",
-		"image": "openwrt-mediatek-filogic-glinet_gl-mt2500v2-squashfs-sysupgrade.bin",
-		"imagepath": "/mediatek/filogic/",
-		"mod": "GliNet_MT2500V2",
-		"ext": "-upgrade.bin"
-	},
-	"X1200": {
-		"details": "Gl.iNet X1200",
-		"type": "2",
-		"build": "main",
-		"config": ".config_x1200",
-		"image1": "openwrt-ath79-nand-glinet_gl-x1200-nor-nand-squashfs-sysupgrade.bin",	
-		"image2": "openwrt-ath79-nand-glinet_gl-x1200-nor-nand-squashfs-factory.img",
-		"imagepath": "/ath79/nand/",
-		"mod": "GliNet-X1200-NOR-NAND",
-		"ext1": "-upgrade.bin",
-		"ext2": "-factory.img",
-		"addons": ["readme.pdf"]
-	},
-	"MT3000": {
-		"details": "Gl.iNet MT3000",
-		"type": "1",
-		"build": "2305",
-		"config": ".config_mt3000",
-		"image": "openwrt-mediatek-filogic-glinet_gl-mt3000-squashfs-sysupgrade.bin",
-		"imagepath": "/mediatek/filogic/",
-		"mod": "GliNet_MT3000",
-		"ext": "-upgrade.bin"
-	},
-	"Z8102": {
-		"details": "ZBT Z8102AX V1/V2",
-		"type": "6",
-		"build": "2305",
-		"config": ".config_z8102v2",
-		"image1": "ZBT-Z8102AX-V1",
-		"image2": "ZBT-Z8102AX-V2",
-		"imagepath": "/mediatek/filogic/",
-		"mod": "ZBT-Z8102AX",
-		"ext1": "-upgrade.bin",
-		"ext2": "-upgrade.bin"
-	},
-	"Z8109-128": {
-		"details": "ZBT Z8109-128",
-		"type": "1",
-		"build": "2305",
-		"config": ".config_z8109-128",
-		"image": "openwrt-mediatek-filogic-z8109ax-128m-squashfs-sysupgrade.bin",
-		"imagepath": "/mediatek/filogic/",
-		"mod": "ZBT-Z8109AX-128",
-		"ext": "-upgrade.bin",
-		"custom": {
-			"name": {
-				"model": "ZBT Z8109AX-128M"
-			}
-		}
-	},
-	"Z8109-512": {
-		"details": "ZBT Z8109-512",
-		"type": "1",
-		"build": "2305",
-		"config": ".config_z8109-512",
-		"image": "openwrt-mediatek-filogic-z8109ax-512m-squashfs-sysupgrade.bin",
-		"imagepath": "/mediatek/filogic/",
-		"mod": "ZBT-Z8109AX-512",
-		"ext": "-upgrade.bin",
-		"custom": {
-			"name": {
-				"model": "ZBT Z8109AX-512M"
-			}
-		}
-	},
-	"Z8105": {
-		"details": "ZBT Z8105",
-		"type": "1",
-		"build": "2305",
-		"config": ".config_z8109-128",
-		"image": "openwrt-mediatek-filogic-z8109ax-128m-squashfs-sysupgrade.bin",
-		"imagepath": "/mediatek/filogic/",
-		"mod": "ZBT-Z8105AX",
-		"ext": "-upgrade.bin",
-		"custom": {
-			"name": {
-				"model": "ZBT Z8105AX"
-			}
-		}
-	},
-	"Z800": {
-		"details": "ZBT Z800AX",
-		"type": "2",
-		"build": "2305",
-		"config": ".config_z800",
-		"image1": "openwrt-qualcommax-ipq807x-zbtlink_zbt-z800ax-squashfs-sysupgrade.bin",
-		"image2": "openwrt-qualcommax-ipq807x-zbtlink_zbt-z800ax-squashfs-factory.bin",
-		"imagepath": "/qualcommax/ipq807x/",
-		"mod": "ZBT-Z800AX",
-		"ext1": "-upgrade.bin",
-		"ext2": "-factory.bin"
-	},
-	"WG1602-32": {
-		"details": "ZBT WG1602",
-		"type": "1",
-		"build": "2305",
-		"config": ".config_wg1602-32",
-		"image": "openwrt-ramips-mt7621-zbtlink_zbt-wg1602-v04-32m-squashfs-sysupgrade.bin",
-		"imagepath": "/ramips/mt7621/",
-		"mod": "ZBT-WG1602-32",
-		"ext": "-upgrade.bin",
-		"addons": ["readme.pdf", "readmerecovery.txt", "usb-configuration.txt"],
-		"custom": {
-			"name": {
-				"model": "WG1602-32"
-			}
-		}	
-	},
-	"WS1698": {
-		"details": "Huasifei WS1698AX",
-		"type": "1",
-		"build": "2305",
-		"config": ".config_ws1698",
-		"image": "openwrt-mediatek-filogic-huasifei_ws1698-squashfs-sysupgrade.bin",
-		"imagepath": "/mediatek/filogic/",
-		"mod": "Huasifei-WS1698AX",
-		"ext": "-upgrade.bin",
-		"custom": {
-			"name": {
-				"model": "WS1698AX",
-				"hostname": "WS1698AX"
-			},
-			"wifi": {
-				"SSID2G": "wifi6-2.4g",
-				"SSID5G": "wifi6-5.8g",
-				"Password": "12345678"
-			},
-			"image": {
-				"Material": "hua.png",
-				"Argon": "hua.png",
-				"Tomato": "hua.png"
-			},
-			"files": "/huasifei/files1698/"
-		}
-	},
-	"WS1698-256": {
-		"details": "Huasifei WS1698AX",
-		"type": "1",
-		"build": "2305",
-		"config": ".config_ws1698-256",
-		"image": "openwrt-mediatek-filogic-huasifei_ws1698-256M-squashfs-sysupgrade.bin",
-		"imagepath": "/mediatek/filogic/",
-		"mod": "Huasifei-WS1698AX-256M",
-		"ext": "-upgrade.bin",
-		"custom": {
-			"name": {
-				"model": "WS1698AX-256M",
-				"hostname": "WS1698AX"
-			},
-			"wifi": {
-				"SSID2G": "wifi6-2.4g",
-				"SSID5G": "wifi6-5.8g",
-				"Password": "12345678"
-			},
-			"image": {
-				"Material": "hua.png",
-				"Argon": "hua.png",
-				"Tomato": "hua.png"
-			},
-			"files": "/huasifei/files1698/"	
-		}
-	},
-	"WH3000": {
-		"details": "Huasifei WH3000",
-		"type": "1",
-		"build": "2305",
-		"config": ".config_wh3000",
-		"image": "openwrt-mediatek-filogic-huasifei_wh3000-squashfs-sysupgrade.bin",
-		"imagepath": "/mediatek/filogic/",
-		"mod": "Huasifei-WH3000",
-		"ext": "-upgrade.bin"
-	},
-	"WH3000PRO": {
-		"details": "Huasifei WH3000-PRO (eMMC)",
-		"type": "1",
-		"build": "2305",
-		"config": ".config_wh3000pro",
-		"image": "openwrt-mediatek-filogic-huasifei_wh3000-pro-emmc-squashfs-sysupgrade.bin",
-		"imagepath": "/mediatek/filogic/",
-		"mod": "Huasifei-WH3000-PRO",
-		"ext": "-upgrade.bin"
-	},
-	"WH3000PRO-NAND": {
-		"details": "Huasifei WH3000-PRO (NAND)",
-		"type": "1",
-		"build": "2305",
-		"config": ".config_wh3000pro-nand",
-		"image": "openwrt-mediatek-filogic-huasifei_wh3000-pro-nand-squashfs-sysupgrade.bin",
-		"imagepath": "/mediatek/filogic/",
-		"mod": "Huasifei-WH3000-PRO-NAND",
-		"ext": "-upgrade.bin"
-	},
-	"BPI4": {
-		"details": "Banana Pi4",
-		"type": "2",
-		"build": "2305",
-		"config": ".config_bpi4",
-		"image1": "openwrt-mediatek-filogic-bananapi_bpi-r4-squashfs-sysupgrade.itb",
-		"image2": "openwrt-mediatek-filogic-bananapi_bpi-r4-sdcard.img.gz",
-		"imagepath": "/mediatek/filogic/",
-		"mod": "Banana-Pi-R4",
-		"ext1": "-upgrade.itb",
-		"ext2": "-sdcard.img.gz"
-	},
-	"BPI4POE": {
-		"details": "Banana Pi4 POE",
-		"type": "2",
-		"build": "2305",
-		"config": ".config_bpi4poe",
-		"image1": "openwrt-mediatek-filogic-bananapi_bpi-r4-poe-squashfs-sysupgrade.itb",
-		"image2": "openwrt-mediatek-filogic-bananapi_bpi-r4-poe-sdcard.img.gz",
-		"imagepath": "/mediatek/filogic/",
-		"mod": "Banana-Pi-R4-2.5GBPS",
-		"ext1": "-upgrade.itb",
-		"ext2": "-sdcard.img.gz"
-	},
-	"BPI3MINI": {
-		"details": "Banana Pi3 Mini",
-		"type": "2",
-		"build": "2305",
-		"config": ".config_bpi3mini",
-		"image1": "openwrt-mediatek-filogic-bananapi_bpi-r3-mini-snand-factory.bin",
-		"image2": "openwrt-mediatek-filogic-bananapi_bpi-r3-mini-squashfs-sysupgrade.itb",
-		"imagepath": "/mediatek/filogic/",
-		"mod": "Banana-Pi-R3-Mini",
-		"ext1": "-factory.bin",
-		"ext2": "-upgrade.itb",
-		"addons": ["BPiR3Mini.txt", "bpi-r3-mini.zip"]
-	},
-	"X86-64": {
-		"details": "Generic x86 64 bit",
-		"type": "5",
-		"build": "2203",
-		"config": ".config_x86-64",
-		"image1": "openwrt-x86-64-generic-ext4-combined.img.gz",
-		"image2": "openwrt-x86-64-generic-ext4-combined.img",
-		"image3": "openwrt-x86-64-generic-ext4-combined-efi.img.gz",
-		"image4": "openwrt-x86-64-generic-ext4-combined-efi.img",
-		"image5": "openwrt-x86-64-generic-kernel.bin",
-		"image6": "openwrt-x86-64-generic-rootfs.tar.gz",
-		"image7": "openwrt-x86-64-generic.manifest",
-		"image8": "packages",
-		"image9": "sha256sums",
-		"image10": "*.buildinfo",
-		"imagepath": "/x86/64/",
-		"mod": "x86-64",
-		"addons": ["readme.pdf"]
-	},
-	"AXT1800": {
-		"details": "Gl.iNet AXT1800",
-		"type": "2",
-		"build": "2305",
-		"config": ".config_axt1800",
-		"image1": "openwrt-qualcommax-ipq60xx-glinet_gl-axt1800-squashfs-sysupgrade.bin",
-		"image2": "openwrt-qualcommax-ipq60xx-glinet_gl-axt1800-squashfs-factory.ubi",
-		"imagepath": "/qualcommax/ipq60xx/",
-		"mod": "GL-iNet-AXT1800",
-		"ext1": "-upgrade.bin",
-		"ext2": "-factory.ubi",
-		"addons": ["axt1800.txt"],
-		"custom": {
-			"files": "/axt1800/files/"	
-		}
-	},
-	"AX1800": {
-		"details": "Gl.iNet AX1800",
-		"type": "2",
-		"build": "2305",
-		"config": ".config_ax1800",
-		"image1": "openwrt-qualcommax-ipq60xx-glinet_gl-ax1800-squashfs-sysupgrade.bin",
-		"image2": "openwrt-qualcommax-ipq60xx-glinet_gl-ax1800-squashfs-factory.ubi",
-		"imagepath": "/qualcommax/ipq60xx/",
-		"mod": "GL-iNet-AX1800",
-		"ext1": "-upgrade.bin",
-		"ext2": "-factory.ubi",
-		"addons": ["axt1800.txt"],
-		"custom": {
-			"files": "/axt1800/files/"	
-		}
-	},
-	"MT6000": {
-		"details": "Gl.iNet MT6000",
-		"type": "1",
-		"build": "2305",
-		"config": ".config_mt6000",
-		"image": "openwrt-mediatek-filogic-glinet_gl-mt6000-squashfs-sysupgrade.bin",
-		"imagepath": "/mediatek/filogic/",
-		"mod": "GliNet_MT6000",
-		"ext": "-upgrade.bin"
-	},
-	"A1300": {
-		"details": "Gl.iNet A1300",
-		"type": "2",
-		"build": "2102",
-		"config": ".config_a1300",
-		"image1": "openwrt-ipq40xx-generic-glinet_gl-a1300-squashfs-sysupgrade.bin",	
-		"image2": "openwrt-ipq40xx-generic-glinet_gl-a1300-squashfs-factory.ubi",
-		"imagepath": "/ipq40xx/generic/",
-		"mod": "GliNet-A1300",
-		"ext1": "-upgrade.bin",
-		"ext2": "-factory.ubi",
-		"addons": ["readme.pdf"]
-	},
-	"WG156": {
-		"details": "ZBT WG156",
-		"type": "1",
-		"build": "2102",
-		"config": ".config_wg156",
-		"image": "openwrt-ipq40xx-generic-yyets_le1-squashfs-sysupgrade.bin",	
-		"imagepath": "/ipq40xx/generic/",
-		"mod": "ZBT_WG156",
-		"ext": "-upgrade.bin",
-		"addons": ["readme.pdf", "flash-wg156.pdf", "firmware.bin", "kernel.bin", "flash", "putty-64bit-0.80-installer.msi", "WinSCP-6.3.2-Setup.exe"]
-	},
-	"LBR20": {
-		"details": "Netgear LBR20",
-		"type": "2",
-		"build": "2102",
-		"config": ".config_lbr20",
-		"image1": "openwrt-ipq40xx-generic-netgear_lbr20-squashfs-sysupgrade.bin",	
-		"image2": "openwrt-ipq40xx-generic-netgear_lbr20-squashfs-factory.img",
-		"imagepath": "/ipq40xx/generic/",
-		"mod": "Netgear-LBR20",
-		"ext1": "-upgrade.bin",
-		"ext2": "-factory.img",
-		"addons": ["readme.pdf"]
-	},
-	"AW1000": {
-		"details": "Arcadyan AW1000",
-		"type": "2",
-		"build": "2305",
-		"config": ".config_aw1000",
-		"image1": "openwrt-qualcommax-ipq807x-arcadyan_aw1000-squashfs-sysupgrade.bin",	
-		"image2": "openwrt-qualcommax-ipq807x-arcadyan_aw1000-squashfs-factory.ubi",
-		"imagepath": "/qualcommax/ipq807x/",
-		"mod": "Arcadyan-AW1000",
-		"ext1": "-upgrade.bin",
-		"ext2": "-factory.ubi",
-		"addons": ["readme.pdf"]
-	},
-	"RASPPI": {
-		"details": "Raspberry Pi",
-		"type": "3",
-		"build": "2102",
-		"package": "ext-rooter-rasppi",
-		"config": ".config_rasppi",
-		"image1": "openwrt-bcm27xx-bcm2708-rpi-ext4-factory.img.gz",
-		"image2": "openwrt-bcm27xx-bcm2708-rpi-ext4-factory.img",
-		"image3": "openwrt-bcm27xx-bcm2708-rpi-ext4-sysupgrade.img.gz",
-		"image4": "openwrt-bcm27xx-bcm2708-rpi-ext4-sysupgrade.img",
-		"imagepath": "/bcm27xx/bcm2708/",
-		"mod": "RaspberryPi-1",
-		"ext1": "-factory.img",
-		"ext2": "-sysupgrade.img",
-		"addons": ["readme.pdf", "readmeSD.txt"]
-	},
-	"RASPPI2": {
-		"details": "Raspberry Pi 2",
-		"type": "3",
-		"build": "2102",
-		"package": "ext-rooter-rasppi",
-		"config": ".config_rasppi2",
-		"image1": "openwrt-bcm27xx-bcm2709-rpi-2-ext4-factory.img.gz",
-		"image2": "openwrt-bcm27xx-bcm2709-rpi-2-ext4-factory.img",
-		"image3": "openwrt-bcm27xx-bcm2709-rpi-2-ext4-sysupgrade.img.gz",
-		"image4": "openwrt-bcm27xx-bcm2709-rpi-2-ext4-sysupgrade.img",
-		"imagepath": "/bcm27xx/bcm2709/",
-		"mod": "RaspberryPi-2",
-		"ext1": "-factory.img",
-		"ext2": "-sysupgrade.img",
-		"addons": ["readme.pdf", "readmeSD.txt"]
-	},
-	"RASPPI3": {
-		"details": "Raspberry Pi 3 SD",
-		"type": "3",
-		"build": "2102",
-		"package": "ext-rooter-rasppi",
-		"config": ".config_rasppi3",
-		"prescript": "/target/linux/bcm27xx/image/sdcard.sh sd",
-		"image1": "openwrt-bcm27xx-bcm2710-rpi-3-ext4-sysupgrade.img.gz",
-		"image2": "openwrt-bcm27xx-bcm2710-rpi-3-ext4-sysupgrade.img",
-		"image3": "openwrt-bcm27xx-bcm2710-rpi-3-squashfs-sysupgrade.img.gz",
-		"image4": "openwrt-bcm27xx-bcm2710-rpi-3-squashfs-sysupgrade.img",
-		"imagepath": "/bcm27xx/bcm2710/", 
-		"mod": "RaspberryPi-3-SD",
-		"ext1": "-ext4.img",
-		"ext2": "-squashfs.img",
-		"addons": ["readme.pdf", "readmeSD.txt"]
-	},
-	"RASPPI3USB": {
-		"details": "Raspberry Pi 3 USB",
-		"type": "3",
-		"build": "2102",
-		"package": "ext-rooter-rasppi",
-		"config": ".config_rasppi3",
-		"prescript": "/target/linux/bcm27xx/image/sdcard.sh usb",
-		"postscript": "/target/linux/bcm27xx/image/sdcard.sh sd",
-		"image1": "openwrt-bcm27xx-bcm2710-rpi-3-ext4-sysupgrade.img.gz",
-		"image2": "openwrt-bcm27xx-bcm2710-rpi-3-ext4-sysupgrade.img",
-		"image3": "openwrt-bcm27xx-bcm2710-rpi-3-squashfs-sysupgrade.img.gz",
-		"image4": "openwrt-bcm27xx-bcm2710-rpi-3-squashfs-sysupgrade.img",
-		"imagepath": "/bcm27xx/bcm2710/", 
-		"mod": "RaspberryPi-3-USB",
-		"ext1": "-ext4.img",
-		"ext2": "-squashfs.img",
-		"addons": ["readme.pdf", "readmeSD.txt"]
-	},
-	"RASPPI4": {
-		"details": "Raspberry Pi 4 SD",
-		"type": "3",
-		"build": "2102",
-		"package": "ext-rooter-rasppi",
-		"config": ".config_rasppi4",
-		"prescript": "/target/linux/bcm27xx/image/sdcard.sh sd",
-		"image1": "openwrt-bcm27xx-bcm2711-rpi-4-ext4-factory.img.gz",
-		"image2": "openwrt-bcm27xx-bcm2711-rpi-4-ext4-factory.img",
-		"image3": "openwrt-bcm27xx-bcm2711-rpi-4-squashfs-sysupgrade.img.gz",
-		"image4": "openwrt-bcm27xx-bcm2711-rpi-4-squashfs-sysupgrade.img",
-		"imagepath": "/bcm27xx/bcm2711/",
-		"mod": "RaspberryPi-4-SD",
-		"ext1": "-ext4.img",
-		"ext2": "-squashfs.img",
-		"addons": ["readme.pdf"]
-	},
-	"RASPPI4USB": {
-		"details": "Raspberry Pi 4 USB",
-		"type": "3",
-		"build": "2102",
-		"package": "ext-rooter-rasppi",
-		"config": ".config_rasppi4",
-		"prescript": "/target/linux/bcm27xx/image/sdcard.sh usb",
-		"postscript": "/target/linux/bcm27xx/image/sdcard.sh sd",
-		"image1": "openwrt-bcm27xx-bcm2711-rpi-4-ext4-factory.img.gz",
-		"image2": "openwrt-bcm27xx-bcm2711-rpi-4-ext4-factory.img",
-		"image3": "openwrt-bcm27xx-bcm2711-rpi-4-squashfs-sysupgrade.img.gz",
-		"image4": "openwrt-bcm27xx-bcm2711-rpi-4-squashfs-sysupgrade.img",
-		"imagepath": "/bcm27xx/bcm2711/",
-		"mod": "RaspberryPi-4-USB",
-		"ext1": "-ext4.img",
-		"ext2": "-squashfs.img",
-		"addons": ["readme.pdf"]
-	},
-	"RASPPICM4": {
-		"details": "Raspberry Pi CM4 SD",
-		"type": "3",
-		"build": "2102",
-		"package": "ext-rooter-rasppi",
-		"config": ".config_rasppicm4",
-		"prescript": "/target/linux/bcm27xx/image/sdcard.sh sd",
-		"image1": "openwrt-bcm27xx-bcm2711-rpi-4-ext4-factory.img.gz",
-		"image2": "openwrt-bcm27xx-bcm2711-rpi-4-ext4-factory.img",
-		"image3": "openwrt-bcm27xx-bcm2711-rpi-4-squashfs-sysupgrade.img.gz",
-		"image4": "openwrt-bcm27xx-bcm2711-rpi-4-squashfs-sysupgrade.img",
-		"imagepath": "/bcm27xx/bcm2711/",
-		"mod": "RaspberryPi-CM4-SD",
-		"ext1": "-ext4.img",
-		"ext2": "-squashfs.img",
-		"addons": ["readme.pdf"]
-	},
-	"RASPPICM4USB": {
-		"details": "Raspberry Pi CM4-USB",
-		"type": "3",
-		"build": "2102",
-		"package": "ext-rooter-rasppi",
-		"config": ".config_rasppicm4",
-		"prescript": "/target/linux/bcm27xx/image/sdcard.sh usb",
-		"postscript": "/target/linux/bcm27xx/image/sdcard.sh sd",
-		"image1": "openwrt-bcm27xx-bcm2711-rpi-4-ext4-factory.img.gz",
-		"image2": "openwrt-bcm27xx-bcm2711-rpi-4-ext4-factory.img",
-		"image3": "openwrt-bcm27xx-bcm2711-rpi-4-squashfs-sysupgrade.img.gz",
-		"image4": "openwrt-bcm27xx-bcm2711-rpi-4-squashfs-sysupgrade.img",
-		"imagepath": "/bcm27xx/bcm2711/",
-		"mod": "RaspberryPi-CM4-USB",
-		"ext1": "-ext4.img",
-		"ext2": "-squashfs.img",
-		"addons": ["readme.pdf"]
-	},
-	"RASPPIZ2": {
-		"details": "Raspberry Pi Zero 2 SD",
-		"type": "3",
-		"build": "2102",
-		"config": ".config_rasppiz2",
-		"image1": "openwrt-bcm27xx-bcm2710-rpi-3-ext4-sysupgrade.img.gz",
-		"image2": "openwrt-bcm27xx-bcm2710-rpi-3-ext4-sysupgrade.img",
-		"image3": "openwrt-bcm27xx-bcm2710-rpi-3-squashfs-sysupgrade.img.gz",
-		"image4": "openwrt-bcm27xx-bcm2710-rpi-3-squashfs-sysupgrade.img",
-		"imagepath": "/bcm27xx/bcm2710/", 
-		"mod": "RaspberryPi-Zero-2-SD",
-		"ext1": "-ext4.img",
-		"ext2": "-squashfs.img",
-		"addons": ["readme.pdf", "readmeSD.txt"]
-	},
-	"TR3000": {
-		"details": "Cudy TR3000",
-		"type": "2",
-		"build": "2305",
-		"config": ".config_tr3000",
-		"image1": "openwrt-mediatek-filogic-cudy_tr3000-v1-squashfs-sysupgrade.bin",
-		"image2": "openwrt-mediatek-filogic-cudy_tr3000-v1-initramfs-kernel.bin",
-		"imagepath": "/mediatek/filogic/",
-		"mod": "Cudy-TR3000",
-		"ext1": "-upgrade.bin",
-		"ext2": "-initramfs-kernel.bin",
-		"addons": ["readme.pdf", "cudy_tr3000-v1-sysupgrade.bin"]
-	},
-	"MIR3P": {
-		"details": "Xiaomi MIR3P",
-		"type": "2",
-		"build": "2203",
-		"config": ".config_mir3p",
-		"image1": "openwrt-ramips-mt7621-xiaomi_mi-router-3-pro-squashfs-factory.bin",
-		"image2": "openwrt-ramips-mt7621-xiaomi_mi-router-3-pro-squashfs-sysupgrade.bin",
-		"imagepath": "/ramips/mt7621/",
-		"mod": "Xiaomi-MIR3P",
-		"ext1": "-factory.bin",
-		"ext2": "-upgrade.bin",
-		"addons": ["readme.pdf", "readmerecovery.txt"]
-	},
-	"WRT1900AC": {
-		"details": "Linksys WRT1900AC-V1",
-		"type": "2",
-		"build": "2203",
-		"config": ".config_wrt1900ac",
-		"image1": "openwrt-mvebu-cortexa9-linksys_wrt1900ac-v1-squashfs-factory.img",
-		"image2": "openwrt-mvebu-cortexa9-linksys_wrt1900ac-v1-squashfs-sysupgrade.bin",
-		"imagepath": "/mvebu/cortexa9/",
-		"mod": "Linksys-WRT1900AC-V1",
-		"ext1": "-factory.img",
-		"ext2": "-update.bin",
-		"addons": ["readme.pdf", "factory.txt"]
-	},
-	"WRT1900ACV2": {
-		"details": "Linksys WRT1900AC-V2",
-		"type": "2",
-		"build": "2203",
-		"config": ".config_wrt1900acv2",
-		"image1": "openwrt-mvebu-cortexa9-linksys_wrt1900ac-v2-squashfs-factory.img",
-		"image2": "openwrt-mvebu-cortexa9-linksys_wrt1900ac-v2-squashfs-sysupgrade.bin",
-		"imagepath": "/mvebu/cortexa9/",
-		"mod": "Linksys-WRT1900AC-V2",
-		"ext1": "-factory.img",
-		"ext2": "-update.bin",
-		"addons": ["readme.pdf", "factory.txt"]
-	},
-	"WRT1900ACS": {
-		"details": "Linksys WRT1900ACS",
-		"type": "2",
-		"build": "2203",
-		"config": ".config_wrt1900acs",
-		"image1": "openwrt-mvebu-cortexa9-linksys_wrt1900acs-squashfs-factory.img",
-		"image2": "openwrt-mvebu-cortexa9-linksys_wrt1900acs-squashfs-sysupgrade.bin",
-		"imagepath": "/mvebu/cortexa9/",
-		"mod": "Linksys-WRT1900ACS",
-		"ext1": "-factory.img",
-		"ext2": "-update.bin",
-		"addons": ["readme.pdf", "factory.txt"]
-	},
-	"WRT3200ACM": {
-		"details": "Linksys WRT3200ACM",
-		"type": "2",
-		"build": "2102",
-		"config": ".config_wrt3200acm",
-		"image1": "openwrt-mvebu-cortexa9-linksys_wrt3200acm-squashfs-factory.img",
-		"image2": "openwrt-mvebu-cortexa9-linksys_wrt3200acm-squashfs-sysupgrade.bin",
-		"imagepath": "/mvebu/cortexa9/",
-		"mod": "Linksys-WRT3200ACM",
-		"ext1": "-factory.img",
-		"ext2": "-update.bin",
-		"addons": ["readme.pdf", "factory.txt"]
-	},
-	"WRT32X": {
-		"details": "Linksys WRT32x",
-		"type": "2",
-		"build": "2203",
-		"config": ".config_wrt32x",
-		"image1": "openwrt-mvebu-cortexa9-linksys_wrt32x-squashfs-factory.img",
-		"image2": "openwrt-mvebu-cortexa9-linksys_wrt32x-squashfs-sysupgrade.bin",
-		"imagepath": "/mvebu/cortexa9/",
-		"mod": "Linksys-WRT32x",
-		"ext1": "-factory.img",
-		"ext2": "-update.bin",
-		"addons": ["readme.pdf", "factory.txt"]
-	},
-	"TGR1900": {
-		"details": "TP-Link TGR1900",
-		"type": "2",
-		"build": "2305",
-		"config": ".config_tgr1900",
-		"image1": "openwrt-ipq806x-chromium-tplink_onhub-squashfs-sysupgrade.bin",	
-		"image2": "openwrt-ipq806x-chromium-tplink_onhub-squashfs-factory.bin",
-		"imagepath": "/ipq806x/chromium/",
-		"mod": "TP-Link-TGR1900",
-		"ext1": "-upgrade.bin",
-		"ext2": "-factory.bin",
-		"addons": ["readme.pdf"]
-	},
-	"RAX3000": {
-		"details": "CMCC RAX3000M",
-		"type": "1",
-		"build": "2305",
-		"config": ".config_rax3000",
-		"image": "openwrt-mediatek-filogic-cmcc_rax3000m-squashfs-sysupgrade.itb",
-		"imagepath": "/mediatek/filogic/",
-		"mod": "CMCC-RAX3000M",
-		"ext": "-upgrade.itb",
-		"addons": ["rax3000.zip"]
-	},
-	"MF286D": {
-		"details": "ZTE MF286D",
-		"type": "2",
-		"build": "2102",
-		"config": ".config_mf286d",
-		"image1": "openwrt-ipq40xx-generic-zte_mf286d-squashfs-sysupgrade.bin",	
-		"image2": "openwrt-ipq40xx-generic-zte_mf286d-initramfs-zImage.itb",
-		"imagepath": "/ipq40xx/generic/",
-		"mod": "ZTE-MF286D",
-		"ext1": "-upgrade.bin",
-		"ext2": "-initramfs-zImage.itb",
-		"addons": ["readme.pdf"]
-	},
-	"MF289F": {
-		"details": "ZTE MF289F",
-		"type": "2",
-		"build": "2102",
-		"config": ".config_mf289f",
-		"image1": "openwrt-ipq40xx-generic-zte_mf289f-squashfs-sysupgrade.bin",	
-		"image2": "openwrt-ipq40xx-generic-zte_mf289f-initramfs-zImage.itb",
-		"imagepath": "/ipq40xx/generic/",
-		"mod": "ZTE-MF289F",
-		"ext1": "-upgrade.bin",
-		"ext2": "-initramfs-zImage.itb",
-		"addons": ["readme.pdf"]
-	},
-	"WNDR4300": {
-		"details": "Netgear WNDR4300v1",
-		"type": "2",
-		"build": "2102",
-		"config": ".config_wndr4300",
-		"image1": "openwrt-ath79-nand-netgear_wndr4300-squashfs-factory.img",
-		"image2": "openwrt-ath79-nand-netgear_wndr4300-squashfs-sysupgrade.bin",
-		"imagepath": "/ath79/nand/",
-		"mod": "Netgear-WNDR4300v1",
-		"ext2": "-upgrade.bin",
-		"ext1": "-factory.img",
-		"addons": ["readme.pdf", "readmerecovery.txt"]
-	},
-	"SBPRO": {
-		"details": "Beeline Smartbox Pro",
-		"type": "2",
-		"build": "2305",
-		"config": ".config_sbpro",
-		"image1": "openwrt-ramips-mt7621-beeline_smartbox-pro-squashfs-sysupgrade.bin",
-		"image2": "openwrt-ramips-mt7621-beeline_smartbox-pro-squashfs-factory.img",
-		"imagepath": "/ramips/mt7621/",
-		"mod": "Beeline-Smartbox-Pro",
-		"ext1": "-upgrade.bin",
-		"ext2": "-factory.img",
-		"addons": ["readme.pdf", "readmerecovery.txt"]
-	},
-	"MF286": {
-		"details": "ZTE MF286",
-		"type": "2",
-		"build": "2102",
-		"config": ".config_mf286",
-		"image1": "openwrt-ath79-nand-zte_mf286-initramfs-kernel.bin",
-		"image2": "openwrt-ath79-nand-zte_mf286-squashfs-sysupgrade.bin",
-		"imagepath": "/ath79/nand/",
-		"mod": "ZTE-MF286",
-		"ext2": "-upgrade.bin",
-		"ext1": "-initramfs.bin",
-		"addons": ["readme.pdf", "readmerecovery.txt"]
-	},
-	"WR632": {
-		"details": "Comfast WR632ax",
-		"type": "1",
-		"build": "2305",
-		"config": ".config_wr632",
-		"image": "openwrt-mediatek-filogic-comfast_cf-wr632ax-squashfs-sysupgrade.bin",
-		"imagepath": "/mediatek/filogic/",
-		"mod": "Comfast-WR632ax",
-		"ext": "-upgrade.bin"
-	}	
+    "RASPPI5": {
+        "details": "Raspberry Pi 5 SD",
+        "type": "3",
+        "build": "2102",
+        "package": "ext-rooter-rasppi",
+        "config": ".config_rasppi5",
+        "prescript": "/target/linux/bcm27xx/image/sdcard.sh sd",
+        "image1": "openwrt-bcm27xx-bcm2712-rpi-5-ext4-factory.img.gz",
+        "image2": "openwrt-bcm27xx-bcm2712-rpi-5-ext4-factory.img",
+        "image3": "openwrt-bcm27xx-bcm2712-rpi-5-squashfs-sysupgrade.img.gz",
+        "image4": "openwrt-bcm27xx-bcm2712-rpi-5-squashfs-sysupgrade.img",
+        "imagepath": "/bcm27xx/bcm2712/",
+        "mod": "RaspberryPi-5-SD",
+        "ext1": "-ext4.img",
+        "ext2": "-squashfs.img",
+        "addons": [
+            "readme.pdf"
+        ]
+    },
+    "RASPPI5USB": {
+        "details": "Raspberry Pi 5 USB",
+        "type": "3",
+        "build": "2102",
+        "package": "ext-rooter-rasppi",
+        "config": ".config_rasppi5",
+        "prescript": "/target/linux/bcm27xx/image/sdcard.sh usb",
+        "postscript": "/target/linux/bcm27xx/image/sdcard.sh sd",
+        "image1": "openwrt-bcm27xx-bcm2712-rpi-5-ext4-factory.img.gz",
+        "image2": "openwrt-bcm27xx-bcm2712-rpi-5-ext4-factory.img",
+        "image3": "openwrt-bcm27xx-bcm2712-rpi-5-squashfs-sysupgrade.img.gz",
+        "image4": "openwrt-bcm27xx-bcm2712-rpi-5-squashfs-sysupgrade.img",
+        "imagepath": "/bcm27xx/bcm2712/",
+        "mod": "RaspberryPi-5-USB",
+        "ext1": "-ext4.img",
+        "ext2": "-squashfs.img",
+        "addons": [
+            "readme.pdf"
+        ]
+    },
+    "X3000": {
+        "details": "Gl.iNet X3000",
+        "type": "1",
+        "build": "2305",
+        "config": ".config_x3000",
+        "image": "openwrt-mediatek-filogic-glinet_gl-x3000-squashfs-sysupgrade.bin",
+        "imagepath": "/mediatek/filogic/",
+        "mod": "GliNet_X3000",
+        "ext": "-upgrade.bin"
+    },
+    "MT2500": {
+        "details": "Gl.iNet MT2500",
+        "type": "1",
+        "build": "2305",
+        "package": "ext-nowifi",
+        "config": ".config_mt2500",
+        "image": "openwrt-mediatek-filogic-glinet_gl-mt2500-squashfs-sysupgrade.bin",
+        "imagepath": "/mediatek/filogic/",
+        "mod": "GliNet_MT2500",
+        "ext": "-upgrade.bin"
+    },
+    "MT2500V2": {
+        "details": "Gl.iNet MT2500V2",
+        "type": "1",
+        "build": "2305",
+        "package": "ext-nowifi",
+        "config": ".config_mt2500v2",
+        "image": "openwrt-mediatek-filogic-glinet_gl-mt2500v2-squashfs-sysupgrade.bin",
+        "imagepath": "/mediatek/filogic/",
+        "mod": "GliNet_MT2500V2",
+        "ext": "-upgrade.bin"
+    },
+    "X1200": {
+        "details": "Gl.iNet X1200",
+        "type": "2",
+        "build": "main",
+        "config": ".config_x1200",
+        "image1": "openwrt-ath79-nand-glinet_gl-x1200-nor-nand-squashfs-sysupgrade.bin",
+        "image2": "openwrt-ath79-nand-glinet_gl-x1200-nor-nand-squashfs-factory.img",
+        "imagepath": "/ath79/nand/",
+        "mod": "GliNet-X1200-NOR-NAND",
+        "ext1": "-upgrade.bin",
+        "ext2": "-factory.img",
+        "addons": [
+            "readme.pdf"
+        ]
+    },
+    "MT3000": {
+        "details": "Gl.iNet MT3000",
+        "type": "1",
+        "build": "2305",
+        "config": ".config_mt3000",
+        "image": "openwrt-mediatek-filogic-glinet_gl-mt3000-squashfs-sysupgrade.bin",
+        "imagepath": "/mediatek/filogic/",
+        "mod": "GliNet_MT3000",
+        "ext": "-upgrade.bin"
+    },
+    "Z8102": {
+        "details": "ZBT Z8102AX V1/V2",
+        "type": "6",
+        "build": "2305",
+        "config": ".config_z8102v2",
+        "image1": "ZBT-Z8102AX-V1",
+        "image2": "ZBT-Z8102AX-V2",
+        "imagepath": "/mediatek/filogic/",
+        "mod": "ZBT-Z8102AX",
+        "ext1": "-upgrade.bin",
+        "ext2": "-upgrade.bin"
+    },
+    "Z8109-128": {
+        "details": "ZBT Z8109-128",
+        "type": "1",
+        "build": "2305",
+        "config": ".config_z8109-128",
+        "image": "openwrt-mediatek-filogic-z8109ax-128m-squashfs-sysupgrade.bin",
+        "imagepath": "/mediatek/filogic/",
+        "mod": "ZBT-Z8109AX-128",
+        "ext": "-upgrade.bin",
+        "custom": {
+            "name": {
+                "model": "ZBT Z8109AX-128M"
+            }
+        }
+    },
+    "Z8109-512": {
+        "details": "ZBT Z8109-512",
+        "type": "1",
+        "build": "2305",
+        "config": ".config_z8109-512",
+        "image": "openwrt-mediatek-filogic-z8109ax-512m-squashfs-sysupgrade.bin",
+        "imagepath": "/mediatek/filogic/",
+        "mod": "ZBT-Z8109AX-512",
+        "ext": "-upgrade.bin",
+        "custom": {
+            "name": {
+                "model": "ZBT Z8109AX-512M"
+            }
+        }
+    },
+    "Z8105": {
+        "details": "ZBT Z8105",
+        "type": "1",
+        "build": "2305",
+        "config": ".config_z8109-128",
+        "image": "openwrt-mediatek-filogic-z8109ax-128m-squashfs-sysupgrade.bin",
+        "imagepath": "/mediatek/filogic/",
+        "mod": "ZBT-Z8105AX",
+        "ext": "-upgrade.bin",
+        "custom": {
+            "name": {
+                "model": "ZBT Z8105AX"
+            }
+        }
+    },
+    "Z800": {
+        "details": "ZBT Z800AX",
+        "type": "2",
+        "build": "2305",
+        "config": ".config_z800",
+        "image1": "openwrt-qualcommax-ipq807x-zbtlink_zbt-z800ax-squashfs-sysupgrade.bin",
+        "image2": "openwrt-qualcommax-ipq807x-zbtlink_zbt-z800ax-squashfs-factory.bin",
+        "imagepath": "/qualcommax/ipq807x/",
+        "mod": "ZBT-Z800AX",
+        "ext1": "-upgrade.bin",
+        "ext2": "-factory.bin"
+    },
+    "WG1602-32": {
+        "details": "ZBT WG1602",
+        "type": "1",
+        "build": "2305",
+        "config": ".config_wg1602-32",
+        "image": "openwrt-ramips-mt7621-zbtlink_zbt-wg1602-v04-32m-squashfs-sysupgrade.bin",
+        "imagepath": "/ramips/mt7621/",
+        "mod": "ZBT-WG1602-32",
+        "ext": "-upgrade.bin",
+        "addons": [
+            "readme.pdf",
+            "readmerecovery.txt",
+            "usb-configuration.txt"
+        ],
+        "custom": {
+            "name": {
+                "model": "WG1602-32"
+            }
+        }
+    },
+    "WS1698": {
+        "details": "Huasifei WS1698AX",
+        "type": "1",
+        "build": "2305",
+        "config": ".config_ws1698",
+        "image": "openwrt-mediatek-filogic-huasifei_ws1698-squashfs-sysupgrade.bin",
+        "imagepath": "/mediatek/filogic/",
+        "mod": "Huasifei-WS1698AX",
+        "ext": "-upgrade.bin",
+        "custom": {
+            "name": {
+                "model": "WS1698AX",
+                "hostname": "WS1698AX"
+            },
+            "wifi": {
+                "SSID2G": "wifi6-2.4g",
+                "SSID5G": "wifi6-5.8g",
+                "Password": "12345678"
+            },
+            "image": {
+                "Material": "hua.png",
+                "Argon": "hua.png",
+                "Tomato": "hua.png"
+            },
+            "files": "/huasifei/files1698/"
+        }
+    },
+    "WS1698-256": {
+        "details": "Huasifei WS1698AX",
+        "type": "1",
+        "build": "2305",
+        "config": ".config_ws1698-256",
+        "image": "openwrt-mediatek-filogic-huasifei_ws1698-256M-squashfs-sysupgrade.bin",
+        "imagepath": "/mediatek/filogic/",
+        "mod": "Huasifei-WS1698AX-256M",
+        "ext": "-upgrade.bin",
+        "custom": {
+            "name": {
+                "model": "WS1698AX-256M",
+                "hostname": "WS1698AX"
+            },
+            "wifi": {
+                "SSID2G": "wifi6-2.4g",
+                "SSID5G": "wifi6-5.8g",
+                "Password": "12345678"
+            },
+            "image": {
+                "Material": "hua.png",
+                "Argon": "hua.png",
+                "Tomato": "hua.png"
+            },
+            "files": "/huasifei/files1698/"
+        }
+    },
+    "WH3000": {
+        "details": "Huasifei WH3000",
+        "type": "1",
+        "build": "2305",
+        "config": ".config_wh3000",
+        "image": "openwrt-mediatek-filogic-huasifei_wh3000-squashfs-sysupgrade.bin",
+        "imagepath": "/mediatek/filogic/",
+        "mod": "Huasifei-WH3000",
+        "ext": "-upgrade.bin"
+    },
+    "WH3000PRO": {
+        "details": "Huasifei WH3000-PRO (eMMC)",
+        "type": "1",
+        "build": "2305",
+        "config": ".config_wh3000pro",
+        "image": "openwrt-mediatek-filogic-huasifei_wh3000-pro-emmc-squashfs-sysupgrade.bin",
+        "imagepath": "/mediatek/filogic/",
+        "mod": "Huasifei-WH3000-PRO",
+        "ext": "-upgrade.bin"
+    },
+    "WH3000PRO-NAND": {
+        "details": "Huasifei WH3000-PRO (NAND)",
+        "type": "1",
+        "build": "2305",
+        "config": ".config_wh3000pro-nand",
+        "image": "openwrt-mediatek-filogic-huasifei_wh3000-pro-nand-squashfs-sysupgrade.bin",
+        "imagepath": "/mediatek/filogic/",
+        "mod": "Huasifei-WH3000-PRO-NAND",
+        "ext": "-upgrade.bin"
+    },
+    "BPI4": {
+        "details": "Banana Pi4",
+        "type": "2",
+        "build": "2305",
+        "config": ".config_bpi4",
+        "image1": "openwrt-mediatek-filogic-bananapi_bpi-r4-squashfs-sysupgrade.itb",
+        "image2": "openwrt-mediatek-filogic-bananapi_bpi-r4-sdcard.img.gz",
+        "imagepath": "/mediatek/filogic/",
+        "mod": "Banana-Pi-R4",
+        "ext1": "-upgrade.itb",
+        "ext2": "-sdcard.img.gz"
+    },
+    "BPI4POE": {
+        "details": "Banana Pi4 POE",
+        "type": "2",
+        "build": "2305",
+        "config": ".config_bpi4poe",
+        "image1": "openwrt-mediatek-filogic-bananapi_bpi-r4-poe-squashfs-sysupgrade.itb",
+        "image2": "openwrt-mediatek-filogic-bananapi_bpi-r4-poe-sdcard.img.gz",
+        "imagepath": "/mediatek/filogic/",
+        "mod": "Banana-Pi-R4-2.5GBPS",
+        "ext1": "-upgrade.itb",
+        "ext2": "-sdcard.img.gz"
+    },
+    "BPI3MINI": {
+        "details": "Banana Pi3 Mini",
+        "type": "2",
+        "build": "2305",
+        "config": ".config_bpi3mini",
+        "image1": "openwrt-mediatek-filogic-bananapi_bpi-r3-mini-snand-factory.bin",
+        "image2": "openwrt-mediatek-filogic-bananapi_bpi-r3-mini-squashfs-sysupgrade.itb",
+        "imagepath": "/mediatek/filogic/",
+        "mod": "Banana-Pi-R3-Mini",
+        "ext1": "-factory.bin",
+        "ext2": "-upgrade.itb",
+        "addons": [
+            "BPiR3Mini.txt",
+            "bpi-r3-mini.zip"
+        ]
+    },
+    "X86-64": {
+        "details": "Generic x86 64 bit",
+        "type": "5",
+        "build": "2203",
+        "config": ".config_x86-64",
+        "image1": "openwrt-x86-64-generic-ext4-combined.img.gz",
+        "image2": "openwrt-x86-64-generic-ext4-combined.img",
+        "image3": "openwrt-x86-64-generic-ext4-combined-efi.img.gz",
+        "image4": "openwrt-x86-64-generic-ext4-combined-efi.img",
+        "image5": "openwrt-x86-64-generic-kernel.bin",
+        "image6": "openwrt-x86-64-generic-rootfs.tar.gz",
+        "image7": "openwrt-x86-64-generic.manifest",
+        "image8": "packages",
+        "image9": "sha256sums",
+        "image10": "*.buildinfo",
+        "imagepath": "/x86/64/",
+        "mod": "x86-64",
+        "addons": [
+            "readme.pdf"
+        ]
+    },
+    "AXT1800": {
+        "details": "Gl.iNet AXT1800",
+        "type": "2",
+        "build": "2305",
+        "config": ".config_axt1800",
+        "image1": "openwrt-qualcommax-ipq60xx-glinet_gl-axt1800-squashfs-sysupgrade.bin",
+        "image2": "openwrt-qualcommax-ipq60xx-glinet_gl-axt1800-squashfs-factory.ubi",
+        "imagepath": "/qualcommax/ipq60xx/",
+        "mod": "GL-iNet-AXT1800",
+        "ext1": "-upgrade.bin",
+        "ext2": "-factory.ubi",
+        "addons": [
+            "axt1800.txt"
+        ],
+        "custom": {
+            "files": "/axt1800/files/"
+        }
+    },
+    "AX1800": {
+        "details": "Gl.iNet AX1800",
+        "type": "2",
+        "build": "2305",
+        "config": ".config_ax1800",
+        "image1": "openwrt-qualcommax-ipq60xx-glinet_gl-ax1800-squashfs-sysupgrade.bin",
+        "image2": "openwrt-qualcommax-ipq60xx-glinet_gl-ax1800-squashfs-factory.ubi",
+        "imagepath": "/qualcommax/ipq60xx/",
+        "mod": "GL-iNet-AX1800",
+        "ext1": "-upgrade.bin",
+        "ext2": "-factory.ubi",
+        "addons": [
+            "axt1800.txt"
+        ],
+        "custom": {
+            "files": "/axt1800/files/"
+        }
+    },
+    "MT6000": {
+        "details": "Gl.iNet MT6000",
+        "type": "1",
+        "build": "2305",
+        "config": ".config_mt6000",
+        "image": "openwrt-mediatek-filogic-glinet_gl-mt6000-squashfs-sysupgrade.bin",
+        "imagepath": "/mediatek/filogic/",
+        "mod": "GliNet_MT6000",
+        "ext": "-upgrade.bin"
+    },
+    "A1300": {
+        "details": "Gl.iNet A1300",
+        "type": "2",
+        "build": "2102",
+        "config": ".config_a1300",
+        "image1": "openwrt-ipq40xx-generic-glinet_gl-a1300-squashfs-sysupgrade.bin",
+        "image2": "openwrt-ipq40xx-generic-glinet_gl-a1300-squashfs-factory.ubi",
+        "imagepath": "/ipq40xx/generic/",
+        "mod": "GliNet-A1300",
+        "ext1": "-upgrade.bin",
+        "ext2": "-factory.ubi",
+        "addons": [
+            "readme.pdf"
+        ]
+    },
+    "WG156": {
+        "details": "ZBT WG156",
+        "type": "1",
+        "build": "2102",
+        "config": ".config_wg156",
+        "image": "openwrt-ipq40xx-generic-yyets_le1-squashfs-sysupgrade.bin",
+        "imagepath": "/ipq40xx/generic/",
+        "mod": "ZBT_WG156",
+        "ext": "-upgrade.bin",
+        "addons": [
+            "readme.pdf",
+            "flash-wg156.pdf",
+            "firmware.bin",
+            "kernel.bin",
+            "flash",
+            "putty-64bit-0.80-installer.msi",
+            "WinSCP-6.3.2-Setup.exe"
+        ]
+    },
+    "LBR20": {
+        "details": "Netgear LBR20",
+        "type": "2",
+        "build": "2102",
+        "config": ".config_lbr20",
+        "image1": "openwrt-ipq40xx-generic-netgear_lbr20-squashfs-sysupgrade.bin",
+        "image2": "openwrt-ipq40xx-generic-netgear_lbr20-squashfs-factory.img",
+        "imagepath": "/ipq40xx/generic/",
+        "mod": "Netgear-LBR20",
+        "ext1": "-upgrade.bin",
+        "ext2": "-factory.img",
+        "addons": [
+            "readme.pdf"
+        ]
+    },
+    "AW1000": {
+        "details": "Arcadyan AW1000",
+        "type": "2",
+        "build": "2305",
+        "config": ".config_aw1000",
+        "image1": "openwrt-qualcommax-ipq807x-arcadyan_aw1000-squashfs-sysupgrade.bin",
+        "image2": "openwrt-qualcommax-ipq807x-arcadyan_aw1000-squashfs-factory.ubi",
+        "imagepath": "/qualcommax/ipq807x/",
+        "mod": "Arcadyan-AW1000",
+        "ext1": "-upgrade.bin",
+        "ext2": "-factory.ubi",
+        "addons": [
+            "readme.pdf"
+        ]
+    },
+    "RASPPI": {
+        "details": "Raspberry Pi",
+        "type": "3",
+        "build": "2102",
+        "package": "ext-rooter-rasppi",
+        "config": ".config_rasppi",
+        "image1": "openwrt-bcm27xx-bcm2708-rpi-ext4-factory.img.gz",
+        "image2": "openwrt-bcm27xx-bcm2708-rpi-ext4-factory.img",
+        "image3": "openwrt-bcm27xx-bcm2708-rpi-ext4-sysupgrade.img.gz",
+        "image4": "openwrt-bcm27xx-bcm2708-rpi-ext4-sysupgrade.img",
+        "imagepath": "/bcm27xx/bcm2708/",
+        "mod": "RaspberryPi-1",
+        "ext1": "-factory.img",
+        "ext2": "-sysupgrade.img",
+        "addons": [
+            "readme.pdf",
+            "readmeSD.txt"
+        ]
+    },
+    "RASPPI2": {
+        "details": "Raspberry Pi 2",
+        "type": "3",
+        "build": "2102",
+        "package": "ext-rooter-rasppi",
+        "config": ".config_rasppi2",
+        "image1": "openwrt-bcm27xx-bcm2709-rpi-2-ext4-factory.img.gz",
+        "image2": "openwrt-bcm27xx-bcm2709-rpi-2-ext4-factory.img",
+        "image3": "openwrt-bcm27xx-bcm2709-rpi-2-ext4-sysupgrade.img.gz",
+        "image4": "openwrt-bcm27xx-bcm2709-rpi-2-ext4-sysupgrade.img",
+        "imagepath": "/bcm27xx/bcm2709/",
+        "mod": "RaspberryPi-2",
+        "ext1": "-factory.img",
+        "ext2": "-sysupgrade.img",
+        "addons": [
+            "readme.pdf",
+            "readmeSD.txt"
+        ]
+    },
+    "RASPPI3": {
+        "details": "Raspberry Pi 3 SD",
+        "type": "3",
+        "build": "2102",
+        "package": "ext-rooter-rasppi",
+        "config": ".config_rasppi3",
+        "prescript": "/target/linux/bcm27xx/image/sdcard.sh sd",
+        "image1": "openwrt-bcm27xx-bcm2710-rpi-3-ext4-sysupgrade.img.gz",
+        "image2": "openwrt-bcm27xx-bcm2710-rpi-3-ext4-sysupgrade.img",
+        "image3": "openwrt-bcm27xx-bcm2710-rpi-3-squashfs-sysupgrade.img.gz",
+        "image4": "openwrt-bcm27xx-bcm2710-rpi-3-squashfs-sysupgrade.img",
+        "imagepath": "/bcm27xx/bcm2710/",
+        "mod": "RaspberryPi-3-SD",
+        "ext1": "-ext4.img",
+        "ext2": "-squashfs.img",
+        "addons": [
+            "readme.pdf",
+            "readmeSD.txt"
+        ]
+    },
+    "RASPPI3USB": {
+        "details": "Raspberry Pi 3 USB",
+        "type": "3",
+        "build": "2102",
+        "package": "ext-rooter-rasppi",
+        "config": ".config_rasppi3",
+        "prescript": "/target/linux/bcm27xx/image/sdcard.sh usb",
+        "postscript": "/target/linux/bcm27xx/image/sdcard.sh sd",
+        "image1": "openwrt-bcm27xx-bcm2710-rpi-3-ext4-sysupgrade.img.gz",
+        "image2": "openwrt-bcm27xx-bcm2710-rpi-3-ext4-sysupgrade.img",
+        "image3": "openwrt-bcm27xx-bcm2710-rpi-3-squashfs-sysupgrade.img.gz",
+        "image4": "openwrt-bcm27xx-bcm2710-rpi-3-squashfs-sysupgrade.img",
+        "imagepath": "/bcm27xx/bcm2710/",
+        "mod": "RaspberryPi-3-USB",
+        "ext1": "-ext4.img",
+        "ext2": "-squashfs.img",
+        "addons": [
+            "readme.pdf",
+            "readmeSD.txt"
+        ]
+    },
+    "RASPPI4": {
+        "details": "Raspberry Pi 4 SD",
+        "type": "3",
+        "build": "2102",
+        "package": "ext-rooter-rasppi",
+        "config": ".config_rasppi4",
+        "prescript": "/target/linux/bcm27xx/image/sdcard.sh sd",
+        "image1": "openwrt-bcm27xx-bcm2711-rpi-4-ext4-factory.img.gz",
+        "image2": "openwrt-bcm27xx-bcm2711-rpi-4-ext4-factory.img",
+        "image3": "openwrt-bcm27xx-bcm2711-rpi-4-squashfs-sysupgrade.img.gz",
+        "image4": "openwrt-bcm27xx-bcm2711-rpi-4-squashfs-sysupgrade.img",
+        "imagepath": "/bcm27xx/bcm2711/",
+        "mod": "RaspberryPi-4-SD",
+        "ext1": "-ext4.img",
+        "ext2": "-squashfs.img",
+        "addons": [
+            "readme.pdf"
+        ]
+    },
+    "RASPPI4USB": {
+        "details": "Raspberry Pi 4 USB",
+        "type": "3",
+        "build": "2102",
+        "package": "ext-rooter-rasppi",
+        "config": ".config_rasppi4",
+        "prescript": "/target/linux/bcm27xx/image/sdcard.sh usb",
+        "postscript": "/target/linux/bcm27xx/image/sdcard.sh sd",
+        "image1": "openwrt-bcm27xx-bcm2711-rpi-4-ext4-factory.img.gz",
+        "image2": "openwrt-bcm27xx-bcm2711-rpi-4-ext4-factory.img",
+        "image3": "openwrt-bcm27xx-bcm2711-rpi-4-squashfs-sysupgrade.img.gz",
+        "image4": "openwrt-bcm27xx-bcm2711-rpi-4-squashfs-sysupgrade.img",
+        "imagepath": "/bcm27xx/bcm2711/",
+        "mod": "RaspberryPi-4-USB",
+        "ext1": "-ext4.img",
+        "ext2": "-squashfs.img",
+        "addons": [
+            "readme.pdf"
+        ]
+    },
+    "RASPPICM4": {
+        "details": "Raspberry Pi CM4 SD",
+        "type": "3",
+        "build": "2102",
+        "package": "ext-rooter-rasppi",
+        "config": ".config_rasppicm4",
+        "prescript": "/target/linux/bcm27xx/image/sdcard.sh sd",
+        "image1": "openwrt-bcm27xx-bcm2711-rpi-4-ext4-factory.img.gz",
+        "image2": "openwrt-bcm27xx-bcm2711-rpi-4-ext4-factory.img",
+        "image3": "openwrt-bcm27xx-bcm2711-rpi-4-squashfs-sysupgrade.img.gz",
+        "image4": "openwrt-bcm27xx-bcm2711-rpi-4-squashfs-sysupgrade.img",
+        "imagepath": "/bcm27xx/bcm2711/",
+        "mod": "RaspberryPi-CM4-SD",
+        "ext1": "-ext4.img",
+        "ext2": "-squashfs.img",
+        "addons": [
+            "readme.pdf"
+        ]
+    },
+    "RASPPICM4USB": {
+        "details": "Raspberry Pi CM4-USB",
+        "type": "3",
+        "build": "2102",
+        "package": "ext-rooter-rasppi",
+        "config": ".config_rasppicm4",
+        "prescript": "/target/linux/bcm27xx/image/sdcard.sh usb",
+        "postscript": "/target/linux/bcm27xx/image/sdcard.sh sd",
+        "image1": "openwrt-bcm27xx-bcm2711-rpi-4-ext4-factory.img.gz",
+        "image2": "openwrt-bcm27xx-bcm2711-rpi-4-ext4-factory.img",
+        "image3": "openwrt-bcm27xx-bcm2711-rpi-4-squashfs-sysupgrade.img.gz",
+        "image4": "openwrt-bcm27xx-bcm2711-rpi-4-squashfs-sysupgrade.img",
+        "imagepath": "/bcm27xx/bcm2711/",
+        "mod": "RaspberryPi-CM4-USB",
+        "ext1": "-ext4.img",
+        "ext2": "-squashfs.img",
+        "addons": [
+            "readme.pdf"
+        ]
+    },
+    "RASPPIZ2": {
+        "details": "Raspberry Pi Zero 2 SD",
+        "type": "3",
+        "build": "2102",
+        "config": ".config_rasppiz2",
+        "image1": "openwrt-bcm27xx-bcm2710-rpi-3-ext4-sysupgrade.img.gz",
+        "image2": "openwrt-bcm27xx-bcm2710-rpi-3-ext4-sysupgrade.img",
+        "image3": "openwrt-bcm27xx-bcm2710-rpi-3-squashfs-sysupgrade.img.gz",
+        "image4": "openwrt-bcm27xx-bcm2710-rpi-3-squashfs-sysupgrade.img",
+        "imagepath": "/bcm27xx/bcm2710/",
+        "mod": "RaspberryPi-Zero-2-SD",
+        "ext1": "-ext4.img",
+        "ext2": "-squashfs.img",
+        "addons": [
+            "readme.pdf",
+            "readmeSD.txt"
+        ]
+    },
+    "TR3000": {
+        "details": "Cudy TR3000",
+        "type": "2",
+        "build": "2305",
+        "config": ".config_tr3000",
+        "image1": "openwrt-mediatek-filogic-cudy_tr3000-v1-squashfs-sysupgrade.bin",
+        "image2": "openwrt-mediatek-filogic-cudy_tr3000-v1-initramfs-kernel.bin",
+        "imagepath": "/mediatek/filogic/",
+        "mod": "Cudy-TR3000",
+        "ext1": "-upgrade.bin",
+        "ext2": "-initramfs-kernel.bin",
+        "addons": [
+            "readme.pdf",
+            "cudy_tr3000-v1-sysupgrade.bin"
+        ]
+    },
+    "MIR3P": {
+        "details": "Xiaomi MIR3P",
+        "type": "2",
+        "build": "2203",
+        "config": ".config_mir3p",
+        "image1": "openwrt-ramips-mt7621-xiaomi_mi-router-3-pro-squashfs-factory.bin",
+        "image2": "openwrt-ramips-mt7621-xiaomi_mi-router-3-pro-squashfs-sysupgrade.bin",
+        "imagepath": "/ramips/mt7621/",
+        "mod": "Xiaomi-MIR3P",
+        "ext1": "-factory.bin",
+        "ext2": "-upgrade.bin",
+        "addons": [
+            "readme.pdf",
+            "readmerecovery.txt"
+        ]
+    },
+    "WRT1900AC": {
+        "details": "Linksys WRT1900AC-V1",
+        "type": "2",
+        "build": "2203",
+        "config": ".config_wrt1900ac",
+        "image1": "openwrt-mvebu-cortexa9-linksys_wrt1900ac-v1-squashfs-factory.img",
+        "image2": "openwrt-mvebu-cortexa9-linksys_wrt1900ac-v1-squashfs-sysupgrade.bin",
+        "imagepath": "/mvebu/cortexa9/",
+        "mod": "Linksys-WRT1900AC-V1",
+        "ext1": "-factory.img",
+        "ext2": "-update.bin",
+        "addons": [
+            "readme.pdf",
+            "factory.txt"
+        ]
+    },
+    "WRT1900ACV2": {
+        "details": "Linksys WRT1900AC-V2",
+        "type": "2",
+        "build": "2203",
+        "config": ".config_wrt1900acv2",
+        "image1": "openwrt-mvebu-cortexa9-linksys_wrt1900ac-v2-squashfs-factory.img",
+        "image2": "openwrt-mvebu-cortexa9-linksys_wrt1900ac-v2-squashfs-sysupgrade.bin",
+        "imagepath": "/mvebu/cortexa9/",
+        "mod": "Linksys-WRT1900AC-V2",
+        "ext1": "-factory.img",
+        "ext2": "-update.bin",
+        "addons": [
+            "readme.pdf",
+            "factory.txt"
+        ]
+    },
+    "WRT1900ACS": {
+        "details": "Linksys WRT1900ACS",
+        "type": "2",
+        "build": "2203",
+        "config": ".config_wrt1900acs",
+        "image1": "openwrt-mvebu-cortexa9-linksys_wrt1900acs-squashfs-factory.img",
+        "image2": "openwrt-mvebu-cortexa9-linksys_wrt1900acs-squashfs-sysupgrade.bin",
+        "imagepath": "/mvebu/cortexa9/",
+        "mod": "Linksys-WRT1900ACS",
+        "ext1": "-factory.img",
+        "ext2": "-update.bin",
+        "addons": [
+            "readme.pdf",
+            "factory.txt"
+        ]
+    },
+    "WRT3200ACM": {
+        "details": "Linksys WRT3200ACM",
+        "type": "2",
+        "build": "2102",
+        "config": ".config_wrt3200acm",
+        "image1": "openwrt-mvebu-cortexa9-linksys_wrt3200acm-squashfs-factory.img",
+        "image2": "openwrt-mvebu-cortexa9-linksys_wrt3200acm-squashfs-sysupgrade.bin",
+        "imagepath": "/mvebu/cortexa9/",
+        "mod": "Linksys-WRT3200ACM",
+        "ext1": "-factory.img",
+        "ext2": "-update.bin",
+        "addons": [
+            "readme.pdf",
+            "factory.txt"
+        ]
+    },
+    "WRT32X": {
+        "details": "Linksys WRT32x",
+        "type": "2",
+        "build": "2203",
+        "config": ".config_wrt32x",
+        "image1": "openwrt-mvebu-cortexa9-linksys_wrt32x-squashfs-factory.img",
+        "image2": "openwrt-mvebu-cortexa9-linksys_wrt32x-squashfs-sysupgrade.bin",
+        "imagepath": "/mvebu/cortexa9/",
+        "mod": "Linksys-WRT32x",
+        "ext1": "-factory.img",
+        "ext2": "-update.bin",
+        "addons": [
+            "readme.pdf",
+            "factory.txt"
+        ]
+    },
+    "TGR1900": {
+        "details": "TP-Link TGR1900",
+        "type": "2",
+        "build": "2305",
+        "config": ".config_tgr1900",
+        "image1": "openwrt-ipq806x-chromium-tplink_onhub-squashfs-sysupgrade.bin",
+        "image2": "openwrt-ipq806x-chromium-tplink_onhub-squashfs-factory.bin",
+        "imagepath": "/ipq806x/chromium/",
+        "mod": "TP-Link-TGR1900",
+        "ext1": "-upgrade.bin",
+        "ext2": "-factory.bin",
+        "addons": [
+            "readme.pdf"
+        ]
+    },
+    "RAX3000": {
+        "details": "CMCC RAX3000M",
+        "type": "1",
+        "build": "2305",
+        "config": ".config_rax3000",
+        "image": "openwrt-mediatek-filogic-cmcc_rax3000m-squashfs-sysupgrade.itb",
+        "imagepath": "/mediatek/filogic/",
+        "mod": "CMCC-RAX3000M",
+        "ext": "-upgrade.itb",
+        "addons": [
+            "rax3000.zip"
+        ]
+    },
+    "MF286D": {
+        "details": "ZTE MF286D",
+        "type": "2",
+        "build": "2102",
+        "config": ".config_mf286d",
+        "image1": "openwrt-ipq40xx-generic-zte_mf286d-squashfs-sysupgrade.bin",
+        "image2": "openwrt-ipq40xx-generic-zte_mf286d-initramfs-zImage.itb",
+        "imagepath": "/ipq40xx/generic/",
+        "mod": "ZTE-MF286D",
+        "ext1": "-upgrade.bin",
+        "ext2": "-initramfs-zImage.itb",
+        "addons": [
+            "readme.pdf"
+        ]
+    },
+    "MF289F": {
+        "details": "ZTE MF289F",
+        "type": "2",
+        "build": "2102",
+        "config": ".config_mf289f",
+        "image1": "openwrt-ipq40xx-generic-zte_mf289f-squashfs-sysupgrade.bin",
+        "image2": "openwrt-ipq40xx-generic-zte_mf289f-initramfs-zImage.itb",
+        "imagepath": "/ipq40xx/generic/",
+        "mod": "ZTE-MF289F",
+        "ext1": "-upgrade.bin",
+        "ext2": "-initramfs-zImage.itb",
+        "addons": [
+            "readme.pdf"
+        ]
+    },
+    "WNDR4300": {
+        "details": "Netgear WNDR4300v1",
+        "type": "2",
+        "build": "2102",
+        "config": ".config_wndr4300",
+        "image1": "openwrt-ath79-nand-netgear_wndr4300-squashfs-factory.img",
+        "image2": "openwrt-ath79-nand-netgear_wndr4300-squashfs-sysupgrade.bin",
+        "imagepath": "/ath79/nand/",
+        "mod": "Netgear-WNDR4300v1",
+        "ext2": "-upgrade.bin",
+        "ext1": "-factory.img",
+        "addons": [
+            "readme.pdf",
+            "readmerecovery.txt"
+        ]
+    },
+    "SBPRO": {
+        "details": "Beeline Smartbox Pro",
+        "type": "2",
+        "build": "2305",
+        "config": ".config_sbpro",
+        "image1": "openwrt-ramips-mt7621-beeline_smartbox-pro-squashfs-sysupgrade.bin",
+        "image2": "openwrt-ramips-mt7621-beeline_smartbox-pro-squashfs-factory.img",
+        "imagepath": "/ramips/mt7621/",
+        "mod": "Beeline-Smartbox-Pro",
+        "ext1": "-upgrade.bin",
+        "ext2": "-factory.img",
+        "addons": [
+            "readme.pdf",
+            "readmerecovery.txt"
+        ]
+    },
+    "MF286": {
+        "details": "ZTE MF286",
+        "type": "2",
+        "build": "2102",
+        "config": ".config_mf286",
+        "image1": "openwrt-ath79-nand-zte_mf286-initramfs-kernel.bin",
+        "image2": "openwrt-ath79-nand-zte_mf286-squashfs-sysupgrade.bin",
+        "imagepath": "/ath79/nand/",
+        "mod": "ZTE-MF286",
+        "ext2": "-upgrade.bin",
+        "ext1": "-initramfs.bin",
+        "addons": [
+            "readme.pdf",
+            "readmerecovery.txt"
+        ]
+    },
+    "WR632": {
+        "details": "Comfast WR632ax",
+        "type": "1",
+        "build": "2305",
+        "config": ".config_wr632",
+        "image": "openwrt-mediatek-filogic-comfast_cf-wr632ax-squashfs-sysupgrade.bin",
+        "imagepath": "/mediatek/filogic/",
+        "mod": "Comfast-WR632ax",
+        "ext": "-upgrade.bin"
+    },
+    "E7350": {
+        "details": "Linksys E7350",
+        "type": "2",
+        "build": "2512",
+        "config": ".config_e7350",
+        "image1": "openwrt-ramips-mt7621-linksys_e7350-squashfs-factory.bin",
+        "image2": "openwrt-ramips-mt7621-linksys_e7350-squashfs-sysupgrade.bin",
+        "imagepath": "/ramips/mt7621/",
+        "mod": "Linksys-E7350",
+        "ext1": "-factory.bin",
+        "ext2": "-update.bin",
+        "addons": [
+            "readme.pdf",
+            "factory.txt"
+        ]
+    }
 }
