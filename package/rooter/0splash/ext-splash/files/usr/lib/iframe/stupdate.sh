@@ -334,8 +334,18 @@ if [ $splash = "1" ]; then
 	sed -i -e "s!#PORT#!$namev!g" $STEMP
 	level2txt "$tempur" "single"
 	sed -i -e "s!#TEMP#!$namev!g" $STEMP
-	rm -f /tmp/spip; curl -k https://api.ipify.org > /tmp/spip
-	extr=$(cat /tmp/spip)
+	rm -f /tmp/spip
+	curl -k --fail --connect-timeout 5 --max-time 10 'https://api.ipify.org?format=json' > /tmp/spip 2>/dev/null || \
+	curl -6 -k --fail --connect-timeout 5 --max-time 10 'https://api6.ipify.org?format=json' > /tmp/spip 2>/dev/null || \
+	curl -4 -k --fail --connect-timeout 5 --max-time 10 'https://api.ipify.org?format=json' > /tmp/spip 2>/dev/null || \
+	curl -k --fail --connect-timeout 5 --max-time 10 'http://ifconfig.me/ip' > /tmp/spip 2>/dev/null
+	extr=$(grep -oE '"ip"[[:space:]]*:[[:space:]]*"[^"]+"' /tmp/spip 2>/dev/null | cut -d'"' -f4 | head -1)
+	if [ -z "$extr" ]; then
+		extr=$(cat /tmp/spip 2>/dev/null | tr -d '\r\n ')
+		case "$extr" in
+			*\<*|*\>*|*{*|*}*|*\[*|*\]*|*html*|*HTML*) extr="-" ;;
+		esac
+	fi
 	if [ -z "$extr" ]; then
 		extr="-"
 	fi
