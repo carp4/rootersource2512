@@ -5,9 +5,9 @@ PKG_RELEASE:=5
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL=$(PROJECT_GIT)/project/uqmi.git
-PKG_SOURCE_DATE:=2025-07-30
-PKG_SOURCE_VERSION:=7914da43cddaaf6cfba116260c81e6e9adffd5ab
-PKG_MIRROR_HASH:=5972a5f90bd60d34b5c7a8cec14ae98f13dbb6ea5b35d845ce5da7a8a3b0e59c
+PKG_SOURCE_DATE:=2022-05-04
+PKG_SOURCE_VERSION:=56cb2d4056fef132ccf78dfb6f3074ae5d109992
+PKG_MIRROR_HASH:=cc832b5318805df8c8387a3650f250dee72d5f1dbda4e4866b5503e186b2210c
 PKG_MAINTAINER:=Matti Laakso <malaakso@elisanet.fi>
 
 PKG_LICENSE:=GPL-2.0
@@ -40,9 +40,14 @@ TARGET_CFLAGS += \
 CMAKE_OPTIONS += \
 	-DDEBUG=1
 
+define Build/Prepare
+	$(call Build/Prepare/Default)
+	sed -i 's/cmake_minimum_required(VERSION 2.6)/cmake_minimum_required(VERSION 3.5)/' $(PKG_BUILD_DIR)/CMakeLists.txt
+endef
+
 define Package/rqmi/install
 	$(INSTALL_DIR) $(1)/sbin
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/uqmi/uqmi $(1)/sbin/
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/uqmi $(1)/sbin/
 	$(CP) ./files/* $(1)/
 endef
 
