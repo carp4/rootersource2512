@@ -147,6 +147,13 @@ proto_qmi_setup() {
 			uqmi -s -d "$device" --wda-set-data-format 802.3
 		else
 			dataformat=$(uqmi -s -d "$device" --wda-get-data-format)
+			# Handle WDA service unavailability (common on 6.12 kernel / newer uqmi)
+			# The WDA service may not respond on some modem firmware/kernel combos.
+			# Fall back to 802.3 mode (the default) and proceed with registration.
+			if [ -z "$dataformat" ] || echo "$dataformat" | grep -qi "fail\|invalid\|error"; then
+				log "WDA service unavailable or failed, assuming 802.3 mode"
+				dataformat='"802.3"'
+			fi
 		fi
 	fi
 	log "WDA-GET-DATA-FORMAT is $dataformat"
