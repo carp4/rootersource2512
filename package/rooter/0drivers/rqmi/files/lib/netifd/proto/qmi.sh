@@ -472,7 +472,7 @@ proto_qmi_setup() {
 				proto_init_update "$ifname" 1
 				proto_set_keep 1
 				proto_add_ipv4_address "$ip_4" "$subnet_4"
-				proto_add_ipv4_route "$gateway_4" "128"
+				proto_add_ipv4_route "$gateway_4" "32"
 				[ "$defaultroute" = 0 ] || proto_add_ipv4_route "0.0.0.0" 0 "$gateway_4"
 				[ "$peerdns" = 0 ] || {
 					for DNSV in $(echo "$v4dns"); do
@@ -608,7 +608,7 @@ proto_qmi_setup() {
 				uci set mwan3.wan$INTER.family='ipv6'
 				ipv6=0
 				config_load mwan3
-				config_list_foreach wan1 track_ip handle_ip
+				config_list_foreach wan$INTER track_ip handle_ip
 				if [ "$ipv6" = 0 ]; then
 					uci add_list mwan3.wan$INTER.track_ip='ipv6.google.com'
 				fi

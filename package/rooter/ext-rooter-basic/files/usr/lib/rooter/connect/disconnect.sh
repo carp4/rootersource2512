@@ -18,6 +18,7 @@ rm -f $ROOTER_LINK/getsignal$CURRMODEM
 jkillall con_monitor$CURRMODEM
 rm -f $ROOTER_LINK/con_monitor$CURRMODEM
 ifdown wan$INTER
+ifdown wan${INTER}_6
 
 MAN=$(uci get modem.modem$CURRMODEM.manuf)
 MOD=$(uci get modem.modem$CURRMODEM.model)

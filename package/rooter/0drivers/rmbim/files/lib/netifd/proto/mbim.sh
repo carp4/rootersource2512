@@ -308,7 +308,6 @@ _proto_mbim_setup() {
 				CFUNOFF="4"
 			fi
 			IPUP=$(echo $IPVAR | tr 'a-z' 'A-Z')
-			IPUP=$(echo $IPVAR | tr 'a-z' 'A-Z')
 			if [ "$IPUP" = "IPV4" ]; then
 				IPUP="IP"
 			fi
@@ -396,7 +395,7 @@ _proto_mbim_setup() {
 	log "Save Connect Data"
 	uci set modem.modem$CURRMODEM.mdevice=$device
 	uci set modem.modem$CURRMODEM.mapn=$apn
-	uci set modem.modem$CURRMODEM.mipt=$itp
+	uci set modem.modem$CURRMODEM.mipt=$ipt
 	uci set modem.modem$CURRMODEM.mauth=$auth
 	uci set modem.modem$CURRMODEM.musername=$username
 	uci set modem.modem$CURRMODEM.mpassword=$password
@@ -633,7 +632,7 @@ _proto_mbim_setup() {
 			uci set mwan3.wan$INTER.family='ipv6'
 			ipv6=0
 			config_load mwan3
-			config_list_foreach wan1 track_ip handle_ip
+			config_list_foreach wan$INTER track_ip handle_ip
 			if [ "$ipv6" = 0 ]; then
 				uci add_list mwan3.wan$INTER.track_ip='ipv6.google.com'
 			fi
