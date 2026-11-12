@@ -407,6 +407,7 @@ proto_qmi_setup() {
 		zone="$(fw3 -q network "$interface" 2>/dev/null)"
 		dhcp=0
 		dhcpv6=0
+		INTER=$(uci get modem.modem$CURRMODEM.inter)
 
 		[ "$v6s" -eq 1 ] && {
 			if [ -z "$dhcpv6" -o "$dhcpv6" = 0 ]; then
@@ -418,6 +419,9 @@ proto_qmi_setup() {
 				json_get_var dns2_6 dns2
 				json_get_var ip_prefix_length ip-prefix-length
 
+				v6dns=$(cat /tmp/v6dns$INTER 2>/dev/null)
+				[ -z "$v6dns" ] && v6dns="$dns1_6 $dns2_6"
+
 				proto_init_update "$ifname" 1
 				proto_set_keep 1
 				proto_add_ipv6_address "$ip_6" "128"
@@ -425,8 +429,9 @@ proto_qmi_setup() {
 				proto_add_ipv6_route "$gateway_6" "128"
 				[ "$defaultroute" = 0 ] || proto_add_ipv6_route "::0" 0 "$gateway_6" "" "" "${ip_6}/${ip_prefix_length}"
 				[ "$peerdns" = 0 ] || {
-					proto_add_dns_server "$dns1_6"
-					proto_add_dns_server "$dns2_6"
+					for DNSV in $(echo "$v6dns"); do
+						proto_add_dns_server "$DNSV"
+					done
 				}
 				[ -n "$zone" ] && {
 					proto_add_data
@@ -434,7 +439,6 @@ proto_qmi_setup() {
 					proto_close_data
 				}
 				proto_send_update "$interface"
-				v6dns="$dns1_6 $dns2_6"
 				log "IPv6 address : $ip_6"
 				log "IPv6 DNS : $v6dns"
 			else
@@ -462,14 +466,18 @@ proto_qmi_setup() {
 				json_get_var dns2_4 dns2
 				json_get_var subnet_4 subnet
 
+				v4dns=$(cat /tmp/v4dns$INTER 2>/dev/null)
+				[ -z "$v4dns" ] && v4dns="$dns1_4 $dns2_4"
+
 				proto_init_update "$ifname" 1
 				proto_set_keep 1
 				proto_add_ipv4_address "$ip_4" "$subnet_4"
 				proto_add_ipv4_route "$gateway_4" "128"
 				[ "$defaultroute" = 0 ] || proto_add_ipv4_route "0.0.0.0" 0 "$gateway_4"
 				[ "$peerdns" = 0 ] || {
-					proto_add_dns_server "$dns1_4"
-					proto_add_dns_server "$dns2_4"
+					for DNSV in $(echo "$v4dns"); do
+						proto_add_dns_server "$DNSV"
+					done
 				}
 				[ -n "$zone" ] && {
 					proto_add_data
@@ -478,7 +486,7 @@ proto_qmi_setup() {
 				}
 				proto_send_update "$interface"
 				log "IPv4 address : $ip_4"
-				log "IPv4 DNS : $dns1_4 $dns2_4"
+				log "IPv4 DNS : $v4dns"
 			else
 				json_init
 				json_add_string name "${interface}_4"
