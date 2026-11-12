@@ -137,24 +137,13 @@ proto_qmi_setup() {
 	# Set IP format
 	uqmi -s -d "$device" --set-data-format 802.3 > /dev/null 2>&1
 	uqmi -s -d "$device" --wda-set-data-format 802.3 > /dev/null 2>&1
-	if [ $RAW -eq 1 ]; then
-		dataformat='"raw-ip"'
-	else
-		if [ "$idV" = "1199" -a "$idP" = "9055" ]; then
-			$ROOTER/gcom/gcom-locked "/dev/ttyUSB$CPORT" "reset.gcom" "$CURRMODEM"
-			dataformat='"802.3"'
-			uqmi -s -d "$device" --set-data-format 802.3
-			uqmi -s -d "$device" --wda-set-data-format 802.3
-		else
-			dataformat=$(uqmi -s -d "$device" --wda-get-data-format)
-			# Handle WDA service unavailability (common on 6.12 kernel / newer uqmi)
-			# The WDA service may not respond on some modem firmware/kernel combos.
-			# Fall back to 802.3 mode (the default) and proceed with registration.
-			if [ -z "$dataformat" ] || echo "$dataformat" | grep -qi "fail\|invalid\|error"; then
-				log "WDA service unavailable or failed, assuming 802.3 mode"
-				dataformat='"802.3"'
-			fi
-		fi
+	dataformat=$(uqmi -s -d "$device" --wda-get-data-format)
+	# Handle WDA service unavailability (common on 6.12 kernel / newer uqmi)
+	# The WDA service may not respond on some modem firmware/kernel combos.
+	# Fall back to 802.3 mode (the default) and proceed with registration.
+	if [ -z "$dataformat" ] || echo "$dataformat" | grep -qi "fail\|invalid\|error"; then
+		log "WDA service unavailable or failed, assuming 802.3 mode"
+		dataformat='"802.3"'
 	fi
 	log "WDA-GET-DATA-FORMAT is $dataformat"
 
