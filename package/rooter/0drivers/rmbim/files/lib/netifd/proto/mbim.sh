@@ -104,7 +104,7 @@ proto_mbim_init_config() {
 _proto_mbim_setup() {
 	local interface="$1"
 	local tid=2
-	local ret v6cap pdns v4dns v6dns
+	local ret v6cap v4dns v6dns
 
 	if [ ! -f /tmp/bootend.file ]; then
 		return 0
@@ -451,21 +451,11 @@ _proto_mbim_setup() {
 	fi
 
 	INTER=$(uci get modem.modem$CURRMODEM.inter)
-	if [ -e /tmp/v4dns$INTER -o -e /tmp/v6dns$INTER ]; then
-		pdns=1
-		if [ -e /tmp/v4dns$INTER ]; then
-			v4dns=$(cat /tmp/v4dns$INTER 2>/dev/null)
-		fi
-		if [ $enb = "1" ]; then
-			if [ -e /tmp/v6dns$INTER ]; then
-				v6dns=$(cat /tmp/v6dns$INTER 2>/dev/null)
-			fi
-		fi
-	else
-		v4dns="$DNS1 $DNS2"
-		if [ $enb = "1" ]; then
-			v6dns="$DNS3 $DNS4"
-		fi
+	v4dns=$(cat /tmp/v4dns$INTER 2>/dev/null)
+	[ -z "$v4dns" ] && v4dns="$DNS1 $DNS2"
+	if [ $enb = "1" ]; then
+		v6dns=$(cat /tmp/v6dns$INTER 2>/dev/null)
+		[ -z "$v6dns" ] && v6dns="$DNS3 $DNS4"
 	fi
 
 	proto_init_update "$ifname" 1
