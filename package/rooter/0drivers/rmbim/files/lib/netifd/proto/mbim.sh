@@ -667,7 +667,6 @@ proto_mbim_setup() {
 		sleep 5
 	}
 
-	exit 0
 	return $ret
 }
 
