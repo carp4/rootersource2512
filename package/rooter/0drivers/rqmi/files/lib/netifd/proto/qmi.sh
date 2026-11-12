@@ -492,9 +492,11 @@ proto_qmi_setup() {
 			fi
 		}
 
+		ipv6only="0"
 		if [ -n "$ip_6" -a -z "$ip_4" ]; then
 			log "Running IPv6-only mode"
 			nat46=1
+			ipv6only="1"
 		fi
 		if [[ $(echo "$ip_6" | grep -o "^[23]") ]]; then
 			# Global unicast IP acquired
