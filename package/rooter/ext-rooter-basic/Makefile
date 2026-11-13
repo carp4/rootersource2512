@@ -58,7 +58,16 @@ PKG_VERSION:=4.500
 #       "192.168.1.1/24" made dnsmasq refuse to start ("Bad address in
 #       --address"), taking the resolver down with it. Also guards an empty
 #       ipaddr, which would otherwise write the same broken line.
-PKG_RELEASE:=13
+# r14: reverts r13's maxmodem default. /etc/config/maxmodem ships '2' with no
+#     'custom' flag, and firstboot() writes 2 when /etc/config/mwan3 exists and
+#     1 when it does not -- the same stock default every older tree ships.
+#     r13's '5' + custom '1' turned a user-selectable ceiling into the default:
+#     multimodem.htm offering 1-5 does not imply 5, and the shipped mwan3
+#     config's wan1..wan5 are all enabled '0' placeholders. A unit with more
+#     than two modems raises the value in the multimodem GUI and reboots so
+#     do_zone() sizes the wan zone to the new count. firstboot() still honours
+#     'custom' for genuinely custom builds, but the flag is no longer shipped.
+PKG_RELEASE:=14
 
 PKG_MAINTAINER:=Created by DM/makefile by Cobia@whirlpool
 include $(INCLUDE_DIR)/package.mk

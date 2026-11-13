@@ -1,3 +1,2 @@
 config maxmodem 'maxmodem'
-	option maxmodem '5'
-	option custom '1'
+	option maxmodem '2'

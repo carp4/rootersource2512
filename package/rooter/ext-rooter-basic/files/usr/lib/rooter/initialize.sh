@@ -144,9 +144,9 @@ firstboot() {
 	mxchge=$(uci -q get maxmodem.maxmodem.custom)
 	if [ "$mxchge" != "1" ]; then
 		if [ -e /etc/config/mwan3 ]; then
-			uci set maxmodem.maxmodem.maxmodem=4
-		else
 			uci set maxmodem.maxmodem.maxmodem=2
+		else
+			uci set maxmodem.maxmodem.maxmodem=1
 		fi
 		uci commit maxmodem
 	fi
