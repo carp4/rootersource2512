@@ -271,7 +271,6 @@ check_ip() {
 
 	if [ -n "$ip6" -a -z "$ip4" ]; then
 		log "Running IPv6-only mode"
-		nat46=1
 	fi
 }
 
@@ -670,7 +669,13 @@ if [ "$PRESERVE" = "1" ] && [ -n "$ifname" ]; then
 			$ROOTER/connect/quic_bypass.sh $CURRMODEM
 		fi
 		ifup wan$INTER
-		while `ifstatus wan$INTER | grep -q '"up": false\|"pending": true'`; do
+		wcnt=0
+		while ifstatus wan$INTER | grep -q '"up": false\|"pending": true'; do
+			wcnt=$((wcnt+1))
+			if [ "$wcnt" -ge 60 ]; then
+				log "wan$INTER not up after 60s - continuing"
+				break
+			fi
 			sleep 1
 		done
 		# IPv6 helper for the preserved connection, mirroring the normal-path
@@ -1000,7 +1005,7 @@ log "$SP"
 				fi
 				sleep 5
 			done
-			if "$BRK" -eq 1 ]; then
+			if [ "${BRK:-0}" -eq 1 ]; then
 				log "Failed to Register"
 			else
 				log "Attach to packet domain"
@@ -1223,7 +1228,13 @@ fi
 rm -f /tmp/usbwait
 
 ifup wan$INTER
-while `ifstatus wan$INTER | grep -q '"up": false\|"pending": true'`; do
+wcnt=0
+while ifstatus wan$INTER | grep -q '"up": false\|"pending": true'; do
+	wcnt=$((wcnt+1))
+	if [ "$wcnt" -ge 60 ]; then
+		log "wan$INTER not up after 60s - continuing"
+		break
+	fi
 	sleep 1
 done
 wan_ip=$(expr "`ifstatus wan$INTER | grep '"nexthop":'`" : '.*"nexthop": "\(.*\)"')

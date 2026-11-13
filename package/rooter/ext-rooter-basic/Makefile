@@ -67,7 +67,14 @@ PKG_VERSION:=4.500
 #     than two modems raises the value in the multimodem GUI and reboots so
 #     do_zone() sizes the wan zone to the new count. firstboot() still honours
 #     'custom' for genuinely custom builds, but the flag is no longer shipped.
-PKG_RELEASE:=14
+# r15: create_hostless.sh ECM fixes. The registration check was malformed
+#     (`if "$BRK" -eq 1 ];`), so "Failed to Register" never logged and the
+#     script always fell through to attach the PDP context. The two
+#     ifup/ifstatus waits were unbounded, so a modem whose wan never reported
+#     up hung the connect script forever; both now give up after 60s and log.
+#     check_ip() also dropped a dead nat46 assignment -- nothing in this script
+#     reads it (qmi.sh, mbim.sh and create_connect.sh have their own live ones).
+PKG_RELEASE:=15
 
 PKG_MAINTAINER:=Created by DM/makefile by Cobia@whirlpool
 include $(INCLUDE_DIR)/package.mk
