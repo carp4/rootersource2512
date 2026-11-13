@@ -2,21 +2,86 @@
 
 . /lib/functions.sh
 
+# Normalise mwan3's flush_conntrack to the project-wide rule: 'ifup' and
+# 'ifdown' only, never the tracker's connected/disconnected. See the header
+# of /etc/config/mwan3 for the full rationale; the short version is that
+# mwan3_flush_conntrack() runs `echo f > nf_conntrack_flush`, a GLOBAL kernel
+# flush, so one member's mistaken connected/disconnected costs every member
+# its live sessions, while failing to flush on a real transition only leaves
+# stale NAT that ages out on its own.
+#
+# Two shapes are handled:
+#   - the legacy scalars 'always' / 'never'
+#   - the LIST form, which is what the stock baseline and our own template
+#     actually ship. The previous version of this script matched only the
+#     scalars, so on a member already carrying an explicit list it fell
+#     through both case arms and silently did nothing.
+#
+# Like roo_fix's fix_mwan3_flush, this only REMOVES the churn events. It
+# never ADDS flushing that a member did not already have: a member with no
+# flush_conntrack stays without one, because adding it would be a behaviour
+# change beyond the stated fix.
+
 mwan3_migrate_flush_conntrack() {
 	local iface="$1"
+	local value cur new have_ifup have_ifdown have_churn t
 
 	config_get value "${iface}" flush_conntrack
+
+	# Legacy scalar forms. Kept ahead of the list handling because
+	# config_get returns the whole list space-separated for a list option,
+	# and these two words never appear as list elements.
 	case $value in
 		always)
+			echo "mwan3-migrate-flush_conntrack: $iface: always -> 'ifup ifdown'"
 			uci_remove mwan3 "$iface" flush_conntrack
 			uci_add_list mwan3 "$iface" flush_conntrack ifup
 			uci_add_list mwan3 "$iface" flush_conntrack ifdown
+			uci_commit mwan3
+			return 0
 			;;
 		never)
+			echo "mwan3-migrate-flush_conntrack: $iface: never -> <none>"
 			uci_remove mwan3 "$iface" flush_conntrack
+			uci_commit mwan3
+			return 0
 			;;
 	esac
 
+	# List form. Compare as a token set so a different ordering does not
+	# cause a pointless rewrite.
+	cur="$value"
+	have_ifup=0
+	have_ifdown=0
+	have_churn=0
+	for t in $cur; do
+		case "$t" in
+			ifup)                      have_ifup=1 ;;
+			ifdown)                    have_ifdown=1 ;;
+			connected|disconnected)     have_churn=1 ;;
+		esac
+	done
+
+	# Only the churn events are the defect. A member with neither
+	# 'connected' nor 'disconnected' is already correct, and forcing
+	# 'ifup ifdown' onto it would ADD flushing it never had.
+	[ "$have_churn" = 1 ] || return 0
+
+	# Keep exactly the link-transition events this member already had. A
+	# member trimmed to the churn events alone correctly ends up with no
+	# list at all.
+	new=""
+	[ "$have_ifup" = 1 ] && new="ifup"
+	[ "$have_ifdown" = 1 ] && new="${new:+$new }ifdown"
+
+	echo "mwan3-migrate-flush_conntrack: $iface: '$cur' -> '${new:-<none>}'"
+	uci_remove mwan3 "$iface" flush_conntrack
+	if [ "$have_ifup" = 1 ]; then
+		uci_add_list mwan3 "$iface" flush_conntrack ifup
+	fi
+	if [ "$have_ifdown" = 1 ]; then
+		uci_add_list mwan3 "$iface" flush_conntrack ifdown
+	fi
 	uci_commit mwan3
 }
 
