@@ -95,12 +95,6 @@ get_zte_model() {
 			uci set modem.modem$CURRMODEM.ztemodel=MF91D
 			uci set modem.modem$CURRMODEM.model=MF91D
 			uci commit modem
-		else
-			if [ "`echo $MODEL | grep MF91`" != "" ]; then
-				uci set modem.modem$CURRMODEM.ztemodel=MF91
-				uci set modem.modem$CURRMODEM.model=MF91
-				uci commit modem
-			fi
 		fi
 	fi
 	if [ $PROD = 1408 ]; then
@@ -205,8 +199,15 @@ while [ 1 = 1 ]; do
 	fi
 	make_status
 	CURRTIME=$(date +%s)
+	NETSPEED=10
+	if [ -e /etc/netspeed ]; then
+		NETSPEED=$(cat /etc/netspeed)
+	fi
+	case "$NETSPEED" in
+		''|*[!0-9]*) NETSPEED=10 ;;
+	esac
 	let ELAPSE=CURRTIME-STARTIMEX
-	while [ $ELAPSE -lt 10 ]; do
+	while [ $ELAPSE -lt $NETSPEED ]; do
 		sleep 2
 		CURRTIME=$(date +%s)
 		let ELAPSE=CURRTIME-STARTIMEX

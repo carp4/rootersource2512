@@ -34,7 +34,7 @@ while [ 1 -lt 6 ]; do
 		if [ ! -z "$tout" ]; then
 			let timecnt=$timecnt+1
 			echo 'timecnt="'"$timecnt"'"' > /tmp/timecnt
-			if [ "$timecnt" gt 4 ]; then
+			if [ "$timecnt" -gt 4 ]; then
 				action=$(uci -q get profile.simmiss.toaction)
 				if [ "$action" = "1" ]; then
 					sleep 10 && touch /etc/banner

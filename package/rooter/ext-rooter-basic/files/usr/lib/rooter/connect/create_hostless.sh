@@ -59,6 +59,34 @@ subnet_calc () {
     echo $subnet $A.$B.$C.$gateway
 }
 
+prefix_to_mask () {
+    local p=$1
+    local out=""
+    local octet val
+
+    case "$p" in
+    ''|*[!0-9]*) echo ""; return ;;
+    esac
+    if [ "$p" -gt 32 ]; then
+        echo ""
+        return
+    fi
+
+    for octet in 1 2 3 4; do
+        if [ "$p" -ge 8 ]; then
+            val=255
+            p=$((p-8))
+        else
+            val=0
+            [ "$p" -gt 0 ] && val=$((256 - (1 << (8 - p))))
+            p=0
+        fi
+        out="$out${out:+.}$val"
+    done
+
+    echo "$out"
+}
+
 IPversion () {
 
     local addr
@@ -1058,10 +1086,31 @@ log "$SP"
 								OX=$($ROOTER/gcom/gcom-locked "/dev/ttyUSB$CPORT" "run-at.gcom" "$CURRMODEM" "$ATCMDD")
 								URCvalue=$(echo $OX | sed -e 's/"//g')
 								dns1=$(echo $URCvalue | awk -F ',' '{print $6}')
+								# +CGCONTRDP field 4 is "<addr>.<mask>" (TS 27.007
+								# 10.1.24) or "<addr>/<prefix>" on some vendors.
+								# Keep /24 when the modem does not report a usable mask.
+								v4mask=""
+								v4addr_mask=$(echo $URCvalue | awk -F ',' '{print $4}')
+								case "$v4addr_mask" in
+								*/*)
+									v4mask=$(prefix_to_mask "${v4addr_mask##*/}")
+									case "${v4addr_mask%%/*}" in
+									*[!0-9.]*|'') v4mask="" ;;
+									esac
+									;;
+								*.*.*.*.*)
+									v4mask=$(echo "$v4addr_mask" | cut -d. -f5-8)
+									;;
+								esac
+								if [ -n "$v4mask" ]; then
+									echo "$v4mask" | grep -qE '^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$' || v4mask=""
+								fi
+								[ -z "$v4mask" ] && v4mask="255.255.255.0"
+								log "IPv4 netmask : $v4mask"
 								log "DNS : $dns1"
 								uci set network.wan$INTER.proto='static'
 								uci set network.wan$INTER.ipaddr="$v4address"
-								uci set network.wan$INTER.netmask='255.255.255.0'
+								uci set network.wan$INTER.netmask="$v4mask"
 								uci set network.wan$INTER.gateway="$v4gateway"
 								uci set network.wan$INTER.dns="$dns1"
 								uci set network.wan$INTER.peerdns=0

@@ -172,7 +172,13 @@ $ROOTER/connect/handlettl.sh $CURRMODEM "$hostless" &
 rm -f /tmp/usbwait
 
 ifup wan$INTER
-while `ifstatus wan$INTER | grep -q '"up": false\|"pending": true'`; do
+wcnt=0
+while ifstatus wan$INTER | grep -q '"up": false\|"pending": true'; do
+	wcnt=$((wcnt+1))
+	if [ "$wcnt" -ge 60 ]; then
+		log "wan$INTER not up after 60s - continuing"
+		break
+	fi
 	sleep 1
 done
 wan_ip=$(expr "`ifstatus wan$INTER | grep '"nexthop":'`" : '.*"nexthop": "\(.*\)"')
@@ -196,6 +202,7 @@ do
 	fi
 done
 
+PROT=9
 $ROOTER/log/logger "iPhone #$CURRMODEM Connected with IP $wan_ip"
 
 ln -s $ROOTER/signal/otherhostless.sh $ROOTER_LINK/getsignal$CURRMODEM

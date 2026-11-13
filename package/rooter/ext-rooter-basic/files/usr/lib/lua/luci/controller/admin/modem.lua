@@ -575,7 +575,12 @@ end
 
 function action_change_rate()
 	local set = luci.http.formvalue("set")
-	os.execute("echo \"" .. set .. "\" > /etc/netspeed")
+	local rate = tonumber(set)
+	if not rate or (rate ~= 1 and rate ~= 5 and rate ~= 10 and rate ~= 60) then
+		luci.http.status(400, "Bad Request")
+		return
+	end
+	os.execute("echo \"" .. rate .. "\" > /etc/netspeed")
 end
 
 function action_change_phone()

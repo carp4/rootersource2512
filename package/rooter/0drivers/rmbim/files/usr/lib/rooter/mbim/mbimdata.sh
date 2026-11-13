@@ -99,11 +99,13 @@ while [ 1 -eq 1 ]; do
 		MONSTAT="Unknown"
 	fi
 	build_status
+	NETSPEED=10
 	if [ -e /etc/netspeed ]; then
-		NETSPEED=60
-	else
-		NETSPEED=10
+		NETSPEED=$(cat /etc/netspeed)
 	fi
+	case "$NETSPEED" in
+		''|*[!0-9]*) NETSPEED=10 ;;
+	esac
 	CURRTIME=$(date +%s)
 	let ELAPSE=CURRTIME-STARTIMEX
 	while [ $ELAPSE -lt $NETSPEED ]; do

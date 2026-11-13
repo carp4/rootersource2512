@@ -138,8 +138,10 @@ while [ 1 = 1 ]; do
 		echo "-" >> /tmp/status$CURRMODEM.file
 		echo "-" >> /tmp/status$CURRMODEM.file
 	fi
-	uci set modem.modem$CURRMODEM.cmode="1"
-	uci commit modem
+	if [ "$(uci -q get modem.modem$CURRMODEM.cmode)" != "1" ]; then
+		uci set modem.modem$CURRMODEM.cmode="1"
+		uci commit modem
+	fi
 	if [ -e /tmp/monstat$CURRMODEM ]; then
 		source /tmp/monstat$CURRMODEM
 	fi
@@ -148,11 +150,13 @@ while [ 1 = 1 ]; do
 	fi
 		CURRTIME=$(date +%s)
 
+				NETSPEED=10
 				if [ -e /etc/netspeed ]; then
-					NETSPEED=60
-				else
-					NETSPEED=10
+					NETSPEED=$(cat /etc/netspeed)
 				fi
+				case "$NETSPEED" in
+					''|*[!0-9]*) NETSPEED=10 ;;
+				esac
 
 
 

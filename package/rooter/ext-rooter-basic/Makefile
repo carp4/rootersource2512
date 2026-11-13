@@ -74,7 +74,7 @@ PKG_VERSION:=4.500
 #     up hung the connect script forever; both now give up after 60s and log.
 #     check_ip() also dropped a dead nat46 assignment -- nothing in this script
 #     reads it (qmi.sh, mbim.sh and create_connect.sh have their own live ones).
-PKG_RELEASE:=15
+PKG_RELEASE:=16
 
 PKG_MAINTAINER:=Created by DM/makefile by Cobia@whirlpool
 include $(INCLUDE_DIR)/package.mk

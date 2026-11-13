@@ -86,7 +86,13 @@ DOWN=$(uci get modem.pinginfo$CURRMODEM.down)
 UP=$(uci get modem.pinginfo$CURRMODEM.up)
 COUNT=$(uci get modem.pinginfo$CURRMODEM.count)
 PACKETSIZE=$(uci get modem.pinginfo$CURRMODEM.packetsize)
-INTERF=$(uci get modem.modeminfo$CURRMODEM.inter)
+INTER=$(uci -q get modem.modem$CURRMODEM.inter)
+if [ -z "$INTER" ]; then
+	INTER=$(uci -q get modem.modeminfo$CURRMODEM.inter)
+fi
+if [ -z "$INTER" -o "$INTER" = "0" ]; then
+	INTER=$CURRMODEM
+fi
 
 list_track_ips() {
 	track_ips="$1 $track_ips"
@@ -97,9 +103,9 @@ config_list_foreach "pinginfo$CURRMODEM" "trackip" list_track_ips
 
 cnt=1
 while [ true ]; do
-	mw=$(uci -q get mwan3.wan$CURRMODEM.enabled)
+	mw=$(uci -q get mwan3.wan$INTER.enabled)
 	if [ "$mw" = "1" ]; then
-		status=$(cat /tmp/run/mwan3track/wan$CURRMODEM/STATUS)
+		status=$(cat /tmp/run/mwan3track/wan$INTER/STATUS)
 		# nil
 		# connecting
 		# online
@@ -110,7 +116,7 @@ while [ true ]; do
 		fi
 		if [ "$status" = "disconnecting" -o "$status" = "offline" ]; then
 			if [ "$cnt" -gt 2 ]; then
-				uci set mwan3.wan$CURRMODEM.enabled='0'
+				uci set mwan3.wan$INTER.enabled='0'
 				uci commit mwan3
 				echo 'MONSTAT="'"DOWN Bad Ping)"'"' > /tmp/monstat$CURRMODEM
 				log "Down Bad Ping"

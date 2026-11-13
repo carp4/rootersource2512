@@ -71,7 +71,7 @@ make_status() {
 
 get_signal() {
 	TIMEOUT=3
-	wget http://$IP/api/monitoring/status --load-cookies cookie -O $TMPFILE > /dev/null 2>&1 &
+	wget http://$IP/api/monitoring/status --load-cookies /tmp/huaweicookie$CURRMODEM -O $TMPFILE > /dev/null 2>&1 &
 	handle_timeout "$!"
 	local in_CurrentNetworkType="`cat $TMPFILE | grep \"<CurrentNetworkType>\" | cut -d \">\" -f 2 | cut -d \"<\" -f 1`"
 	if [ -z $in_CurrentNetworkType ]; then
@@ -114,12 +114,12 @@ rm -f /tmp/monstat$CURRMODEM
 
 sleep 5
 TIMEOUT=5
-wget -q http://$IP/html/home.html -O nul --save-cookies cookie --keep-session-cookies
+wget -q -T 10 http://$IP/html/home.html -O /dev/null --save-cookies /tmp/huaweicookie$CURRMODEM --keep-session-cookies
 sleep 5
-wget http://$IP/api/net/current-plmn -O $TMPFILE --load-cookies cookie > /dev/null 2>&1 &
+wget http://$IP/api/net/current-plmn -O $TMPFILE --load-cookies /tmp/huaweicookie$CURRMODEM > /dev/null 2>&1 &
 handle_timeout "$!"
 
-wget http://$IP/api/device/information -O $TMPFILE --load-cookies cookie > /dev/null 2>&1 &
+wget http://$IP/api/device/information -O $TMPFILE --load-cookies /tmp/huaweicookie$CURRMODEM > /dev/null 2>&1 &
 handle_timeout "$!"
 in_mod="`cat $TMPFILE | grep \"<DeviceName>\" | cut -d \">\" -f 2 | cut -d \"<\" -f 1`"
 if [ "$in_mod" != "" ]; then
@@ -163,7 +163,7 @@ mv -f /tmp/msimnumx$CURRMODEM /tmp/msimnum$CURRMODEM
 
 sleep 20
 TIMEOUT=20
-wget http://$IP/api/net/current-plmn -O $TMPFILE --load-cookies cookie > /dev/null 2>&1 &
+wget http://$IP/api/net/current-plmn -O $TMPFILE --load-cookies /tmp/huaweicookie$CURRMODEM > /dev/null 2>&1 &
 handle_timeout "$!"
 COPS=""
 in_provider="`cat $TMPFILE | grep \"<FullName>\" | cut -d \">\" -f 2 | cut -d \"<\" -f 1`"
@@ -172,7 +172,7 @@ in_provider="`cat $TMPFILE | grep \"<FullName>\" | cut -d \">\" -f 2 | cut -d \"
 if [ "$COPS" = "" ]; then
 	COPS="-"
 	in_provider="`cat $TMPFILE | grep \"<ShortName>\" | cut -d \">\" -f 2 | cut -d \"<\" -f 1`"
-	[ "$in_provider" != "" ] && COPS="$in_provider)"
+	[ "$in_provider" != "" ] && COPS="$in_provider"
 fi
 COPS_MCC="-"
 COPS_MNC="-"
@@ -195,8 +195,15 @@ while [ 1 = 1 ]; do
 	fi
 	make_status
 	CURRTIME=$(date +%s)
+	NETSPEED=10
+	if [ -e /etc/netspeed ]; then
+		NETSPEED=$(cat /etc/netspeed)
+	fi
+	case "$NETSPEED" in
+		''|*[!0-9]*) NETSPEED=10 ;;
+	esac
 	let ELAPSE=CURRTIME-STARTIMEX
-	while [ $ELAPSE -lt 10 ]; do
+	while [ $ELAPSE -lt $NETSPEED ]; do
 		sleep 2
 		CURRTIME=$(date +%s)
 		let ELAPSE=CURRTIME-STARTIMEX

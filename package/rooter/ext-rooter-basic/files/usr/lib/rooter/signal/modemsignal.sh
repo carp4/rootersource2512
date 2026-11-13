@@ -255,8 +255,10 @@ while [ 1 = 1 ]; do
 				source /tmp/phonenumber$CURRMODEM
 			fi
 			make_signal
-			uci set modem.modem$CURRMODEM.cmode="1"
-			uci commit modem
+			if [ "$(uci -q get modem.modem$CURRMODEM.cmode)" != "1" ]; then
+				uci set modem.modem$CURRMODEM.cmode="1"
+				uci commit modem
+			fi
 			if [ -e /tmp/monstat$CURRMODEM ]; then
 				source /tmp/monstat$CURRMODEM
 			fi
