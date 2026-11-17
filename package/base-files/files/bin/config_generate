@@ -179,7 +179,6 @@ generate_network() {
 			[ -e /proc/sys/net/ipv6 ] && [ "$1" = "lan" ] && {
 				uci -q batch <<-EOF
 					set network.lan.ip6hint='0000'
-					set network.lan.ip6class='local'
 					set network.lan.multipath='off'
 				EOF
 			}
