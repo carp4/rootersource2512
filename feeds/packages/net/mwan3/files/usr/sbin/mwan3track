@@ -20,26 +20,30 @@ WRAP() {
 	FAMILY=$FAMILY DEVICE=$DEVICE SRCIP=$SRC_IP FWMARK=$MMX_DEFAULT LD_PRELOAD=/lib/mwan3/libwrap_mwan3_sockopt.so.1.0 $*
 }
 
-# v6 probe: the LD_PRELOAD sockopt wrapper (SO_MARK=MMX_DEFAULT +
-# SO_BINDTODEVICE + source bind) cannot reach global targets from a
-# deprecated source on upstreams that rotate the delegated /64: pings that the
-# kernel accepts never get replies, so the link looks down even though
-# unmarked pings work fine and the link carries traffic. Tracked v6
-# members therefore probe with a plain, unmarked busybox ping bound to the
-# refresh-chosen source (-I). That routes via the source's "default from"
-# route in the main table (never leaks to another WAN), and -- unlike the
-# wrapper socket -- works from deprecated sources. IPv4 keeps WRAP.
+# Same as WRAP but with an explicit source address, for candidate testing.
+WRAP_SRC() {
+	# shellcheck disable=SC2048
+	local _src=$1
+	shift
+	FAMILY=$FAMILY DEVICE=$DEVICE SRCIP=$_src FWMARK=$MMX_DEFAULT LD_PRELOAD=/lib/mwan3/libwrap_mwan3_sockopt.so.1.0 $*
+}
+
+# Both families probe through the wrapper. Binding only the source is NOT
+# enough on this build: mwan3_hook sits on OUTPUT and mwan3_rules sends every
+# unmarked packet to mwan3_policy_failover, which stamps 0x1100 (table 17 ->
+# the failover uplink). The echo request still leaves the member's own device
+# (the bound source's "default from" route wins on transmit), but the flow is
+# masqueraded with the failover uplink's address, so the reply comes back over
+# the failover uplink instead of the member's. Measured on a two-modem box with
+# per-device ICMPv6 counters: 20 unmarked pings from a modem's address gave 20
+# echo requests on that modem and 20 replies on the failover uplink, so the
+# member's return path was never tested and the probe went down with the
+# failover uplink. FWMARK=MMX_DEFAULT makes the policy hook skip the probe, so
+# masquerade uses the egress device's own address; the same test after the
+# change shows request and reply on the member's device.
 track_ping() {
 	# shellcheck disable=SC2086
-	if [ "$FAMILY" = "ipv6" ]; then
-		if [ -n "$SRC_IP" ]; then
-			$PING -n -c $count -W $timeout -s $size -t $max_ttl -q -I "$SRC_IP" $track_ip
-		else
-			$PING -n -c $count -W $timeout -s $size -t $max_ttl -q $track_ip
-		fi
-	else
-		WRAP $PING -n -c $count -W $timeout -s $size -t $max_ttl -q $track_ip
-	fi
+	WRAP $PING -n -c $count -W $timeout -s $size -t $max_ttl -q $track_ip
 }
 
 clean_up() {
@@ -260,7 +264,7 @@ refresh_src_ip() {
 			awk -v cur="$SRC_IP" '/inet6/ {a=$2; sub(/\/.*/, "", a); if (a == cur && !seen) {f=f " " a; seen=1} else if ($0 ~ /deprecated/) d=d " " a; else p=p " " a}
 			     END {print f p d}'); do
 		if ip -6 route get "$probe_ip" from "$cand" oif "$DEVICE" >/dev/null 2>&1 && \
-		   $PING -n -c 1 -W 2 -q -I "$cand" "$probe_ip" >/dev/null 2>&1; then
+		   WRAP_SRC "$cand" $PING -n -c 1 -W 2 -q "$probe_ip" >/dev/null 2>&1; then
 			if [ "$cand" != "$SRC_IP" ]; then
 				SRC_IP=$cand
 				LOG info "Re-derived ipv6 source for $INTERFACE ($DEVICE): now $SRC_IP"
