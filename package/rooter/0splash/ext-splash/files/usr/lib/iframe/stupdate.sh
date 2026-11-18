@@ -246,11 +246,15 @@ if [ $splash = "1" ]; then
 	button="<a href='cgi-bin/luci'><div class=\"rooterItem\"><div class=\"rooterItemTitle\"><i class='icon icon-cog'></i>Router Login</div></div></a>"
 	sed -i -e "s!#BUTTON#!$button!g" $STEMP
 	sed -i -e "s!#LUCIS#!luci-static/!g" $STEMP
-	titlebar="<div class='rooterPageHead'><a  href='http://#URL#'><div class=\"rooterHeadTitle\"> #TITLE#</div></a></div>"
+	titlebar="<div class='rooterPageHead'><a  href='#URL#'><div class=\"rooterHeadTitle\"> #TITLE#</div></a></div>"
 	url=$(uci -q get iframe.iframe.url)
 	if [ -z $url ]; then
-		url="www.ofmodemsandmen.com"
+		url="https://nathhad.github.io/ROOter-docs/"
 	fi
+	case "$url" in
+		*://*) ;;
+		*) url="http://$url" ;;
+	esac
 	titlebar=$(echo "$titlebar" | sed -e "s!#URL#!$url!g")
 	sed -i -e "s!#TITLEBAR#!$titlebar!g" $STEMP
 	title=$(uci -q get iframe.iframe.splashtitle)
